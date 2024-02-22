@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.oauth2 import get_current_user
-from auth.dependencies import super_user_dependency
+from auth.dependencies import super_user_dependency, active_user_dependency
 
 from .dependencies import user_by_id
 from .models import User
@@ -21,6 +21,7 @@ router = APIRouter(
 @router.get("/", response_model=list[UserBase])
 async def get_users(
     session: AsyncSession = Depends(db.scoped_session_dependency),
+    current_super_user: UserBase = Depends(super_user_dependency),
 ):
 
     return await service.get_users(session)
@@ -28,26 +29,32 @@ async def get_users(
 
 @router.get("/{user_id}", response_model=UserBase)
 async def get_user(
-    user_id: int,
     session: AsyncSession = Depends(db.scoped_session_dependency),
     user=Depends(user_by_id),
-    current_super_user: UserBase = Depends(super_user_dependency),
+    requester=Depends(active_user_dependency),
 ):
-
-    return user
+    if requester.is_super_user or requester.id == user.id:
+        return user
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="You must be an admin"
+    )
 
 
 @router.put("/{user_id}/")
 async def update_user(
     user_update: UserUpdate,
     user=Depends(user_by_id),
+    requester=Depends(super_user_dependency),
     session: AsyncSession = Depends(db.scoped_session_dependency),
 ):
-
-    return await service.update_user(
-        session=session,
-        user=user,
-        user_update=user_update,
+    if requester.is_super_user or requester.id == user.id:
+        return await service.update_user(
+            session=session,
+            user=user,
+            user_update=user_update,
+        )
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="You must be an admin"
     )
 
 
@@ -56,12 +63,17 @@ async def update_user_partial(
     user_update: UserUpdate,
     user=Depends(user_by_id),
     session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester=Depends(active_user_dependency),
 ):
-    return await service.update_user(
-        session=session,
-        user=user,
-        user_update=user_update,
-        partial=True,
+    if requester.is_super_user or requester.id == user.id:
+        return await service.update_user(
+            session=session,
+            user=user,
+            user_update=user_update,
+            partial=True,
+        )
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="You must be an admin"
     )
 
 
@@ -69,5 +81,11 @@ async def update_user_partial(
 async def delete_user(
     user: User = Depends(user_by_id),
     session: AsyncSession = Depends(db.scoped_session_dependency),
-) -> None:
-    await service.delete_user(session=session, user=user)
+    requester=Depends(active_user_dependency),
+):
+    if requester.is_super_user or requester.id == user.id:
+        await service.delete_user(session=session, user=user)
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="You must be an admin"
+    )

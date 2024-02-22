@@ -1,5 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
+
+from .dependencies import active_user_dependency
 from .schemas import Token
 from mailing.tasks import send_confirmation_email
 from core.database import db
@@ -15,6 +17,16 @@ router = APIRouter(
     prefix=AUTH_PREFIX,
     tags=["Auth"],
 )
+
+
+@router.get("/verify_token", status_code=status.HTTP_200_OK)
+async def verify_token(
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester=Depends(active_user_dependency),
+):
+    return {
+        "verified": True,
+    }
 
 
 @router.post("/register")
@@ -82,7 +94,6 @@ async def get_token(
     request: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(db.scoped_session_dependency),
 ):
-
     user = await user_service.get_user_by_email(session, request.username)
     if not user:
         raise HTTPException(

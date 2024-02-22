@@ -1,8 +1,9 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 from sqlalchemy import String, Integer, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from core.models import Base
+from conferences.association_tables import user_to_conference
 
 
 class User(Base):
@@ -26,6 +27,12 @@ class User(Base):
     city: Mapped[str | None] = mapped_column(String(255))
     state: Mapped[str | None] = mapped_column(String(255))
     country: Mapped[str | None] = mapped_column(String(255))
+    submissions: Mapped[List["Submission"]] = relationship(
+        back_populates="user", lazy="selectin"
+    )
+    reviewer_in: Mapped[List["Conference"]] = relationship(
+        secondary=user_to_conference, back_populates="reviewers", lazy="selectin"
+    )
 
     def __str__(self):
         return f"{self.__class__.__name__}(id={self.id}, user_email={self.email!r})"

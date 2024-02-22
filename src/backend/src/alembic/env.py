@@ -7,6 +7,8 @@ from alembic import context
 
 
 from users.models import *
+from conferences.models import *
+from submissions.models import *
 
 
 # this is the Alembic Config object, which provides
