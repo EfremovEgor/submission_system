@@ -32,19 +32,31 @@ services:
       - OAUTH_ACCESS_TOKEN_EXPIRE_MINUTES=${OAUTH_ACCESS_TOKEN_EXPIRE_MINUTES}
     expose:
       - "8000:8000"
-
+    ports:
+      - "8000:8000"
     depends_on:
       - postgres
       - redis
+    networks:
+      - default
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
     networks:
       - default
   frontend:
     build:
       context: ./frontend
     container_name: frontend
-
+    expose:
+      - "3000:3000"
     ports:
       - "3000:3000"
+
     networks:
       - default
   postgres:
@@ -106,6 +118,7 @@ services:
       - 5555
     depends_on:
       - redis
+
 volumes:
   postgres_data:
   redis_data:
