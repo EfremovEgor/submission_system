@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ fetch, cookies, request }) => {
 	const token = cookies.get('token');
-	if (!(await verify_token(token))) {
+	if (!(await verify_token(token, fetch))) {
 		cookies.delete('token', { path: '/' });
 		cookies.delete('token_type', { path: '/' });
 		cookies.delete('user_id', { path: '/' });

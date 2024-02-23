@@ -18,11 +18,9 @@ export const actions = {
 			body: urlencoded
 		});
 		if (res.status == 404) {
-			alert('Wrong email');
 			return;
 		}
 		if (res.status == 401) {
-			alert('Wrong password');
 			return;
 		}
 

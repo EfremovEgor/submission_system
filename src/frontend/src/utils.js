@@ -1,5 +1,5 @@
-export const backend_url = 'http://127.0.0.1:8000';
-async function verify_token(token) {
+export const backend_url = '/api';
+async function verify_token(token, fetch) {
 	const res = await fetch(backend_url + '/auth/verify_token', {
 		method: 'GET',
 		headers: {

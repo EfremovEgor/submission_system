@@ -1,5 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import verify_token from '../../../../utils';
 import { backend_url } from '../../../../utils';
 export const actions = {
 	default: async ({ fetch, cookies, request, params }) => {
@@ -49,10 +48,15 @@ export const actions = {
 			},
 			body: JSON.stringify(payload)
 		});
-		console.log(payload);
-		console.log(res.status);
 	}
 };
-export const load = async ({ fetch, cookies, request }) => {
+export const load = async ({ fetch, cookies, request, params }) => {
 	if (cookies.get('token') == null) redirect(302, '/login');
+
+	const res = await fetch(backend_url + '/conferences/' + params.conferenceId, {
+		method: 'GET'
+	});
+
+	const data = await res.json();
+	return { conference: data };
 };

@@ -5,6 +5,5 @@ export const load = async ({ fetch, cookies, request }) => {
 export const actions = {
 	default: async ({ fetch, cookies, request }) => {
 		const values = await request.formData();
-		console.log(values);
 	}
 };

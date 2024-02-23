@@ -1,6 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
-	import api from '../../../axios';
 	import { page } from '$app/stores';
 	export let data;
 	const conferenceId = $page.params.conferenceId;

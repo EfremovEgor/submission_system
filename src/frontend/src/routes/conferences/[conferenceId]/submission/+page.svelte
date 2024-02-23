@@ -1,22 +1,10 @@
 <script>
-	import { onMount } from 'svelte';
-	import api from '../../../../axios';
 	import { page } from '$app/stores';
-	const conferenceId = $page.params.conferenceId;
-
-	let conferenceData = {};
-	let topics = [];
+	export let data;
+	let conferenceData = data.conference;
+	let topics = conferenceData.topics;
 	let authors = [];
-	onMount(async () => {
-		try {
-			const response = await api.get(`/conferences/${conferenceId}`);
 
-			conferenceData = response.data;
-			topics = conferenceData.topics;
-		} catch (error) {
-			console.log(error);
-		}
-	});
 	function addAuthor() {
 		authors.push({
 			id: authors.length,
@@ -30,7 +18,6 @@
 			is_presenter: false
 		});
 		authors = authors;
-		console.log(authors);
 	}
 	function deleteAuthor(id) {
 		let new_authors = [];

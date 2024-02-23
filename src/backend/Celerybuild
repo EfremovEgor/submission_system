@@ -1,0 +1,12 @@
+FROM python:3.11-slim-buster as builder
+
+WORKDIR /celery_worker
+
+COPY requirements/requirements.production.txt ./
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.production.txt
+
+COPY ./src ./src
+WORKDIR /celery_worker/src
+
+CMD ["celery", "-A", "core.celery:celery", "worker", "-l", "info"]

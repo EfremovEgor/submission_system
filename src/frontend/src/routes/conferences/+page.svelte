@@ -1,15 +1,6 @@
 <script>
-	import { onMount } from 'svelte';
-	import api from '../../axios';
-	let conferences = [];
-	onMount(async () => {
-		try {
-			const response = await api.get('/conferences');
-			conferences = response.data;
-		} catch (error) {
-			console.log(error);
-		}
-	});
+	export let data;
+	let conferences = data.conferences;
 </script>
 
 <svelte:head>
