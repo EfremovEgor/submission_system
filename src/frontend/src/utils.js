@@ -1,4 +1,4 @@
-export const backend_url = '/api';
+export const backend_url = '/backend';
 async function verify_token(token, fetch) {
 	const res = await fetch(backend_url + '/auth/verify_token', {
 		method: 'GET',
