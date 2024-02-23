@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       target: builder
-    container_name: backend
+    container_name: api
     environment:
       - PORT=8000
       - POSTGRES_USER=${POSTGRES_USER}
@@ -30,21 +30,23 @@ services:
 
       - OAUTH_SECRET_KEY=${OAUTH_SECRET_KEY}
       - OAUTH_ACCESS_TOKEN_EXPIRE_MINUTES=${OAUTH_ACCESS_TOKEN_EXPIRE_MINUTES}
-    ports:
-      - "8000:8000"
     expose:
       - "8000:8000"
+
     depends_on:
       - postgres
       - redis
+    networks:
+      - default
   frontend:
     build:
       context: ./frontend
     container_name: frontend
-    expose:
-      - "80:3000"
+
     ports:
-      - "80:3000"
+      - "3000:3000"
+    networks:
+      - default
   postgres:
     image: postgres:latest
     container_name: postgres
