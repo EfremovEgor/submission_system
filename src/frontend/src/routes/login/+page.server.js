@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { backend_url } from '../../utils';
 export const actions = {
 	default: async ({ fetch, cookies, request }) => {
 		const values = await request.formData();
@@ -10,7 +11,7 @@ export const actions = {
 		urlencoded.append('client_id', '');
 		urlencoded.append('client_secret', '');
 
-		const res = await fetch('http://127.0.0.1:8000/auth/token', {
+		const res = await fetch(backend_url + '/auth/token', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -25,10 +26,26 @@ export const actions = {
 		}
 
 		const data = await res.json();
-		cookies.set('token', data.access_token, { path: '/', httpOnly: true, sameSite: 'strict' });
-		cookies.set('token_type', data.token_type, { path: '/', httpOnly: true, sameSite: 'strict' });
-		cookies.set('user_id', data.user_id, { path: '/', httpOnly: true, sameSite: 'strict' });
-		cookies.set('username', data.username, { path: '/', httpOnly: true, sameSite: 'strict' });
+		cookies.set('token', data.access_token, {
+			path: '/',
+			httpOnly: false,
+			sameSite: 'strict'
+		});
+		cookies.set('token_type', data.token_type, {
+			path: '/',
+			httpOnly: false,
+			sameSite: 'strict'
+		});
+		cookies.set('user_id', data.user_id, {
+			path: '/',
+			httpOnly: false,
+			sameSite: 'strict'
+		});
+		cookies.set('username', data.username, {
+			path: '/',
+			httpOnly: false,
+			sameSite: 'strict'
+		});
 		redirect(302, '/conferences');
 	}
 };

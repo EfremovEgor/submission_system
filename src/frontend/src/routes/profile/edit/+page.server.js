@@ -1,8 +1,8 @@
 import { redirect } from '@sveltejs/kit';
-import verify_token, { backend_url } from '../../../utils';
+import { backend_url } from '../../../utils';
 export const load = async ({ fetch, cookies, request }) => {
 	if (cookies.get('token') == null) redirect(302, '/login');
-	const res = await fetch('http://127.0.0.1:8000/users/' + cookies.get('user_id'), {
+	const res = await fetch(backend_url + '/users/' + cookies.get('user_id'), {
 		method: 'GET',
 		headers: {
 			Authorization: 'Bearer ' + cookies.get('token')

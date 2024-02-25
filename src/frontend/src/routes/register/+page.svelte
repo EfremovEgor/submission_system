@@ -1,26 +1,5 @@
 <script>
-	import api from '../../axios.js';
-	let errorMsg;
-	let emailSent = false;
-	async function handleOnSubmit(event) {
-		const formData = new FormData(event.target);
-		const payload = {};
-		event.preventDefault();
-		formData.forEach((value, key) => (payload[key] = value));
-		try {
-			const response = await api.post('/auth/register', payload);
-			emailSent = true;
-		} catch (error) {
-			if (error.request.status == 409) {
-				errorMsg = 'User with this email already exists';
-				return;
-			}
-			if (error.request.status == 422) {
-				errorMsg = 'Email address is invalid';
-				return;
-			}
-		}
-	}
+	import { enhance } from '$app/forms';
 </script>
 
 <svelte:head>
@@ -29,37 +8,26 @@
 </svelte:head>
 
 <div class="container">
-	{#if emailSent}
-		<div class="success_email-container">
-			<p>Email sent</p>
-		</div>
-	{:else}
-		<div class="form-container">
-			<div class="form-wrapper">
-				<form on:submit={handleOnSubmit}>
-					<fieldset>
-						<label>
-							Email
-							<input type="email" name="email" placeholder="Email" autocomplete="email" required />
-						</label>
-						<label>
-							Password
-							<input name="password" placeholder="Password" type="password" required />
-						</label>
-					</fieldset>
-					<input type="submit" value="Register" />
-				</form>
-				<div class="errors">
-					{#if errorMsg}
-						<p>{errorMsg}</p>
-					{/if}
-				</div>
-				<div class="options-container">
-					<p>Already have an account? <a href="/login">Login</a></p>
-				</div>
+	<div class="form-container">
+		<div class="form-wrapper">
+			<form method="POST">
+				<fieldset>
+					<label>
+						Email
+						<input type="email" name="email" placeholder="Email" autocomplete="email" required />
+					</label>
+					<label>
+						Password
+						<input name="password" placeholder="Password" type="password" required />
+					</label>
+				</fieldset>
+				<input type="submit" value="Register" />
+			</form>
+			<div class="options-container">
+				<p>Already have an account? <a href="/login">Login</a></p>
 			</div>
 		</div>
-	{/if}
+	</div>
 </div>
 
 <style>

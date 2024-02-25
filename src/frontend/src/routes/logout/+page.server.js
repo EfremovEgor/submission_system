@@ -1,5 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import verify_token from '../../utils';
 export const actions = {
 	default: async ({ fetch, cookies, request }) => {
 		cookies.delete('token', { path: '/' });
