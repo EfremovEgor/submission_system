@@ -1,5 +1,4 @@
 import verify_token from '../utils';
-import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ fetch, cookies, request }) => {
 	const token = cookies.get('token');

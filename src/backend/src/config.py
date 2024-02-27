@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings
 load_dotenv()
 
 CONFIRMATION_LINK_EXPIRATION_TIME = 6000
-DOMAIN_NAME = "http://127.0.0.1:8000"
+DOMAIN_NAME = "https://confchair.org"
 AUTH_PREFIX = "/auth"
 
 
