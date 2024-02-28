@@ -19,10 +19,10 @@ export const actions = {
 			body: urlencoded
 		});
 		if (res.status == 404) {
-			return;
+			return { status: 404 };
 		}
 		if (res.status == 401) {
-			return;
+			return { status: 401 };
 		}
 
 		const data = await res.json();

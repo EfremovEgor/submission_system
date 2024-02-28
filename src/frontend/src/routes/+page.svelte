@@ -1,4 +1,9 @@
 <script>
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	onMount(async () => {
+		goto('/conferences');
+	});
 </script>
 
 <svelte:head>

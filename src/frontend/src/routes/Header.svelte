@@ -7,9 +7,6 @@
 	<div class="container">
 		<nav>
 			<ul>
-				<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-					<a href="/">Home</a>
-				</li>
 				<li aria-current={$page.url.pathname === '/conferences' ? 'page' : undefined}>
 					<a href="/conferences">Conferences</a>
 				</li>
@@ -23,9 +20,6 @@
 				{:else}
 					<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
 						<a href="/login">Login</a>
-					</li>
-					<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}>
-						<a href="/register">Register</a>
 					</li>
 				{/if}
 			</ul>

@@ -1,4 +1,8 @@
 <script>
+	import { enhance, applyAction } from '$app/forms';
+	import { goto } from '$app/navigation';
+
+	let error;
 </script>
 
 <svelte:head>
@@ -9,7 +13,23 @@
 <div class="container">
 	<div class="form-container">
 		<div class="form-wrapper">
-			<form method="POST">
+			<form
+				method="POST"
+				use:enhance={({ formElement, formData, action, cancel }) => {
+					return async ({ result }) => {
+						if (!result.data) await applyAction(result);
+						if (result.data.status == 401) {
+							error = 'Wrong credentials';
+							return;
+						}
+						if (result.data.status == 404) {
+							error = 'No user with this email found';
+
+							return;
+						}
+					};
+				}}
+			>
 				<fieldset>
 					<label>
 						Email
@@ -20,8 +40,14 @@
 						<input name="password" placeholder="Password" type="password" required />
 					</label>
 				</fieldset>
+				{#if error}
+					<div class="errors">
+						<p>{error}</p>
+					</div>
+				{/if}
 				<input type="submit" value="Login" />
 			</form>
+
 			<div class="options-container">
 				<p>Don't have an account? <a href="/register">Register</a></p>
 			</div>
@@ -30,8 +56,12 @@
 </div>
 
 <style>
-	.errors {
-		color: rgba(var(--color-error-50) / 1);
+	.errors > p {
+		color: rgb(238, 64, 46);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 	.form-container,
 	.options-container {

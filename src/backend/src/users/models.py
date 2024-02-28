@@ -3,7 +3,7 @@ from sqlalchemy import String, Integer, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from core.models import Base
-from conferences.association_tables import user_to_conference
+from conferences.association_tables import reviewer_to_conference
 
 
 class User(Base):
@@ -31,7 +31,7 @@ class User(Base):
         back_populates="user", lazy="selectin"
     )
     reviewer_in: Mapped[List["Conference"]] = relationship(
-        secondary=user_to_conference, back_populates="reviewers", lazy="selectin"
+        secondary=reviewer_to_conference, back_populates="reviewers", lazy="selectin"
     )
 
     def __str__(self):

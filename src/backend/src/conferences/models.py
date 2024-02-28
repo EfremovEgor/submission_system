@@ -14,7 +14,7 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime
 from core.models import Base
 from users.models import User
-from .association_tables import user_to_conference
+from .association_tables import reviewer_to_conference
 
 
 class Conference(Base):
@@ -28,7 +28,7 @@ class Conference(Base):
     )
 
     reviewers: Mapped[List["User"]] = relationship(
-        secondary=user_to_conference, back_populates="reviewer_in", lazy="selectin"
+        secondary=reviewer_to_conference, back_populates="reviewer_in", lazy="selectin"
     )
 
 
