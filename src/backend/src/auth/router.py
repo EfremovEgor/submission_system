@@ -95,6 +95,10 @@ async def get_token(
     session: AsyncSession = Depends(db.scoped_session_dependency),
 ):
     user = await user_service.get_user_by_email(session, request.username)
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="User is not active"
+        )
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials"

@@ -24,8 +24,11 @@ export const actions = {
 		if (res.status == 401) {
 			return { status: 401 };
 		}
-
+		if (res.status == 403) {
+			return { status: 403 };
+		}
 		const data = await res.json();
+		console.log(res);
 		cookies.set('token', data.access_token, {
 			path: '/',
 			httpOnly: false,
@@ -46,6 +49,7 @@ export const actions = {
 			httpOnly: false,
 			sameSite: 'strict'
 		});
+
 		redirect(302, '/conferences');
 	}
 };

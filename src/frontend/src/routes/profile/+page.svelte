@@ -3,74 +3,73 @@
 </script>
 
 <svelte:head>
-	<title>Profile</title>
+	<title>Author</title>
 	<meta name="description" content="Registration page" />
 </svelte:head>
 
 <div class="container">
-	<div class="profile_info-container">
-		<div class="profile_info-row">
-			<span class="profile_info-name">First name:</span>
-			<span class="profile_info-data"
-				>{data.profile.first_name != null ? data.profile.first_name : 'No data'}</span
+	<h3>Author</h3>
+	<table class="profile_info-container">
+		<tr class="profile_info-row">
+			<td class="profile_info-name">First name</td>
+			<td class="profile_info-data"
+				>{data.profile.first_name != null ? data.profile.first_name : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Last name:</span>
-			<span class="profile_info-data"
-				>{data.profile.last_name != null ? data.profile.last_name : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Last name:</td>
+			<td class="profile_info-data"
+				>{data.profile.last_name != null ? data.profile.last_name : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Surname:</span>
-			<span class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Surname:</td>
+			<td class="profile_info-data"
+				>{data.profile.surname != null ? data.profile.surname : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Affilation:</span>
-			<span class="profile_info-data"
-				>{data.profile.affilation != null ? data.profile.affilation : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Affilation:</td>
+			<td class="profile_info-data"
+				>{data.profile.affilation != null ? data.profile.affilation : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Web page:</span>
-			<span class="profile_info-data"
-				>{data.profile.web_page != null ? data.profile.web_page : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Web page:</td>
+			<td class="profile_info-data"
+				>{data.profile.web_page != null ? data.profile.web_page : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Address line 1:</span>
-			<span class="profile_info-data"
-				>{data.profile.address_line_1 != null ? data.profile.address_line_1 : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Address line 1:</td>
+			<td class="profile_info-data"
+				>{data.profile.address_line_1 != null ? data.profile.address_line_1 : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Address line 2:</span>
-			<span class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Address line 2:</td>
+			<td class="profile_info-data"
+				>{data.profile.surname != null ? data.profile.surname : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">City:</span>
-			<span class="profile_info-data"
-				>{data.profile.city != null ? data.profile.city : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">City:</td>
+			<td class="profile_info-data">{data.profile.city != null ? data.profile.city : 'No data'}</td>
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">State:</td>
+			<td class="profile_info-data"
+				>{data.profile.state != null ? data.profile.state : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">State:</span>
-			<span class="profile_info-data"
-				>{data.profile.state != null ? data.profile.state : 'No data'}</span
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Country:</td>
+			<td class="profile_info-data"
+				>{data.profile.country != null ? data.profile.country : 'No data'}</td
 			>
-		</div>
-		<div class="profile_info-row">
-			<span class="profile_info-name">Country:</span>
-			<span class="profile_info-data"
-				>{data.profile.country != null ? data.profile.country : 'No data'}</span
-			>
-		</div>
-	</div>
-	<a href="/profile/edit">Edit</a>
+		</tr>
+	</table>
+	<a role="button" class="outline edit_author-button" href="/profile/edit">Edit</a>
 	<h3>Submissions</h3>
 	<table class="submissions_table">
 		<thead>
@@ -91,6 +90,11 @@
 </div>
 
 <style>
+	.edit_author-button {
+		min-width: 150px;
+		margin: auto;
+	}
+	.profile_info-container,
 	.submissions_table {
 		max-width: 450px;
 	}

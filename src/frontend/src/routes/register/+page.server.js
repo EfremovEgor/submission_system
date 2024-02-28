@@ -16,5 +16,6 @@ export const actions = {
 			},
 			body: data
 		});
+		return { status: res.status };
 	}
 };

@@ -10,7 +10,7 @@
 	<meta name="description" content="Home" />
 </svelte:head>
 <div class="container">
-	<h1>{conferenceData.name}</h1>
+	<h3>{conferenceData.name}</h3>
 	<div>
 		<a href="/conferences/{conferenceId}/submission">Submit</a>
 	</div>
