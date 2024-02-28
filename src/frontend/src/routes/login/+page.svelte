@@ -22,7 +22,6 @@
 						isBusy = true;
 						return async ({ result }) => {
 							isBusy = false;
-							console.log(result);
 							if (result.type === 'redirect') {
 								isLoggedIn = true;
 								// location.reload();

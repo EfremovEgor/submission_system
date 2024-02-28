@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	let conferences = data.conferences;
-	console.log(conferences);
 </script>
 
 <svelte:head>
