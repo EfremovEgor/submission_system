@@ -25,7 +25,7 @@
 							console.log(result);
 							if (result.type === 'redirect') {
 								isLoggedIn = true;
-								location.reload();
+								// location.reload();
 
 								return;
 							}

@@ -30,26 +30,22 @@ export const actions = {
 		const data = await res.json();
 		cookies.set('token', data.access_token, {
 			path: '/',
-			secure: false,
 			httpOnly: false,
 			sameSite: 'strict'
 		});
 		cookies.set('token_type', data.token_type, {
 			path: '/',
-			secure: false,
 			httpOnly: false,
 			sameSite: 'strict'
 		});
 		cookies.set('user_id', data.user_id, {
 			path: '/',
-			secure: false,
 			httpOnly: false,
 			sameSite: 'strict'
 		});
 		cookies.set('username', data.username, {
 			path: '/',
 			httpOnly: false,
-			secure: false,
 			sameSite: 'strict'
 		});
 
