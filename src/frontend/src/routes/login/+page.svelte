@@ -1,7 +1,8 @@
 <script>
 	import { enhance, applyAction } from '$app/forms';
 	import { goto } from '$app/navigation';
-
+	import { invalidateAll } from '$app/navigation';
+	export let isLoggedIn;
 	let error;
 </script>
 
@@ -17,7 +18,12 @@
 				method="POST"
 				use:enhance={({ formElement, formData, action, cancel }) => {
 					return async ({ result }) => {
-						if (!result.data) await applyAction(result);
+						if (result.type === 'redirect') {
+							isLoggedIn = true;
+							location.reload();
+
+							return;
+						}
 						if (result.data.status == 401) {
 							error = 'Wrong credentials';
 							return;
