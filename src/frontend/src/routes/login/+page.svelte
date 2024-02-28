@@ -16,36 +16,7 @@
 		{#if !isBusy}
 			<h3>Login</h3>
 			<div class="form-wrapper">
-				<form
-					method="POST"
-					use:enhance={({ formElement, formData, action, cancel }) => {
-						isBusy = true;
-						return async ({ result }) => {
-							isBusy = false;
-							console.log(result);
-							if (result.type === 'redirect') {
-								isLoggedIn = true;
-								location.reload();
-
-								return;
-							}
-							if (result.data.status == 401) {
-								error = 'Wrong credentials';
-								return;
-							}
-							if (result.data.status == 404) {
-								error = 'No user with this email found';
-
-								return;
-							}
-							if (result.data.status == 403) {
-								error = "Email hasn't been verified yet";
-
-								return;
-							}
-						};
-					}}
-				>
+				<form method="POST">
 					<fieldset>
 						<label>
 							Email
