@@ -1,10 +1,23 @@
 <script>
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { countries } from 'countries-list';
+
 	export let data;
+	const countryCodes = Object.keys(countries);
+	const countryNames = countryCodes.map((code) => countries[code].name);
+
 	let conferenceData = data.conference;
 	let topics = conferenceData.topics;
 	let authors = [];
-
+	let abstractLength = 0;
+	let keywordsLength = 0;
+	function handleAbstractChange(event) {
+		abstractLength = event.target.value.trim().split(/\s+/).length;
+	}
+	function handleKeyWordsChange(event) {
+		keywordsLength = event.target.value.split(/\r\n|\r|\n/).length;
+	}
 	function addAuthor() {
 		authors.push({
 			id: authors.length,
@@ -19,6 +32,9 @@
 		});
 		authors = authors;
 	}
+	onMount(async () => {
+		addAuthor();
+	});
 	function deleteAuthor(id) {
 		let new_authors = [];
 		for (let author of authors) {
@@ -27,6 +43,16 @@
 		authors = new_authors;
 	}
 	function handleOnSubmit(event) {
+		if (keywordsLength < 3) {
+			event.preventDefault();
+			alert('You should specify at least three keywords');
+			return;
+		}
+		if (abstractLength > 100) {
+			event.preventDefault();
+			alert('Abstract should not exceed 100 words');
+			return;
+		}
 		if (authors.length == 0) {
 			event.preventDefault();
 			alert('Please add at least one author');
@@ -38,10 +64,15 @@
 <div class="container">
 	<div class="form-wrapper">
 		<form id="submission" on:submit={handleOnSubmit} method="POST">
+			<input
+				class="add_new_author-button"
+				type="button"
+				on:click={addAuthor}
+				value="Add new author"
+			/>
 			<div class="authors-container">
-				<input type="button" on:click={addAuthor} value="Add new author" />
 				{#each authors as author}
-					<div class="author-item">
+					<article class="author-item">
 						<label>
 							First name*
 							<input
@@ -88,14 +119,17 @@
 
 						<label>
 							Country*
-							<input
-								type="text"
-								on:input={(author.country = this.value)}
+							<select
+								required
 								placeholder="Country"
 								name="#{author.id}#_country"
-								required
-								value={author.country}
-							/>
+								on:change={(author.country = this.value)}
+							>
+								<option value="" selected disabled>Country</option>
+								{#each countryNames as country}
+									<option value={country}>{country}</option>
+								{/each}
+							</select>
 						</label>
 						<label>
 							Affilation*
@@ -118,7 +152,7 @@
 								value={author.web_page}
 							/>
 						</label>
-						<label>
+						<label class="is_presenter-label">
 							Is presenter
 							<input
 								type="checkbox"
@@ -129,7 +163,7 @@
 							/>
 						</label>
 						<input type="button" on:click={deleteAuthor(author.id)} value="Delete" />
-					</div>
+					</article>
 				{/each}
 			</div>
 			<label>
@@ -138,11 +172,33 @@
 			</label>
 			<label>
 				Abstract*
-				<textarea name="abstract" form="submission" cols="30" rows="10"></textarea>
+				<p><i>The abstract should not exceed 100 words</i></p>
+				<textarea
+					on:change={handleAbstractChange}
+					name="abstract"
+					form="submission"
+					cols="30"
+					rows="10"
+				></textarea>
+				<p><b>Words: {abstractLength}</b></p>
 			</label>
 			<label>
 				Keywords*
-				<textarea name="keywords" form="submission" cols="30" rows="10"></textarea>
+				<p>
+					<i
+						>Type a list of keywords (also known as key phrases or key terms), one per line to
+						characterize your submission. You should specify at least three keywords.
+					</i>
+				</p>
+
+				<textarea
+					on:change={handleKeyWordsChange}
+					name="keywords"
+					form="submission"
+					cols="30"
+					rows="10"
+				></textarea>
+				<p><b>Keywords: {keywordsLength}</b></p>
 			</label>
 			<label>
 				Topics*
@@ -156,7 +212,7 @@
 				Presentation format*
 				<select name="presentation_format">
 					<option value="online" selected>Online</option>
-					<option value="offline">Offline</option>
+					<option value="offline">On-Sight</option>
 				</select>
 			</label>
 
@@ -166,7 +222,32 @@
 </div>
 
 <style>
-	.form-wrapper {
-		max-width: 400px;
+	.add_new_author-button {
+		width: 200px;
+	}
+	.authors-container {
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+	}
+	.author-item {
+		padding: 20px;
+	}
+	.author-item > label {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		gap: 20px;
+	}
+	.author-item > label > input,
+	select {
+		width: 250px;
+	}
+
+	.is_presenter-label > input {
+		width: 40px !important;
+		height: 40px !important;
 	}
 </style>
