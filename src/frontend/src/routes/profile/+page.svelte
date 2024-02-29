@@ -65,7 +65,7 @@
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Country:</td>
 			<td class="profile_info-data"
-				>{data.profile.country != null ? data.profile.country : 'No data'}</td
+				>{data.profile.country != null ? data.profile.country : ''}</td
 			>
 		</tr>
 	</table>
