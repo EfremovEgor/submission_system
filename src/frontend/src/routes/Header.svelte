@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import logo from "$lib/images/logo.png"
 	export let isLoggedIn;
 </script>
 
@@ -10,8 +11,7 @@
 				<li>
 					<div class="logo-container">
 						<a href="/">
-							<h3>ConfChair</h3>
-							<h5>Event management system</h5>
+							<img class="logo" src={logo} alt="ConfChair Logo">
 						</a>
 					</div>
 				</li>
@@ -57,5 +57,8 @@
 		background: var(--pico-card-background-color);
 		box-shadow: var(--pico-card-box-shadow);
 		margin-bottom: 40px;
+	}
+	.logo{
+		max-height: 70px;
 	}
 </style>
