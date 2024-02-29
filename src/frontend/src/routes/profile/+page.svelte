@@ -13,53 +13,53 @@
 		<tr class="profile_info-row">
 			<td class="profile_info-name">First name</td>
 			<td class="profile_info-data"
-				>{data.profile.first_name != null ? data.profile.first_name : 'No data'}</td
+				>{data.profile.first_name != null ? data.profile.first_name : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Last name:</td>
 			<td class="profile_info-data"
-				>{data.profile.last_name != null ? data.profile.last_name : 'No data'}</td
+				>{data.profile.last_name != null ? data.profile.last_name : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Surname:</td>
 			<td class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : 'No data'}</td
+				>{data.profile.surname != null ? data.profile.surname : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Affilation:</td>
 			<td class="profile_info-data"
-				>{data.profile.affilation != null ? data.profile.affilation : 'No data'}</td
+				>{data.profile.affilation != null ? data.profile.affilation : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Web page:</td>
 			<td class="profile_info-data"
-				>{data.profile.web_page != null ? data.profile.web_page : 'No data'}</td
+				>{data.profile.web_page != null ? data.profile.web_page : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Address line 1:</td>
 			<td class="profile_info-data"
-				>{data.profile.address_line_1 != null ? data.profile.address_line_1 : 'No data'}</td
+				>{data.profile.address_line_1 != null ? data.profile.address_line_1 : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Address line 2:</td>
 			<td class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : 'No data'}</td
+				>{data.profile.surname != null ? data.profile.surname : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">City:</td>
-			<td class="profile_info-data">{data.profile.city != null ? data.profile.city : 'No data'}</td>
+			<td class="profile_info-data">{data.profile.city != null ? data.profile.city : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">State:</td>
 			<td class="profile_info-data"
-				>{data.profile.state != null ? data.profile.state : 'No data'}</td
+				>{data.profile.state != null ? data.profile.state : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
