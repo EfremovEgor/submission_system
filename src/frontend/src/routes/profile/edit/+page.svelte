@@ -84,7 +84,7 @@
 					value={data.profile.country}
 				/>
 			</label>
-			<input class="floating-button" type="submit" value="Edit" />
+			<input class="blue-button floating-button" type="submit" value="Edit" />
 		</form>
 	</div>
 </div>

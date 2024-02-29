@@ -65,7 +65,7 @@
 	<div class="form-wrapper">
 		<form id="submission" on:submit={handleOnSubmit} method="POST">
 			<input
-				class="add_new_author-button"
+				class="blue-button add_new_author-button"
 				type="button"
 				on:click={addAuthor}
 				value="Add new author"
@@ -162,7 +162,7 @@
 								value={author.is_presenter}
 							/>
 						</label>
-						<input type="button" on:click={deleteAuthor(author.id)} value="Delete" />
+						<input class="blue-button"  type="button" on:click={deleteAuthor(author.id)} value="Delete" />
 					</article>
 				{/each}
 			</div>
