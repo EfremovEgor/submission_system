@@ -14,7 +14,7 @@
 <div class="container">
 	<article aria-busy={isBusy} class="form-container">
 		{#if !isBusy}
-			<h3>Login</h3>
+			<h3>Sign in</h3>
 			<div class="form-wrapper">
 				<form
 					method="POST"
@@ -47,11 +47,9 @@
 				>
 					<fieldset>
 						<label>
-							Email
 							<input type="email" name="email" placeholder="Email" autocomplete="email" required />
 						</label>
 						<label>
-							Password
 							<input name="password" placeholder="Password" type="password" required />
 						</label>
 					</fieldset>
@@ -60,7 +58,7 @@
 							<p>{error}</p>
 						</div>
 					{/if}
-					<input type="submit" value="Login" />
+					<input class="blue-button" type="submit" value="Login" />
 				</form>
 
 				<div class="options-container">
@@ -72,6 +70,14 @@
 </div>
 
 <style>
+	.login-button{
+		background-color: transparent;
+		color:var(--pico-primary)
+	}
+	.login-button:hover{
+		background-color: var(--pico-primary-hover);
+		color:white;
+	}
 	.errors > p {
 		color: rgb(238, 64, 46);
 		display: flex;

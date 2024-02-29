@@ -69,7 +69,7 @@
 			>
 		</tr>
 	</table>
-	<a role="button" class="outline edit_author-button" href="/profile/edit">Edit</a>
+	<a role="button" class="blue-button outline edit_author-button" href="/profile/edit">Edit</a>
 	<h3>Submissions</h3>
 	<table class="submissions_table">
 		<thead>

@@ -216,7 +216,7 @@
 				</select>
 			</label>
 
-			<input class="floating-button" type="submit" value="Submit" />
+			<input class="blue-button" type="submit" value="Submit" />
 		</form>
 	</div>
 </div>

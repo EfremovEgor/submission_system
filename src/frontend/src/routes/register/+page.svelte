@@ -19,7 +19,7 @@
 	{:else}
 		<article aria-busy={isBusy} class="form-container">
 			{#if !isBusy}
-				<h3>Registration</h3>
+				<h3>Create account</h3>
 				<div class="form-wrapper">
 					<form
 						method="POST"
@@ -44,7 +44,6 @@
 					>
 						<fieldset>
 							<label>
-								Email
 								<input
 									type="email"
 									name="email"
@@ -54,7 +53,6 @@
 								/>
 							</label>
 							<label>
-								Password
 								<input name="password" placeholder="Password" type="password" required />
 							</label>
 						</fieldset>
@@ -63,7 +61,7 @@
 								<p>{error}</p>
 							</div>
 						{/if}
-						<input type="submit" value="Register" />
+						<input class="blue-button" type="submit" value="Register" />
 					</form>
 					<div class="options-container">
 						<p>Already have an account? <a href="/login">Login</a></p>
@@ -75,6 +73,14 @@
 </div>
 
 <style>
+	.register-button{
+		background-color: transparent;
+		color:var(--pico-primary)
+	}
+	.register-button:hover{
+		background-color: var(--pico-primary-hover);
+		color:white;
+	}
 	.errors > p {
 		color: rgb(238, 64, 46);
 		display: flex;

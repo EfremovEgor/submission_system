@@ -1,0 +1,9 @@
+.blue-button{
+    background-color: transparent;
+    color:var(--pico-primary)
+}
+
+.blue-button:hover{
+    background-color: var(--pico-primary-hover);
+    color:white;
+}
