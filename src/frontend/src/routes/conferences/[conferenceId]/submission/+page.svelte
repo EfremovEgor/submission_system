@@ -197,15 +197,15 @@
 					{/each}
 				</div>
 				<label>
-					Title*
-					<input type="text" placeholder="Title" name="title" required />
+					Название на англ.*
+					<input type="text" placeholder="Название на англ." name="title" required />
 				</label>
 				<label>
-					Название*
-					<input type="text" placeholder="Title" name="title_ru" required />
+					Название на рус.*
+					<input type="text" placeholder="Название на рус." name="title_ru" required />
 				</label>
 				<label>
-					Abstract*
+					Абстракт на англ.*
 					<p><i>The abstract should not exceed 500 words</i></p>
 					<textarea
 						on:change={handleAbstractChange}
@@ -217,7 +217,7 @@
 					<p><b>Words: {abstractLength}</b></p>
 				</label>
 				<label>
-					Абстракт*
+					Абстракт на рус.*
 					<p><i>Абстракт не должен превышать 500 слов</i></p>
 					<textarea
 						on:change={handleAbstractChange}
@@ -229,7 +229,7 @@
 					<p><b>Слова: {abstractLength}</b></p>
 				</label>
 				<label>
-					Keywords*
+					Ключевые слова на англ.*
 					<p>
 						<i
 							>Type a list of keywords (also known as key phrases or key terms), one per line to
@@ -247,7 +247,7 @@
 					<p><b>Keywords: {keywordsLength}</b></p>
 				</label>
 				<label>
-					Ключевые слова*
+					Ключевые слова на рус.*
 					<p>
 						<i
 							>Введите список ключевых слов (также известных как ключевые фразы или ключевые
