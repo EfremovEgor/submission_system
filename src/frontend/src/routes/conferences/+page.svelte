@@ -4,12 +4,12 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Events</title>
 	<meta name="description" content="Home" />
 </svelte:head>
 
 <div class="container">
-	<h3>Conferences</h3>
+	<h3>Events</h3>
 	{#if conferences.length}
 		<table class="striped conferences-wrapper">
 			<tbody>
@@ -25,7 +25,10 @@
 								>Submit an abstract</a
 							></td
 						>
-						<td href=""><a class="learn_more-button" href="">Learn More</a></td>
+						<td href=""
+							><a class="learn_more-button" target="_blank" href={conference.site_url}>Learn More</a
+							></td
+						>
 					</tr>
 				{/each}
 			</tbody>

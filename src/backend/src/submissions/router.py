@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
-
 from auth.dependencies import super_user_dependency
 from auth.dependencies import active_user_dependency
+from users.models import User
+from mailing.tasks import send_submission_email
 from users.schemas import UserBase
 
 from .models import Submission
@@ -44,27 +45,44 @@ async def get_submissions_from_conference(
     requester=Depends(active_user_dependency),
 ):
     access_granted = False
+
     if requester.is_super_user:
+
         access_granted = True
     if not access_granted:
+
         conference = await get_conference(session, conference_id)
+
         for reviewer in conference.reviewers:
 
             if reviewer.id == requester.id:
                 access_granted = True
+
                 break
     if not access_granted:
+
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
     return await service.get_submissions(session, from_conference=conference_id)
 
 
 @router.get("/{submission_id}", response_model=SubmissionInDBBase)
 async def get_submission(
-    submission=Depends(submission_by_id),
+    submission: Submission = Depends(submission_by_id),
     session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester: User = Depends(active_user_dependency),
 ):
+    if (
+        (submission.user.id == requester.id)
+        or (requester.is_super_user)
+        or (
+            submission.conference.id
+            in [conference.id for conference in requester.reviewer_in]
+        )
+    ):
+        return submission
 
-    return submission
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 
 @router.post("/", response_model=SubmissionInDBBase)
@@ -75,7 +93,16 @@ async def create_submission(
 ):
     submission_in = SubmissionCreate(user_id=user.id, **submission_in.model_dump())
     try:
-        return await service.create_submission(session, submission_in)
+        result = await service.create_submission(session, submission_in)
+        to_send = result.to_dict()
+        to_send["topic"] = result.topic.to_dict()
+        send_submission_email.delay(
+            email=user.email,
+            submission_data=to_send,
+            user=user.to_dict(),
+        )
+
+        return result
     except IntegrityError:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Submission already exists"

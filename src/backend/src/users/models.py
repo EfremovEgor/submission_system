@@ -17,6 +17,7 @@ class User(Base):
     )
     is_super_user: Mapped[bool] = mapped_column(Boolean(), default=False)
     is_active: Mapped[bool] = mapped_column(Boolean(), default=False)
+    title: Mapped[str | None] = mapped_column(String(255))
     first_name: Mapped[str | None] = mapped_column(String(255))
     last_name: Mapped[str | None] = mapped_column(String(255))
     surname: Mapped[str | None] = mapped_column(String(255))

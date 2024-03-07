@@ -14,14 +14,18 @@ class Submission(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=datetime.utcnow
     )
+    is_ru: Mapped[bool | None] = mapped_column(Boolean, default=False)
     conference: Mapped["Conference"] = relationship(
         back_populates="submissions", lazy="selectin"
     )
     topic_id: Mapped[int] = mapped_column(ForeignKey(Topic.id))
     topic: Mapped["Topic"] = relationship(lazy="selectin")
     title: Mapped[str] = mapped_column(Text)
+    title_ru: Mapped[str | None] = mapped_column(Text)
     abstract: Mapped[str] = mapped_column(Text)
+    abstract_ru: Mapped[str | None] = mapped_column(Text)
     keywords: Mapped[str] = mapped_column(Text)
+    keywords_ru: Mapped[str | None] = mapped_column(Text)
     presentation_format: Mapped[str | None] = mapped_column(Text)
     manuscript: Mapped[str | None] = mapped_column(Text)
     presentation: Mapped[str | None] = mapped_column(Text)

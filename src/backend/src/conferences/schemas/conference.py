@@ -14,6 +14,10 @@ class UserToConference(UserToConferenceBase):
 class ConferenceBase(BaseModel):
     user_id: int | None = None
     name: str | None = None
+    allow_ru: bool | None = None
+    acronym: str | None = None
+    description: str | None = None
+    site_url: str | None = None
     topics: list[TopicInDBBase] = []
     submissions: list[SubmissionInDBBase] = []
     reviewers: list[UserToConference] = []

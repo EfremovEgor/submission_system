@@ -5,11 +5,20 @@ export const actions = {
 		const values = await request.formData();
 		let payload = {};
 		payload.title = values.get('title');
+		payload.title_ru = values.get('title_ru');
 		payload.abstract = values.get('abstract');
+		payload.abstract_ru = values.get('abstract_ru');
 		payload.keywords = values.get('keywords');
+		payload.keywords_ru = values.get('keywords_ru');
 		payload.topic_id = parseInt(values.get('topic'));
 		payload.conference_id = parseInt(params.conferenceId);
+		console.log(payload.conference_id);
 		payload.presentation_format = values.get('presentation_format');
+		payload.is_ru = !(
+			payload.title_ru == null &&
+			payload.abstract_ru == null &&
+			payload.keywords_ru == null
+		);
 		let authors = [];
 		for (const pair of values.entries()) {
 			if (pair[0].startsWith('#')) {

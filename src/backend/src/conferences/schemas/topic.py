@@ -6,9 +6,9 @@ class TopicForConference(BaseModel):
 
 
 class TopicBase(BaseModel):
-
     name: str | None = None
     conference_id: int | None = None
+    category: str | None = None
 
 
 class TopicCreate(TopicBase):

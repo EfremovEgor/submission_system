@@ -62,7 +62,7 @@
 				</form>
 
 				<div class="options-container">
-					<p>Don't have an account? <a href="/register">Register</a></p>
+					<p>Don't have an account? <a href="/register">Create account</a></p>
 				</div>
 			</div>
 		{/if}
@@ -70,13 +70,13 @@
 </div>
 
 <style>
-	.login-button{
+	.login-button {
 		background-color: transparent;
-		color:var(--pico-primary)
+		color: var(--pico-primary);
 	}
-	.login-button:hover{
+	.login-button:hover {
 		background-color: var(--pico-primary-hover);
-		color:white;
+		color: white;
 	}
 	.errors > p {
 		color: rgb(238, 64, 46);

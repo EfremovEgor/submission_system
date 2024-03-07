@@ -35,10 +35,10 @@
 				<input type="text" placeholder="Surname" name="surname" value={data.profile.surname} />
 			</label>
 			<label>
-				Affilation*
+				Affiliation*
 				<input
 					type="text"
-					placeholder="Affilation"
+					placeholder="Affiliation"
 					required
 					name="affilation"
 					value={data.profile.affilation}

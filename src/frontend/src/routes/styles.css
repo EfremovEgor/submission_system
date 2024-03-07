@@ -1,9 +1,27 @@
-.blue-button{
-    background-color: transparent;
-    color:var(--pico-primary)
+.blue-button {
+	background-color: transparent;
+	color: var(--pico-primary);
 }
 
-.blue-button:hover{
-    background-color: var(--pico-primary-hover);
-    color:white;
+.blue-button:hover {
+	background-color: var(--pico-primary-hover);
+	color: white;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea,
+select {
+	font-size: 16px;
+	padding: 20px 20px !important;
+}
+
+input[type='radio'] {
+	width: 20px;
+	height: 20px;
+}
+input[type='checkbox'] {
+	width: 30px !important;
+	height: 30px !important ;
 }

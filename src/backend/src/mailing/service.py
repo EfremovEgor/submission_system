@@ -1,5 +1,7 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from pydantic import EmailStr, HttpUrl
+from submissions.models import Submission
+from users.models import User
 from config import settings
 from jinja2 import Environment, select_autoescape, PackageLoader, Template
 
@@ -34,12 +36,10 @@ class Email:
         template = env.get_template(f"{template}.html")
         html = template.render(**content)
 
-        # Define the message options
         message = MessageSchema(
             subject=subject, recipients=emails, body=html, subtype="html"
         )
 
-        # Send the email
         fm = FastMail(cls.conf)
 
         await fm.send_message(message)
@@ -55,4 +55,14 @@ class Email:
             "verification",
             [email],
             url=url,
+        )
+
+    @classmethod
+    async def send_submission_email(cls, email: EmailStr, submission_data, user):
+        await cls.send_email(
+            "Submission has been created",
+            "submission",
+            [email],
+            submission_data=submission_data,
+            user=user,
         )

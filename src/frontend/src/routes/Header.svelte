@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from "$lib/images/logo.png"
+	import logo from '$lib/images/logo.png';
 	export let isLoggedIn;
 </script>
 
@@ -11,19 +11,17 @@
 				<li>
 					<div class="logo-container">
 						<a href="/">
-							<img class="logo" src={logo} alt="ConfChair Logo">
+							<img class="logo" src={logo} alt="ConfChair Logo" />
 						</a>
 					</div>
 				</li>
 				<li aria-current={$page.url.pathname === '/conferences' ? 'page' : undefined}>
-					<a href="/conferences">Conferences</a>
+					<a href="/conferences">Events</a>
 				</li>
 				{#if isLoggedIn}
 					<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
-						<a href="/profile">Profile</a>
+						<a href="/profile">Author</a>
 					</li>
-				{:else}
-
 				{/if}
 			</ul>
 			{#if isLoggedIn}
@@ -33,14 +31,14 @@
 					</li>
 				</ul>
 			{:else}
-			<ul>
-			<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
-				<a href="/login">Sign in</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}>
-				<a href="/register">Create account</a>
-			</li>
-		</ul>
+				<ul>
+					<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
+						<a href="/login">Sign in</a>
+					</li>
+					<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}>
+						<a href="/register">Create account</a>
+					</li>
+				</ul>
 			{/if}
 		</nav>
 	</div>
@@ -65,7 +63,7 @@
 		box-shadow: var(--pico-card-box-shadow);
 		margin-bottom: 40px;
 	}
-	.logo{
+	.logo {
 		max-height: 70px;
 	}
 </style>

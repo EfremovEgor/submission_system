@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.3/dist/css/uikit.min.css" />
+
+<body>
+  <div class="uk-container" style="
+    margin-top: 10px;
+    margin-bottom: 25px;
+    max-width: 980px;
+    min-height: 320px;
+  ">
+
+    <h3 style="color: #0056a6">Abstract Submission Confirmation</h3>
+    <p style="color: black">Dear {{user.title}} {{user.first_name}} {{user.last_name}}, </p>
+    <p style="color: black">Thank you for submitting your abstract to the SCO/CIS Conference on Information and
+      Technical Systems. Please find below your abstract details:</p>
+    <h3 style="color: #0056a6">Abstract Details</h3>
+    <table class="uk-table uk-table-striped">
+      <tbody>
+        <tr>
+          <td>Abstract Title</td>
+          <td>{{submission_data.title}}</td>
+        </tr>
+        <tr>
+          <td>Paper Number</td>
+          <td>{{submission_data.id}}</td>
+        </tr>
+
+        <tr>
+          <td>Prefered Presentation Format</td>
+          <td>{{submission_data.presentation_format}}</td>
+        </tr>
+        <tr>
+          <td>Topic</td>
+          <td>{{submission_data.topic.name}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <p style="color: black">In case the above mentioned details are not correct, please access <a target="_blank"
+        href="http://confchair.org">Submission Page</a>.</p>
+    <p style="color: black">In case if you have any questions, please do not hesitate to contact CITS Program Committee
+      (<a href="committee@icits.ru">committee@icits.ru</a>).</p>
+    <p style="color: black">We look forward to see you at <b>SCO/CIS Conference on Information and Technical
+        Systems</b>.</p>
+    <p style="color: black">Best Regards,<br>ConfChair Team</p>
+
+
+  </div>
+</body>
+
+
+</html>

@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from conferences.schemas.conference import UserToConference
 from conferences.schemas.topic import TopicInDBBase
-from submissions.schemas import SubmissionBase, SubmissionInDBBase
+from submissions.schemas import SubmissionInDBBase
 
 
 class ConferenceUser(BaseModel):
@@ -16,6 +16,7 @@ class UserBase(BaseModel):
     is_active: bool | None = None
     is_superuser: bool | None = None
     created_at: datetime | None = None
+    title: str | None = None
     first_name: str | None = None
     last_name: str | None = None
     surname: str | None = None
@@ -26,7 +27,7 @@ class UserBase(BaseModel):
     city: str | None = None
     state: str | None = None
     country: str | None = None
-    submissions: list[SubmissionBase] = []
+    submissions: list[SubmissionInDBBase] = []
     reviewer_in: list[ConferenceUser] = []
 
 

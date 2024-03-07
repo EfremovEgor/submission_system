@@ -1,5 +1,12 @@
 <script>
 	export let data;
+	let submissions = data.profile.submissions;
+	let categories = {};
+	submissions.forEach((element) => {
+		if (categories[element.conference.name] == undefined)
+			categories[element.conference.name] = [element];
+		else categories[element.conference.name].push(element);
+	});
 </script>
 
 <svelte:head>
@@ -8,7 +15,7 @@
 </svelte:head>
 
 <div class="container">
-	<h3>Author</h3>
+	<h3>Author Profile</h3>
 	<table class="profile_info-container">
 		<tr class="profile_info-row">
 			<td class="profile_info-name">First name</td>
@@ -24,20 +31,17 @@
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Surname:</td>
-			<td class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : ''}</td
-			>
+			<td class="profile_info-data">{data.profile.surname != null ? data.profile.surname : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
-			<td class="profile_info-name">Affilation:</td>
+			<td class="profile_info-name">Affiliation:</td>
 			<td class="profile_info-data"
 				>{data.profile.affilation != null ? data.profile.affilation : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Web page:</td>
-			<td class="profile_info-data"
-				>{data.profile.web_page != null ? data.profile.web_page : ''}</td
+			<td class="profile_info-data">{data.profile.web_page != null ? data.profile.web_page : ''}</td
 			>
 		</tr>
 		<tr class="profile_info-row">
@@ -48,9 +52,7 @@
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Address line 2:</td>
-			<td class="profile_info-data"
-				>{data.profile.surname != null ? data.profile.surname : ''}</td
-			>
+			<td class="profile_info-data">{data.profile.surname != null ? data.profile.surname : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">City:</td>
@@ -58,35 +60,27 @@
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">State:</td>
-			<td class="profile_info-data"
-				>{data.profile.state != null ? data.profile.state : ''}</td
-			>
+			<td class="profile_info-data">{data.profile.state != null ? data.profile.state : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">Country:</td>
-			<td class="profile_info-data"
-				>{data.profile.country != null ? data.profile.country : ''}</td
-			>
+			<td class="profile_info-data">{data.profile.country != null ? data.profile.country : ''}</td>
 		</tr>
 	</table>
 	<a role="button" class="blue-button outline edit_author-button" href="/profile/edit">Edit</a>
 	<h3>Submissions</h3>
-	<table class="submissions_table">
-		<thead>
-			<th>Title</th>
-			<th>Approved</th>
-		</thead>
-		{#each data.profile.submissions as submission}
-			<tr>
-				<td>
-					{submission.title}
-				</td>
-				<td>
-					{submission.approved}
-				</td>
-			</tr>
+	<div class="submissions">
+		{#each Object.keys(categories) as category}
+			<details>
+				<summary>{category}</summary>
+				<ul>
+					{#each categories[category] as submission}
+						<li><a href="">{submission.title}</a></li>
+					{/each}
+				</ul>
+			</details>
 		{/each}
-	</table>
+	</div>
 </div>
 
 <style>
@@ -95,7 +89,7 @@
 		margin: auto;
 	}
 	.profile_info-container,
-	.submissions_table {
+	.submissions {
 		max-width: 450px;
 	}
 </style>

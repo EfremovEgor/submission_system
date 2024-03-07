@@ -1,8 +1,14 @@
 <script>
+	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
 	export let data;
 	const conferenceId = $page.params.conferenceId;
 	let conferenceData = data.conference;
+	let categories = {};
+	conferenceData.topics.forEach((element) => {
+		if (categories[element.category] == undefined) categories[element.category] = [element];
+		else categories[element.category].push(element);
+	});
 </script>
 
 <svelte:head>
@@ -10,22 +16,48 @@
 	<meta name="description" content="Home" />
 </svelte:head>
 <div class="container">
-	<h3>{conferenceData.name}</h3>
+	<h3>
+		{conferenceData.name}
+		<a target="_blank" href={conferenceData.site_url}><Icon icon="material-symbols-light:link" /></a
+		>
+	</h3>
 	<div class="options-container">
+		<details>
+			<summary>Description</summary>
+			<p><b>Symposiums:</b></p>
+			{#each Object.keys(categories) as category}
+				<p>{category}</p>
+				<ul>
+					{#each categories[category] as topic}
+						<li>
+							{topic.name}
+						</li>
+					{/each}
+				</ul>
+			{/each}
+			<p>{conferenceData.description}</p>
+		</details>
 		<div>
-			<h4>Author</h4>
-			<a href="/conferences/{conferenceId}/submission">Submit an abstract</a>
+			<a class="blue-button" role="button" href="/conferences/{conferenceId}/submission"
+				>Submit an abstract</a
+			>
 		</div>
+
 		{#if data.isReviewer}
 			<div>
-				<h4>Reviewer</h4>
-				<a href="/conferences/{conferenceId}/review">Review</a>
+				<a class="blue-button" role="button" href="/conferences/{conferenceId}/review">Review</a>
 			</div>
 		{/if}
 	</div>
 </div>
 
 <style>
+	summary {
+		max-width: fit-content;
+	}
+	.blue-button {
+		width: 250px;
+	}
 	.options-container {
 		display: flex;
 		flex-direction: column;
