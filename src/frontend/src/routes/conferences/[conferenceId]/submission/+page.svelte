@@ -16,6 +16,7 @@
 	let abstractLength = 0;
 	let keywordsLength = 0;
 	let is_ru = null;
+
 	function handleAbstractChange(event) {
 		abstractLength = event.target.value.trim().split(/\s+/).length;
 	}
@@ -39,6 +40,9 @@
 	onMount(async () => {
 		addAuthor();
 		addAuthor();
+		if (!conferenceData.allow_ru || conferenceData.allow_ru == null) {
+			is_ru = false;
+		}
 	});
 	function deleteAuthor(id) {
 		let new_authors = [];
