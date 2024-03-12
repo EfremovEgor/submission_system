@@ -37,11 +37,16 @@ class Submission(Base):
 
 class Author(Base):
     first_name: Mapped[str | None] = mapped_column(String(255))
+    first_name_ru: Mapped[str | None] = mapped_column(String(255))
     last_name: Mapped[str | None] = mapped_column(String(255))
+    last_name_ru: Mapped[str | None] = mapped_column(String(255))
     surname: Mapped[str | None] = mapped_column(String(255))
+    surname_ru: Mapped[str | None] = mapped_column(String(255))
+    title: Mapped[str | None] = mapped_column(String(255))
     email: Mapped[str | None] = mapped_column(String(255))
     country: Mapped[str | None] = mapped_column(String(255))
     affilation: Mapped[str | None] = mapped_column(String(255))
+    affilation_ru: Mapped[str | None] = mapped_column(String(255))
     web_page: Mapped[str | None] = mapped_column(String(255))
     is_presenter: Mapped[bool | None] = mapped_column(Boolean, default=False)
     submission_id: Mapped[int] = mapped_column(ForeignKey(Submission.id))

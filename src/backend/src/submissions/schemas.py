@@ -6,15 +6,21 @@ from conferences.schemas.topic import TopicInDBBase
 class ConferenceSubmission(BaseModel):
     id: int | None = None
     name: str | None = None
-    acronym: str|None = None
+    acronym: str | None = None
+
 
 class Author(BaseModel):
     first_name: str
+    first_name_ru: str | None = None
     last_name: str
+    last_name_ru: str | None = None
+    title: str | None = None
     surname: str | None = None
+    surname_ru: str | None = None
     email: str
     country: str
     affilation: str
+    affilation_ru: str | None = None
     web_page: str | None = None
     is_presenter: bool = False
 

@@ -24,6 +24,7 @@
 	<div class="options-container">
 		<details>
 			<summary>Description</summary>
+			<p>{conferenceData.description}</p>
 			<p><b>Symposiums:</b></p>
 			{#each Object.keys(categories) as category}
 				<p>{category}</p>
@@ -35,7 +36,6 @@
 					{/each}
 				</ul>
 			{/each}
-			<p>{conferenceData.description}</p>
 		</details>
 		<div>
 			<a class="blue-button" role="button" href="/conferences/{conferenceId}/submission"

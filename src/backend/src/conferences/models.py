@@ -20,9 +20,11 @@ from .association_tables import reviewer_to_conference
 class Conference(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey(User.id))
     name: Mapped[str | None] = mapped_column(Text, unique=True)
+    name_ru: Mapped[str | None] = mapped_column(Text, unique=True)
     submissions: Mapped[List["Submission"]] = relationship(
         back_populates="conference", lazy="selectin"
     )
+
     allow_ru: Mapped[bool | None] = mapped_column(Boolean, default=False)
     site_url: Mapped[str | None] = mapped_column(Text)
     description: Mapped[str | None] = mapped_column(Text)
