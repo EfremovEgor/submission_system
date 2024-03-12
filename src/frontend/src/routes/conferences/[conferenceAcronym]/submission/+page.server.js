@@ -58,8 +58,7 @@ export const actions = {
 			},
 			body: JSON.stringify(payload)
 		});
-		console.log(res);
-		console.log(payload);
+		return { status: res.status };
 	}
 };
 export const load = async ({ fetch, cookies, request, params }) => {

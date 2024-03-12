@@ -1,5 +1,5 @@
 <script>
-	import { enhance, applyAction } from '$app/forms';
+	import { enhance } from '$app/forms';
 	let error;
 	let sentEmail = false;
 	let isBusy = false;
@@ -73,13 +73,13 @@
 </div>
 
 <style>
-	.register-button{
+	.register-button {
 		background-color: transparent;
-		color:var(--pico-primary)
+		color: var(--pico-primary);
 	}
-	.register-button:hover{
+	.register-button:hover {
 		background-color: var(--pico-primary-hover);
-		color:white;
+		color: white;
 	}
 	.errors > p {
 		color: rgb(238, 64, 46);
