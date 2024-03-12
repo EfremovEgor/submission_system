@@ -2,7 +2,7 @@
 	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
 	export let data;
-	const conferenceId = $page.params.conferenceId;
+	const conferenceAcronym = $page.params.conferenceAcronym;
 	let conferenceData = data.conference;
 	let categories = {};
 	conferenceData.topics.forEach((element) => {
@@ -20,7 +20,7 @@
 		{conferenceData.name}
 	</h3>
 	<div class="actions-container">
-		<a href="/conferences/{conferenceId}/submission">Submit an abstract</a>
+		<a href="/conferences/{conferenceAcronym}/submission">Submit an abstract</a>
 		<a href={conferenceData.site_url} target="_blank">Learn more</a>
 	</div>
 	<div class="options-container">
@@ -28,7 +28,7 @@
 			{@html conferenceData.description}
 		</div>
 		{#each Object.keys(categories) as category}
-			<p><b>{category}</b></p>
+			<b>{category}</b>
 			<ul>
 				{#each categories[category] as topic}
 					<li>

@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { backend_url } from '../../../../utils';
+let conferenceId;
 export const actions = {
 	default: async ({ fetch, cookies, request, params }) => {
 		const values = await request.formData();
@@ -11,8 +12,8 @@ export const actions = {
 		payload.keywords = values.get('keywords');
 		payload.keywords_ru = values.get('keywords_ru');
 		payload.topic_id = parseInt(values.get('topic'));
-		payload.conference_id = parseInt(params.conferenceId);
-		console.log(payload.conference_id);
+
+		payload.conference_id = conferenceId;
 		payload.presentation_format = values.get('presentation_format');
 		payload.is_ru = !(
 			payload.title_ru == null &&
@@ -57,15 +58,17 @@ export const actions = {
 			},
 			body: JSON.stringify(payload)
 		});
+		console.log(res);
+		console.log(payload);
 	}
 };
 export const load = async ({ fetch, cookies, request, params }) => {
 	if (cookies.get('token') == null) redirect(302, '/login');
 
-	const res = await fetch(backend_url + '/conferences/' + params.conferenceId, {
+	const res = await fetch(backend_url + '/conferences/by_acronym/' + params.conferenceAcronym, {
 		method: 'GET'
 	});
-
 	const data = await res.json();
+	conferenceId = data.id;
 	return { conference: data };
 };

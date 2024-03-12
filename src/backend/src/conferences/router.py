@@ -18,7 +18,7 @@ from .schemas.topic import (
     TopicCreate,
     TopicInDBBase,
 )
-from .dependencies import conference_by_id, topic_by_id
+from .dependencies import conference_by_acronym, conference_by_id, topic_by_id
 from core.database import db
 from . import service
 
@@ -73,6 +73,15 @@ async def get_conferences(
 @router.get("/{conference_id}", response_model=ConferenceInDBBase)
 async def get_conference(
     conference=Depends(conference_by_id),
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+):
+
+    return conference
+
+
+@router.get("/by_acronym/{acronym}", response_model=ConferenceInDBBase)
+async def get_conference_by_acronym(
+    conference=Depends(conference_by_acronym),
     session: AsyncSession = Depends(db.scoped_session_dependency),
 ):
 

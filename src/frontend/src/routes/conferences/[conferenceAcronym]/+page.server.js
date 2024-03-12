@@ -1,8 +1,9 @@
 import { backend_url } from '../../../utils';
 export const load = async ({ fetch, cookies, request, params }) => {
-	const res = await fetch(backend_url + '/conferences/' + params.conferenceId, {
+	const res = await fetch(backend_url + '/conferences/by_acronym/' + params.conferenceAcronym, {
 		method: 'GET'
 	});
+
 	const data = await res.json();
 	let isReviewer = false;
 	data.reviewers.forEach((element) => {

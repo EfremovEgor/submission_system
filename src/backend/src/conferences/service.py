@@ -43,6 +43,12 @@ async def get_conference(session: AsyncSession, conference_id: int) -> Conferenc
     return await session.get(Conference, conference_id)
 
 
+async def get_conference_by_acronym(
+    session: AsyncSession, conference_acronym: str
+) -> Conference:
+    return await session.get(Conference, acronym=conference_acronym)
+
+
 async def create_conference(
     session: AsyncSession, conference_in: ConferenceCreate
 ) -> Conference:

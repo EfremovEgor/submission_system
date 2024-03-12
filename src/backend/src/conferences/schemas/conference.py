@@ -20,7 +20,7 @@ class ConferenceBase(BaseModel):
     description: str | None = None
     site_url: str | None = None
     topics: list[TopicInDBBase] = []
-    submissions: list[SubmissionInDBBase] = []
+    # submissions: list[SubmissionInDBBase] = []
     reviewers: list[UserToConference] = []
 
 

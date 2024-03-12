@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { countries } from 'countries-list';
-
+	import { enhance } from '$app/forms';
 	export let data;
 	const countryCodes = Object.keys(countries);
 	const countryNames = countryCodes.map((code) => countries[code].name);
@@ -16,7 +16,11 @@
 	let abstractLength = 0;
 	let keywordsLength = 0;
 	let is_ru = null;
-
+	let presentationFormat = null;
+	function handlePresentationFormatChange(event) {
+		presentationFormat = event.target.value;
+		console.log(presentationFormat);
+	}
 	function handleAbstractChange(event) {
 		abstractLength = event.target.value.trim().split(/\s+/).length;
 	}
@@ -67,6 +71,11 @@
 			alert('Please add at least one author');
 			return;
 		}
+		if (presentationFormat == null) {
+			event.preventDefault();
+			alert('Please choose presentation format');
+			return;
+		}
 	}
 </script>
 
@@ -87,7 +96,6 @@
 				required
 				on:change={(element) => {
 					is_ru = element.target.value == 'Russian';
-					console.log(is_ru);
 				}}
 			>
 				<option value="" disabled selected>Language</option>
@@ -315,7 +323,7 @@
 				</label>
 				<label>
 					Формат доклада*
-					<select name="presentation_format">
+					<select on:change={handlePresentationFormatChange} name="presentation_format">
 						<option selected disabled>Выбрать</option>
 						<option value="online">Заочный(Онлайн)</option>
 						<option value="offline">Очный</option>
@@ -484,7 +492,7 @@
 				</label>
 				<label>
 					Presentation format*
-					<select name="presentation_format">
+					<select on:change={handlePresentationFormatChange} name="presentation_format">
 						<option selected disabled>Choose</option>
 						<option value="online">Online</option>
 						<option value="offline">On-Sight</option>

@@ -16,12 +16,12 @@
 				{#each conferences as conference}
 					<tr class="conference-container">
 						<td
-							><a class="conference_page-button" href="/conferences/{conference.id}"
+							><a class="conference_page-button" href="/conferences/{conference.acronym}"
 								>{conference.name}</a
 							></td
 						>
 						<td
-							><a class="submit-button" href="/conferences/{conference.id}/submission"
+							><a class="submit-button" href="/conferences/{conference.acronym}/submission"
 								>Submit an abstract</a
 							></td
 						>

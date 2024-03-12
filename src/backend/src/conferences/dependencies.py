@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import Path, Depends, HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import db
@@ -19,6 +20,23 @@ async def conference_by_id(
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Conference {conference_id} not found!",
+    )
+
+
+async def conference_by_acronym(
+    acronym: Annotated[str, Path],
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+) -> Conference:
+    stmt = select(Conference).where(Conference.acronym == acronym)
+    result = await session.execute(stmt)
+    conference = result.scalar()
+
+    if conference is not None:
+        return conference
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Conference {acronym} not found!",
     )
 
 
