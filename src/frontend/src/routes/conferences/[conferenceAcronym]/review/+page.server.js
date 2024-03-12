@@ -1,6 +1,13 @@
 import { backend_url } from '../../../../utils';
 export const load = async ({ fetch, cookies, request, params }) => {
-	const res = await fetch(backend_url + '/submissions/from_conference/' + params.conferenceId, {
+	const conferenceRes = await fetch(
+		backend_url + '/conferences/by_acronym/' + params.conferenceAcronym,
+		{
+			method: 'GET'
+		}
+	);
+	const conference = await conferenceRes.json();
+	const res = await fetch(backend_url + '/submissions/from_conference/' + conference.id, {
 		method: 'GET',
 		headers: {
 			Authorization: 'Bearer ' + cookies.get('token')
@@ -8,5 +15,5 @@ export const load = async ({ fetch, cookies, request, params }) => {
 	});
 	const data = await res.json();
 
-	return { submissions: data };
+	return { conferece: conference, submissions: data };
 };

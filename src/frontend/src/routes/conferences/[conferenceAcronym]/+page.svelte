@@ -40,7 +40,9 @@
 
 		{#if data.isReviewer}
 			<div>
-				<a class="blue-button" role="button" href="/conferences/{conferenceId}/review">Review</a>
+				<a class="blue-button" role="button" href="/conferences/{conferenceAcronym}/review"
+					>Review</a
+				>
 			</div>
 		{/if}
 	</div>
