@@ -28,7 +28,7 @@
 			{@html conferenceData.description}
 		</div>
 		{#each Object.keys(categories) as category}
-			<p><b>Symposium "{category}"</b></p>
+			<p><b>{category}</b></p>
 			<ul>
 				{#each categories[category] as topic}
 					<li>
