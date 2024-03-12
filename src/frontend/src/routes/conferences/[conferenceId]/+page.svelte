@@ -18,30 +18,25 @@
 <div class="container">
 	<h3>
 		{conferenceData.name}
-		<a target="_blank" href={conferenceData.site_url}><Icon icon="material-symbols-light:link" /></a
-		>
 	</h3>
+	<div class="actions-container">
+		<a href="/conferences/{conferenceId}/submission">Submit an abstract</a>
+		<a href={conferenceData.site_url} target="_blank">Learn more</a>
+	</div>
 	<div class="options-container">
-		<details>
-			<summary>Description</summary>
-			<p>{conferenceData.description}</p>
-			<p><b>Symposiums:</b></p>
-			{#each Object.keys(categories) as category}
-				<p>{category}</p>
-				<ul>
-					{#each categories[category] as topic}
-						<li>
-							{topic.name}
-						</li>
-					{/each}
-				</ul>
-			{/each}
-		</details>
-		<div>
-			<a class="blue-button" role="button" href="/conferences/{conferenceId}/submission"
-				>Submit an abstract</a
-			>
+		<div class="description">
+			{@html conferenceData.description}
 		</div>
+		{#each Object.keys(categories) as category}
+			<p><b>Symposium "{category}"</b></p>
+			<ul>
+				{#each categories[category] as topic}
+					<li>
+						{topic.name}
+					</li>
+				{/each}
+			</ul>
+		{/each}
 
 		{#if data.isReviewer}
 			<div>
@@ -52,12 +47,15 @@
 </div>
 
 <style>
-	summary {
-		max-width: fit-content;
+	.actions-container {
+		display: flex;
+		gap: 50px;
+		margin-bottom: 20px;
 	}
 	.blue-button {
 		width: 250px;
 	}
+
 	.options-container {
 		display: flex;
 		flex-direction: column;

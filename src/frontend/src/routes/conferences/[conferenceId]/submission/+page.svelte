@@ -184,7 +184,15 @@
 								<input
 									type="text"
 									on:input={(author.affilation = this.value)}
-									placeholder="Организация"
+									placeholder="На русском"
+									name="#{author.id}#_affilation_ru"
+									required
+									value={author.affilation}
+								/>
+								<input
+									type="text"
+									on:input={(author.affilation = this.value)}
+									placeholder="На английском"
 									name="#{author.id}#_affilation"
 									required
 									value={author.affilation}
@@ -229,20 +237,19 @@
 				/>
 				<label>
 					Название на русском языке*
-					<input type="text" placeholder="Название на русском языке" name="title_ru" required />
+					<input type="text" placeholder="Не более 30 слов" name="title_ru" required />
 				</label>
 				<label>
 					Название на английском языке*
-					<input type="text" placeholder="Название на английском языке" name="title" required />
+					<input type="text" placeholder="Не более 30 слов" name="title" required />
 				</label>
 
 				<label>
 					Аннотация на русском языке*
-					<p><i>Абстракт не должен превышать 500 слов</i></p>
 					<textarea
 						on:keyup={handleAbstractChange}
 						name="abstract_ru"
-						placeholder="Аннотация на русском языке"
+						placeholder="Аннотация не более 500 слов"
 						form="submission"
 						cols="30"
 						rows="10"
@@ -251,10 +258,9 @@
 				</label>
 				<label>
 					Аннотация на английском языке*
-					<p><i>Не более 500 слов.</i></p>
 					<textarea
 						on:keyup={handleAbstractChange}
-						placeholder="Аннотация на английском языке"
+						placeholder="Не более 500 слов"
 						name="abstract"
 						form="submission"
 						cols="30"
@@ -264,13 +270,10 @@
 				</label>
 				<label>
 					Ключевые слова на русском языке*
-					<p>
-						<i>Минимум 3 ключевых слова (фразы), по одному на строку. </i>
-					</p>
 
 					<textarea
 						on:keypress={handleKeyWordsChange}
-						placeholder="Ключевые слова на русском языке"
+						placeholder="Минимум 3 ключевых слова (фразы), по одному на строку"
 						name="keywords_ru"
 						form="submission"
 						cols="30"
@@ -280,13 +283,10 @@
 				</label>
 				<label>
 					Ключевые слова на английском языке*
-					<p>
-						<i>Минимум 3 ключевых слова (фразы), по одному на строку. </i>
-					</p>
 
 					<textarea
 						on:keypress={handleKeyWordsChange}
-						placeholder="Ключевые слова на английском языке"
+						placeholder="Минимум 3 ключевых слова (фразы), по одному на строку"
 						name="keywords"
 						form="submission"
 						cols="30"
@@ -296,8 +296,7 @@
 				</label>
 
 				<label>
-					Направления*
-					<p><i>Выберите предпочитаемое направлание</i></p>
+					<p><i>Выберите предпочитаемое направление*</i></p>
 					<fieldset>
 						{#each Object.keys(categories) as category}
 							<legend><b>{category}</b></legend>
