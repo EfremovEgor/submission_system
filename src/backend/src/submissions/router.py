@@ -96,11 +96,14 @@ async def create_submission(
         result = await service.create_submission(session, submission_in)
         to_send = result.to_dict()
         to_send["topic"] = result.topic.to_dict()
-        send_submission_email.delay(
-            email=user.email,
-            submission_data=to_send,
-            user=user.to_dict(),
-        )
+
+        for author in submission_in.authors:
+            if author.is_corresponding:
+                send_submission_email.delay(
+                    email=author.email,
+                    submission_data=to_send,
+                    user=author.model_dump(),
+                )
 
         return result
     except IntegrityError:

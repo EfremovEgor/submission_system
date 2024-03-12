@@ -22,7 +22,8 @@ class Author(BaseModel):
     affilation: str
     affilation_ru: str | None = None
     web_page: str | None = None
-    is_presenter: bool = False
+    is_presenter: bool | None = False
+    is_corresponding: bool | None = False
 
 
 class SubmissionBase(BaseModel):

@@ -3,8 +3,11 @@
 	import { countries } from 'countries-list';
 	import { enhance } from '$app/forms';
 	export let data;
+	const userDetails = data.userDetails;
 	const countryCodes = Object.keys(countries);
 	const countryNames = countryCodes.map((code) => countries[code].name);
+	let modal;
+	let languageChoose;
 
 	let conferenceData = data.conference;
 	let categories = {};
@@ -17,6 +20,15 @@
 	let keywordsLength = 0;
 	let is_ru = null;
 	let presentationFormat = null;
+	function handleFillAuthorForm(id) {
+		authors[id].first_name = userDetails.first_name;
+		authors[id].last_name = userDetails.last_name;
+		authors[id].surname = userDetails.surname;
+		authors[id].email = userDetails.email;
+		authors[id].country = userDetails.country;
+		authors[id].affilation = userDetails.affilation;
+		authors[id].web_page = userDetails.web_page;
+	}
 	function handlePresentationFormatChange(event) {
 		presentationFormat = event.target.value;
 		console.log(presentationFormat);
@@ -32,12 +44,17 @@
 			id: authors.length,
 			first_name: '',
 			last_name: '',
+			first_name_ru: '',
+			last_name_ru: '',
 			surname: '',
+			surname_ru: '',
 			email: '',
 			country: '',
 			affilation: '',
+			affilation_ru: '',
 			web_page: '',
-			is_presenter: false
+			is_presenter: false,
+			is_corresponding: false
 		});
 		authors = authors;
 	}
@@ -84,61 +101,110 @@
 	<meta name="description" content="Home" />
 </svelte:head>
 <div class="container">
+	{#if conferenceData.allow_ru}
+		<dialog bind:this={modal} open>
+			<article class="modal">
+				<header>
+					<p>
+						<strong>Please choose submission language</strong>
+					</p>
+				</header>
+				<div class="modal-main">
+					<select bind:this={languageChoose} required>
+						<option value="" disabled selected>Language</option>
+
+						<option value="English">English</option>
+						<option value="Russian">Russian</option>
+					</select>
+				</div>
+				<footer>
+					<button
+						class="button-error"
+						on:click={(event) => {
+							modal.open = false;
+						}}>Cancel</button
+					>
+					<button
+						class="button-success"
+						on:click={(event) => {
+							if (languageChoose.value == null) {
+								alert('Please choose language');
+								return;
+							}
+							console.log(languageChoose.value);
+							is_ru = languageChoose.value == 'Russian';
+							modal.open = false;
+						}}>Confirm</button
+					>
+				</footer>
+			</article>
+		</dialog>
+	{/if}
+
 	{#if is_ru == true}
 		<h3>{conferenceData.name_ru}</h3>
 	{:else}
 		<h3>{conferenceData.name}</h3>
 	{/if}
-	{#if conferenceData.allow_ru}
-		<div>
-			Choose submission language*
-			<select
-				required
-				on:change={(element) => {
-					is_ru = element.target.value == 'Russian';
-				}}
-			>
-				<option value="" disabled selected>Language</option>
-
-				<option value="English">English</option>
-				<option value="Russian">Russian</option>
-			</select>
-		</div>
+	{#if is_ru == null}
+		<button
+			on:click={() => {
+				modal.open = true;
+			}}>Choose language</button
+		>
 	{/if}
 	{#if is_ru == true}
 		<div class="form-wrapper">
+			<div>
+				<p>Пожалуйста, заполните информацию ниже для каждого автора.</p>
+
+				<p>
+					Каждый автор, отмеченный как Контактное лицо, получит от системы электронное сообщение о
+					подаче аннотации. Должен быть указан хотя бы один автор в качестве контактного лица.
+				</p>
+
+				<p>
+					Один из авторов должен быть отмечен как Докладчик. Если вы не уверены в настоящий момент,
+					сделайте наиболее вероятный выбор, это можно скорректировать позднее.
+				</p>
+
+				<p>
+					Адреса электронных почт будут использоваться только для связи с авторами в рамках
+					подаваемой аннотации. Электронные адреса не появятся на общедоступных веб-страницах
+					конференции.
+				</p>
+			</div>
 			<form class="ru-form" id="submission" on:submit={handleOnSubmit} method="POST">
 				<div class="authors-container">
 					{#each authors as author}
 						<article class="author-item ru_author">
+							<div class="delete_author-container">
+								{#if author.id != 0}
+									<input
+										class="blue-button delete_author-button"
+										type="button"
+										on:click={deleteAuthor(author.id)}
+										value="⨯"
+									/>
+								{/if}
+							</div>
+							<h4 class="author-heading">Автор {author.id + 1}</h4>
+							<div class="fill_form-button-container">
+								<span
+									on:click={handleFillAuthorForm(author.id)}
+									on:keydown={handleFillAuthorForm(author.id)}
+									class="link fill_form-button">Заполнить собственными данными</span
+								>
+							</div>
 							<label>
-								Имя*
+								<span>Фамилия*</span>
 								<input
 									type="text"
-									on:input={(author.first_name = this.value)}
-									placeholder="На русском"
-									name="#{author.id}#_first_name_ru"
-									required
-									value={author.first_name}
-								/>
-								<input
-									type="text"
-									on:input={(author.first_name = this.value)}
-									placeholder="На английском"
-									name="#{author.id}#_first_name"
-									required
-									value={author.first_name}
-								/>
-							</label>
-							<label>
-								Фамилия*
-								<input
-									type="text"
-									on:input={(author.last_name = this.value)}
+									on:input={(author.last_name_ru = this.value)}
 									placeholder="На русском"
 									name="#{author.id}#_last_name_ru"
 									required
-									value={author.last_name}
+									value={author.last_name_ru}
 								/>
 								<input
 									type="text"
@@ -150,24 +216,37 @@
 								/>
 							</label>
 							<label>
-								Отчество
+								<span>Имя*</span>
 								<input
 									type="text"
-									on:input={(author.surname = this.value)}
+									on:input={(author.first_name_ru = this.value)}
 									placeholder="На русском"
-									name="#{author.id}#_surname_ru"
-									value={author.surname}
+									name="#{author.id}#_first_name_ru"
+									required
+									value={author.first_name_ru}
 								/>
 								<input
 									type="text"
-									on:input={(author.surname = this.value)}
+									on:input={(author.first_name = this.value)}
 									placeholder="На английском"
-									name="#{author.id}#_surname"
-									value={author.surname}
+									name="#{author.id}#_first_name"
+									required
+									value={author.first_name}
+								/>
+							</label>
+
+							<label>
+								<span>Отчество</span>
+								<input
+									type="text"
+									on:input={(author.surname_ru = this.value)}
+									placeholder="На русском"
+									name="#{author.id}#_surname_ru"
+									value={author.surname_ru}
 								/>
 							</label>
 							<label>
-								Электронная почта*
+								<span>Электронная почта*</span>
 								<input
 									type="email"
 									on:input={(author.email = this.value)}
@@ -178,7 +257,7 @@
 								/>
 							</label>
 							<label>
-								Страна*
+								<span>Страна*</span>
 								<select
 									required
 									placeholder="Country"
@@ -192,14 +271,14 @@
 								</select>
 							</label>
 							<label>
-								Организация*
+								<span>Организация*</span>
 								<input
 									type="text"
-									on:input={(author.affilation = this.value)}
+									on:input={(author.affilation_ru = this.value)}
 									placeholder="На русском"
 									name="#{author.id}#_affilation_ru"
 									required
-									value={author.affilation}
+									value={author.affilation_ru}
 								/>
 								<input
 									type="text"
@@ -211,33 +290,37 @@
 								/>
 							</label>
 							<label>
-								Личная веб-страница
+								<span>Личная веб-страница</span>
 								<input
 									type="text"
 									on:input={(author.web_page = this.value)}
-									placeholder="Личная веб-страница"
+									placeholder="URL"
 									name="#{author.id}#_web_page"
 									value={author.web_page}
 								/>
 							</label>
-							<label class="is_presenter-label">
-								Докладчик
-								<input
-									type="checkbox"
-									on:input={(author.is_presenter = this.checked)}
-									placeholder="Is presenter"
-									name="#{author.id}#_is_presenter"
-									value={author.is_presenter}
-								/>
-							</label>
-							{#if author.id != 0}
-								<input
-									class="blue-button"
-									type="button"
-									on:click={deleteAuthor(author.id)}
-									value="Удалить"
-								/>
-							{/if}
+							<div class="author_checkbox-container">
+								<label class="is_presenter-label">
+									Докладчик
+									<input
+										type="checkbox"
+										on:input={(author.is_presenter = this.checked)}
+										placeholder="Is presenter"
+										name="#{author.id}#_is_presenter"
+										value={author.is_presenter}
+									/>
+								</label>
+								<label class="is_corresponding-label">
+									Контактное лицо
+									<input
+										type="checkbox"
+										on:input={(author.is_corresponding = this.checked)}
+										placeholder="Is corresponding"
+										name="#{author.id}#_is_corresponding"
+										value={author.is_corresponding}
+									/>
+								</label>
+							</div>
 						</article>
 					{/each}
 				</div>
@@ -255,7 +338,6 @@
 					Название на английском языке*
 					<input type="text" placeholder="Не более 30 слов" name="title" required />
 				</label>
-
 				<label>
 					Аннотация на русском языке*
 					<textarea
@@ -306,7 +388,6 @@
 					></textarea>
 					<p>Ключевые слова: {keywordsLength}</p>
 				</label>
-
 				<label>
 					<p><i>Выберите предпочитаемое направление*</i></p>
 					<fieldset>
@@ -335,10 +416,43 @@
 		</div>
 	{:else if is_ru == false}
 		<div class="form-wrapper">
+			<div>
+				<p>For each author please fill out forms below.</p>
+				<p>
+					Each author marked as a Corresponding author will receive email messages from the system
+					about this submission. There must be at least one corresponding author.
+				</p>
+				<p>
+					One of the authors should be marked as a Presenter. If you are not sure, make your best
+					choice, it could be updated later.
+				</p>
+				<p>
+					Email address will only be used for communication with the authors. It will not appear in
+					public Web pages of this conference.
+				</p>
+			</div>
 			<form id="submission" on:submit={handleOnSubmit} method="POST">
 				<div class="authors-container">
 					{#each authors as author}
 						<article class="author-item">
+							<div class="delete_author-container">
+								{#if author.id != 0}
+									<input
+										class="blue-button delete_author-button"
+										type="button"
+										on:click={deleteAuthor(author.id)}
+										value="⨯"
+									/>
+								{/if}
+							</div>
+							<h4 class="author-heading">Author {author.id + 1}</h4>
+							<div class="fill_form-button-container">
+								<span
+									on:click={handleFillAuthorForm(author.id)}
+									on:keydown={handleFillAuthorForm(author.id)}
+									class="link fill_form-button">Fill out with personal details</span
+								>
+							</div>
 							<label>
 								First name*
 								<input
@@ -361,16 +475,7 @@
 									value={author.last_name}
 								/>
 							</label>
-							<label>
-								Surname
-								<input
-									type="text"
-									on:input={(author.surname = this.value)}
-									placeholder="Surname"
-									name="#{author.id}#_surname"
-									value={author.surname}
-								/>
-							</label>
+
 							<label>
 								Email*
 								<input
@@ -386,11 +491,11 @@
 								Country*
 								<select
 									required
-									placeholder="Country"
+									placeholder="Choose"
 									name="#{author.id}#_country"
 									on:change={(author.country = this.value)}
 								>
-									<option value="" selected disabled>Country</option>
+									<option value="" selected disabled>Choose</option>
 									{#each countryNames as country}
 										<option value={country}>{country}</option>
 									{/each}
@@ -401,7 +506,7 @@
 								<input
 									type="text"
 									on:input={(author.affilation = this.value)}
-									placeholder="Affiliation"
+									placeholder="Organization"
 									name="#{author.id}#_affilation"
 									required
 									value={author.affilation}
@@ -412,27 +517,33 @@
 								<input
 									type="text"
 									on:input={(author.web_page = this.value)}
-									placeholder="Web page"
+									placeholder="URL"
 									name="#{author.id}#_web_page"
 									value={author.web_page}
 								/>
 							</label>
-							<label class="is_presenter-label">
-								Presenter
-								<input
-									type="checkbox"
-									on:input={(author.is_presenter = this.checked)}
-									placeholder="Is presenter"
-									name="#{author.id}#_is_presenter"
-									value={author.is_presenter}
-								/>
-							</label>
-							<input
-								class="blue-button"
-								type="button"
-								on:click={deleteAuthor(author.id)}
-								value="Delete"
-							/>
+							<div class="author_checkbox-container">
+								<label class="is_presenter-label">
+									Presenter
+									<input
+										type="checkbox"
+										on:input={(author.is_presenter = this.checked)}
+										placeholder="Presenter"
+										name="#{author.id}#_is_presenter"
+										value={author.is_presenter}
+									/>
+								</label>
+								<label class="is_corresponding-label">
+									Corresponding Author
+									<input
+										type="checkbox"
+										on:input={(author.is_corresponding = this.checked)}
+										placeholder="Is corresponding"
+										name="#{author.id}#_is_corresponding"
+										value={author.is_corresponding}
+									/>
+								</label>
+							</div>
 						</article>
 					{/each}
 				</div>
@@ -450,7 +561,7 @@
 					Abstract*
 					<p><i>The abstract should not exceed 500 words</i></p>
 					<textarea
-						on:change={handleAbstractChange}
+						on:keypress={handleAbstractChange}
 						name="abstract"
 						form="submission"
 						cols="30"
@@ -468,7 +579,7 @@
 					</p>
 
 					<textarea
-						on:change={handleKeyWordsChange}
+						on:keypress={handleKeyWordsChange}
 						name="keywords"
 						form="submission"
 						cols="30"
@@ -498,7 +609,6 @@
 						<option value="offline">On-Sight</option>
 					</select>
 				</label>
-
 				<input class="blue-button submit-button" type="submit" value="Submit" />
 			</form>
 		</div>
@@ -506,6 +616,45 @@
 </div>
 
 <style>
+	.fill_form-button-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 10px;
+		font-size: small;
+	}
+	.author-heading {
+		text-align: center;
+		margin-bottom: 0px;
+	}
+	.author_checkbox-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.author_checkbox-container > label {
+		display: flex;
+		justify-content: end !important;
+		align-items: center;
+		gap: 20px;
+	}
+	.modal {
+		width: fit-content;
+	}
+	.modal > footer {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.modal > footer > button {
+		min-width: 120px;
+	}
+	.modal-main {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 	.add_new_author-button,
 	.submit-button {
 		width: 200px;
@@ -514,7 +663,6 @@
 		display: flex;
 		gap: 20px;
 		flex-wrap: wrap;
-		justify-content: space-evenly;
 	}
 	.author-item {
 		padding: 20px;
@@ -528,19 +676,37 @@
 	}
 	.author-item > label > input,
 	select {
-		width: 250px;
+		width: 200px;
 	}
 	.author-item {
 		min-width: 400px;
 	}
 	.ru_author > label {
 		display: flex;
-		flex-direction: column;
+		flex-flow: row;
 	}
-	.is_presenter-label {
+
+	.ru_author > label > * {
+		width: 200px;
+	}
+	.is_presenter-label,
+	.is_corresponding-label {
 		width: 100%;
 		align-items: center;
 		justify-content: center !important;
 		flex-direction: row !important;
+	}
+	.delete_author-button {
+		width: 40px;
+		padding: 0px;
+		height: 40px;
+		margin: 0;
+	}
+
+	.delete_author-container {
+		display: flex;
+		width: 100%;
+		justify-content: end;
+		min-height: 50px;
 	}
 </style>

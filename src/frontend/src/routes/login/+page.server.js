@@ -32,7 +32,6 @@ export const actions = {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			session: false,
 			sameSite: 'strict',
 			maxAge: 24 * 60 * 60
 		});
@@ -40,7 +39,6 @@ export const actions = {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			session: false,
 			sameSite: 'strict',
 			maxAge: 24 * 60 * 60
 		});
@@ -48,14 +46,12 @@ export const actions = {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			session: false,
 			sameSite: 'strict',
 			maxAge: 24 * 60 * 60
 		});
 		cookies.set('username', data.username, {
 			path: '/',
 			secure: true,
-			session: false,
 			httpOnly: true,
 			sameSite: 'strict',
 			maxAge: 24 * 60 * 60

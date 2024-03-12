@@ -7,7 +7,14 @@
 	background-color: var(--pico-primary-hover);
 	color: white;
 }
-
+.link {
+	text-decoration: none;
+	color: var(--pico-primary);
+	cursor: pointer;
+}
+.link:hover {
+	text-decoration: underline;
+}
 input[type='text'],
 input[type='email'],
 input[type='password'],
@@ -24,4 +31,24 @@ input[type='radio'] {
 input[type='checkbox'] {
 	width: 30px !important;
 	height: 30px !important ;
+}
+.button-success {
+	background-color: rgb(71, 164, 23);
+	border-color: rgb(71, 164, 23);
+	transition: all 0.3s;
+}
+.button-success:hover {
+	background-color: rgb(64, 150, 20);
+	border-color: rgb(64, 150, 20);
+	transition: all 0.3s;
+}
+.button-error {
+	background-color: rgb(238, 64, 46);
+	border-color: rgb(238, 64, 46);
+	transition: all 0.3s;
+}
+.button-error:hover {
+	background-color: rgb(134, 29, 19);
+	border-color: rgb(134, 29, 19);
+	transition: all 0.3s;
 }

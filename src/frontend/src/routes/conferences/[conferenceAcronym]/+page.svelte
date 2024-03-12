@@ -20,8 +20,8 @@
 		{conferenceData.name}
 	</h3>
 	<div class="actions-container">
-		<a href="/conferences/{conferenceAcronym}/submission">Submit an abstract</a>
-		<a href={conferenceData.site_url} target="_blank">Learn more</a>
+		<a class="link" href="/conferences/{conferenceAcronym}/submission">Submit an abstract</a>
+		<a class="link" href={conferenceData.site_url} target="_blank">Learn more</a>
 	</div>
 	<div class="options-container">
 		<div class="description">

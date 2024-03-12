@@ -31,7 +31,7 @@ class Submission(Base):
     presentation: Mapped[str | None] = mapped_column(Text)
     approved: Mapped[Boolean] = mapped_column(Boolean, default=False)
     authors: Mapped[List["Author"]] = relationship(
-        back_populates="submission", lazy="selectin"
+        back_populates="submission", lazy="selectin", cascade="all, delete-orphan"
     )
 
 
@@ -49,6 +49,7 @@ class Author(Base):
     affilation_ru: Mapped[str | None] = mapped_column(String(255))
     web_page: Mapped[str | None] = mapped_column(String(255))
     is_presenter: Mapped[bool | None] = mapped_column(Boolean, default=False)
+    is_corresponding: Mapped[bool | None] = mapped_column(Boolean, default=False)
     submission_id: Mapped[int] = mapped_column(ForeignKey(Submission.id))
     submission: Mapped["Submission"] = relationship(
         back_populates="authors", lazy="selectin"

@@ -70,5 +70,13 @@ export const load = async ({ fetch, cookies, request, params }) => {
 	});
 	const data = await res.json();
 	conferenceId = data.id;
-	return { conference: data };
+	const resUser = await fetch(backend_url + '/users/' + cookies.get('user_id'), {
+		method: 'GET',
+		headers: {
+			Authorization: 'Bearer ' + cookies.get('token')
+		}
+	});
+
+	const dataUser = await resUser.json();
+	return { userDetails: dataUser, conference: data };
 };
