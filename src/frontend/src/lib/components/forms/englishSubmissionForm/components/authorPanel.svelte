@@ -202,4 +202,17 @@
 		justify-content: center;
 		width: 100%;
 	}
+	@media only screen and (max-width: 780px) {
+		.author-item > label {
+			display: flex;
+			flex-direction: column;
+			gap: 0px;
+		}
+		.author-item > label > * {
+			width: 90%;
+		}
+		.author-item {
+			min-width: 300px;
+		}
+	}
 </style>
