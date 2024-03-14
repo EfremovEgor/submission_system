@@ -1,17 +1,11 @@
 from typing import TYPE_CHECKING, List
 from sqlalchemy import (
-    Column,
-    String,
-    Integer,
     ForeignKey,
-    DateTime,
     Boolean,
     Text,
-    Table,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
-from datetime import datetime
 from core.models import Base
 from users.models import User
 from .association_tables import reviewer_to_conference
@@ -24,7 +18,6 @@ class Conference(Base):
     submissions: Mapped[List["Submission"]] = relationship(
         back_populates="conference", lazy="selectin"
     )
-
     allow_ru: Mapped[bool | None] = mapped_column(Boolean, default=False)
     site_url: Mapped[str | None] = mapped_column(Text)
     description: Mapped[str | None] = mapped_column(Text)

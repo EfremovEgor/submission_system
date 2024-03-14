@@ -29,8 +29,8 @@ input[type='radio'] {
 	height: 20px;
 }
 input[type='checkbox'] {
-	width: 30px !important;
-	height: 30px !important ;
+	width: 20px;
+	height: 20px;
 }
 .button-success {
 	background-color: rgb(71, 164, 23);
@@ -51,4 +51,35 @@ input[type='checkbox'] {
 	background-color: rgb(134, 29, 19);
 	border-color: rgb(134, 29, 19);
 	transition: all 0.3s;
+}
+.icon-button {
+	width: fit-content;
+	height: fit-content;
+	padding: 0;
+	background-color: unset;
+	border: unset;
+}
+.icon-button {
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.icon-button > svg {
+	width: 30px;
+	height: 30px;
+	color: var(--pico-primary);
+}
+.icon-button_close,
+.icon-button_close > svg {
+	transition: all 0.5s ease-in-out;
+}
+.icon-button_close:hover > svg {
+	transform: rotate(180deg);
+	color: white;
+}
+.icon-button_close:hover {
+	background-color: var(--pico-primary);
+	border-radius: 50%;
 }

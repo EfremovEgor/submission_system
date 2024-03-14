@@ -12,7 +12,6 @@ export const actions = {
 		payload.keywords = values.get('keywords');
 		payload.keywords_ru = values.get('keywords_ru');
 		payload.topic_id = parseInt(values.get('topic'));
-
 		payload.conference_id = conferenceId;
 		payload.presentation_format = values.get('presentation_format');
 		payload.is_ru = !(
@@ -47,6 +46,8 @@ export const actions = {
 		}
 		authors.forEach((element) => {
 			if (!('is_presenter' in element)) element.is_presenter = false;
+			if (element.id == parseInt(values.get('is_corresponding'))) element.is_corresponding = true;
+			if (!('is_corresponding' in element)) element.is_corresponding = false;
 			delete element.id;
 		});
 		payload.authors = authors;

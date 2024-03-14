@@ -32,32 +32,28 @@ export const actions = {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			sameSite: 'strict',
-			maxAge: 24 * 60 * 60
+			sameSite: 'strict'
 		});
 		cookies.set('token_type', data.token_type, {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			sameSite: 'strict',
-			maxAge: 24 * 60 * 60
+			sameSite: 'strict'
 		});
 		cookies.set('user_id', data.user_id, {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			sameSite: 'strict',
-			maxAge: 24 * 60 * 60
+			sameSite: 'strict'
 		});
 		cookies.set('username', data.username, {
 			path: '/',
 			secure: true,
 			httpOnly: true,
-			sameSite: 'strict',
-			maxAge: 24 * 60 * 60
+			sameSite: 'strict'
 		});
 
-		redirect(302, '/conferences');
+		redirect(302, '/profile');
 	}
 };
 export const load = async ({ fetch, cookies, request }) => {
