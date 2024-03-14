@@ -1,9 +1,12 @@
 <script>
 	import Icon from '@iconify/svelte';
+	import RequiredStar from '../../../formComponents/requiredStar.svelte';
+
 	export let userDetails;
 	export let author;
 	export let deleteAuthor;
 	export let countryNames;
+
 	function handleFillAuthorForm(id) {
 		author.first_name = userDetails.first_name;
 		author.title = userDetails.title;
@@ -37,7 +40,7 @@
 	</div>
 
 	<label>
-		Title*
+		<span>Title:<RequiredStar /></span>
 		<select
 			required
 			placeholder="Choose"
@@ -53,7 +56,7 @@
 		</select>
 	</label>
 	<label>
-		First name*
+		<span>First name:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.first_name = this.value)}
@@ -64,7 +67,7 @@
 		/>
 	</label>
 	<label>
-		Last name*
+		<span>Last name:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.last_name = this.value)}
@@ -76,7 +79,7 @@
 	</label>
 
 	<label>
-		Email*
+		<span>Email:<RequiredStar /></span>
 		<input
 			type="email"
 			on:input={(author.email = this.value)}
@@ -87,7 +90,7 @@
 		/>
 	</label>
 	<label>
-		Country*
+		<span>Country:<RequiredStar /></span>
 		<select
 			required
 			placeholder="Choose"
@@ -101,7 +104,7 @@
 		</select>
 	</label>
 	<label>
-		Affiliation*
+		<span>Affiliation:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.affilation = this.value)}
@@ -112,7 +115,7 @@
 		/>
 	</label>
 	<label>
-		Web page
+		<span>Web page:</span>
 		<input
 			type="text"
 			on:input={(author.web_page = this.value)}
@@ -122,19 +125,20 @@
 		/>
 	</label>
 	<div class="author_checkbox-container">
-		<label class="is_presenter-label">
-			Presenter
-			<input
-				type="checkbox"
-				on:input={(author.is_presenter = this.checked)}
-				placeholder="Presenter"
-				name="#{author.id}#_is_presenter"
-				value={author.is_presenter}
-			/>
-		</label>
 		<label class="is_corresponding-label">
 			Corresponding Author
-			<input type="radio" value={author.id} name="is_corresponding" />
+			<input
+				type="checkbox"
+				on:input={(event) => {
+					author.is_corresponding = event.target.checked;
+				}}
+				name="#{author.id}#_is_corresponding"
+				value={author.is_corresponding}
+			/>
+		</label>
+		<label class="is_presenter-label">
+			Presenter
+			<input type="radio" value={author.id} name="is_presenter" />
 		</label>
 	</div>
 </article>

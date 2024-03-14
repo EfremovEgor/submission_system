@@ -45,12 +45,13 @@ export const actions = {
 			}
 		}
 		authors.forEach((element) => {
+			if (element.id == parseInt(values.get('is_presenter'))) element.is_presenter = true;
 			if (!('is_presenter' in element)) element.is_presenter = false;
-			if (element.id == parseInt(values.get('is_corresponding'))) element.is_corresponding = true;
 			if (!('is_corresponding' in element)) element.is_corresponding = false;
 			delete element.id;
 		});
 		payload.authors = authors;
+
 		const res = await fetch(backend_url + '/submissions/', {
 			method: 'POST',
 			headers: {

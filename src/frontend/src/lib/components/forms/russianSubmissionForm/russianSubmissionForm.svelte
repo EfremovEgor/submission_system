@@ -36,31 +36,31 @@
 		presentationFormat = event.target.value;
 	}
 	function handleOnSubmit(event) {
-		if (wordCountTitle > 50) {
-			event.preventDefault();
-			alert('Title should not exceed 50 words');
-			return;
-		}
-		if (keywordsCount < 3) {
-			event.preventDefault();
-			alert('You should specify at least three keywords');
-			return;
-		}
-		if (wordCountAbstract > 500) {
-			event.preventDefault();
-			alert('Abstract should not exceed 500 words');
-			return;
-		}
-		if (authors.length == 0) {
-			event.preventDefault();
-			alert('Please add at least one author');
-			return;
-		}
-		if (presentationFormat == null) {
-			event.preventDefault();
-			alert('Please choose presentation format');
-			return;
-		}
+		// if (wordCountTitle > 50) {
+		// 	event.preventDefault();
+		// 	alert('Title should not exceed 50 words');
+		// 	return;
+		// }
+		// if (keywordsCount < 3) {
+		// 	event.preventDefault();
+		// 	alert('You should specify at least three keywords');
+		// 	return;
+		// }
+		// if (wordCountAbstract > 500) {
+		// 	event.preventDefault();
+		// 	alert('Abstract should not exceed 500 words');
+		// 	return;
+		// }
+		// if (authors.length == 0) {
+		// 	event.preventDefault();
+		// 	alert('Please add at least one author');
+		// 	return;
+		// }
+		// if (presentationFormat == null) {
+		// 	event.preventDefault();
+		// 	alert('Please choose presentation format');
+		// 	return;
+		// }
 	}
 	function deleteAuthor(id) {
 		let new_authors = [];
@@ -107,10 +107,7 @@
 				error = true;
 				alert('Title should not exceed 50 words');
 			}
-			if (keywordsCountRU < 3) {
-				error = true;
-				alert('You should specify at least three keywords');
-			}
+
 			if (wordCountAbstractRU > 500) {
 				error = true;
 				alert('Abstract should not exceed 500 words');
@@ -207,11 +204,11 @@
 			sectionText="Введите ключевые слова (также известные как ключевые фразы, или ключевые термины), по одному в строку. Необходимо ввести не менее трех ключевых слов. "
 		>
 			<svelte:fragment slot="inputs">
-				<label class="form_input-container" for="keywords_ru">
+				<label class="form_input-container" for="keywords">
 					<span class="form_input-label">Ключевые слова:<RequiredStar /></span>
 					<CounterKeywordsTextArea
-						bind:wordCount={keywordsCountRU}
-						name="keywords_ru"
+						bind:wordCount={keywordsCount}
+						name="keywords"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>

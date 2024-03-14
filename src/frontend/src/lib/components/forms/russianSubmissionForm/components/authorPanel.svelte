@@ -1,4 +1,5 @@
 <script>
+	import RequiredStar from './../../../formComponents/requiredStar.svelte';
 	import Icon from '@iconify/svelte';
 
 	export let userDetails;
@@ -37,9 +38,24 @@
 			>
 		{/if}
 	</div>
-
 	<label>
-		<span>Фамилия*</span>
+		<span>Префикс:<RequiredStar /></span>
+		<select
+			required
+			placeholder="Choose"
+			name="#{author.id}#_title"
+			on:change={(author.title = this.value)}
+		>
+			<option value="" selected disabled>Выбрать</option>
+			<option value="Mr.">Mr.</option>
+			<option value="Mrs.">Mrs.</option>
+			<option value="Ms.">Ms.</option>
+			<option value="Dr.">Dr.</option>
+			<option value="Prof.">Prof.</option>
+		</select>
+	</label>
+	<label>
+		<span>Фамилия:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.last_name_ru = this.value)}
@@ -58,7 +74,7 @@
 		/>
 	</label>
 	<label>
-		<span>Имя*</span>
+		<span>Имя:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.first_name_ru = this.value)}
@@ -78,7 +94,7 @@
 	</label>
 
 	<label>
-		<span>Отчество</span>
+		<span>Отчество:</span>
 		<input
 			type="text"
 			on:input={(author.surname_ru = this.value)}
@@ -88,7 +104,7 @@
 		/>
 	</label>
 	<label>
-		<span>Электронная почта*</span>
+		<span>Электронная почта:<RequiredStar /></span>
 		<input
 			type="email"
 			on:input={(author.email = this.value)}
@@ -99,7 +115,7 @@
 		/>
 	</label>
 	<label>
-		<span>Страна*</span>
+		<span>Страна:<RequiredStar /></span>
 		<select
 			required
 			placeholder="Country"
@@ -113,7 +129,7 @@
 		</select>
 	</label>
 	<label>
-		<span>Организация*</span>
+		<span>Организация:<RequiredStar /></span>
 		<input
 			type="text"
 			on:input={(author.affilation_ru = this.value)}
@@ -132,7 +148,7 @@
 		/>
 	</label>
 	<label>
-		<span>Личная веб-страница</span>
+		<span>Личная веб-страница:</span>
 		<input
 			type="text"
 			on:input={(author.web_page = this.value)}
@@ -144,17 +160,18 @@
 	<div class="author_checkbox-container">
 		<label class="is_corresponding-label">
 			Контактное лицо
-			<input type="radio" value={author.id} name="is_corresponding" />
+			<input
+				type="checkbox"
+				on:input={(event) => {
+					author.is_corresponding = event.target.checked;
+				}}
+				name="#{author.id}#_is_corresponding"
+				value={author.is_corresponding}
+			/>
 		</label>
 		<label class="is_presenter-label">
 			Докладчик
-			<input
-				type="checkbox"
-				on:input={(author.is_presenter = this.checked)}
-				placeholder="Is presenter"
-				name="#{author.id}#_is_presenter"
-				value={author.is_presenter}
-			/>
+			<input type="radio" value={author.id} name="is_presenter" />
 		</label>
 	</div>
 </article>
