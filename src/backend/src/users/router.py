@@ -40,13 +40,14 @@ async def get_user(
     )
 
 
-@router.put("/{user_id}/")
+@router.put("/{user_id}/", response_model=UserBase)
 async def update_user(
     user_update: UserUpdate,
     user=Depends(user_by_id),
     requester=Depends(super_user_dependency),
     session: AsyncSession = Depends(db.scoped_session_dependency),
 ):
+
     if requester.is_super_user or requester.id == user.id:
         return await service.update_user(
             session=session,
@@ -58,7 +59,7 @@ async def update_user(
     )
 
 
-@router.patch("/{user_id}/")
+@router.patch("/{user_id}/", response_model=UserBase)
 async def update_user_partial(
     user_update: UserUpdate,
     user=Depends(user_by_id),
@@ -66,6 +67,7 @@ async def update_user_partial(
     requester=Depends(active_user_dependency),
 ):
     if requester.is_super_user or requester.id == user.id:
+
         return await service.update_user(
             session=session,
             user=user,

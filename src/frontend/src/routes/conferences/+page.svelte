@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-	<title>Events</title>
-	<meta name="description" content="Home" />
+	<title>Call For Papers</title>
+	<meta name="description" content="Call For Papers" />
 </svelte:head>
 
 <div class="container">
