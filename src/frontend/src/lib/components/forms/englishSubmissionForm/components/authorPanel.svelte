@@ -6,7 +6,10 @@
 	export let author;
 	export let deleteAuthor;
 	export let countryNames;
-
+	if (author.id == 0) {
+		author.is_corresponding = true;
+		author.is_presenter = true;
+	}
 	function handleFillAuthorForm(id) {
 		author.first_name = userDetails.first_name;
 		author.title = userDetails.title;
