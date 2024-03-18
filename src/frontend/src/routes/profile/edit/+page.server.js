@@ -27,8 +27,9 @@ export const actions = {
 			last_name: values.get('last_name'),
 			surname: values.get('surname'),
 			affilation: values.get('affilation'),
-			state: values.get('state'),
+			country: values.get('country'),
 			city: values.get('city'),
+			state: values.get('state'),
 			orcid_id: values.get('orcid_id'),
 			web_page: values.get('web_page')
 		};
