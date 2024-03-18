@@ -134,6 +134,12 @@
 </div>
 
 <style>
+	.modal > footer {
+		display: flex;
+		gap: 30px;
+		width: 100%;
+		justify-content: end;
+	}
 	.authors-table > * > * > td,
 	th {
 		width: fit-content;
