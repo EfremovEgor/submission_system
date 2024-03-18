@@ -1,5 +1,5 @@
 <div class="author-info">
-	<h4>Author Information</h4>
+	<h4>Authors Information</h4>
 	<p>For each author, please fill out the form below. Some items on the form are explained here:</p>
 
 	<ul>
@@ -24,6 +24,9 @@
 </div>
 
 <style>
+	h4 {
+		font-weight: normal;
+	}
 	.author-info {
 		margin-bottom: 40px;
 	}

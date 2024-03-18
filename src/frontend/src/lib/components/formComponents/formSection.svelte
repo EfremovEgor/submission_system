@@ -21,6 +21,9 @@
 </div>
 
 <style>
+	h4 {
+		font-weight: normal;
+	}
 	.form-section-text {
 		margin-left: 20px;
 	}

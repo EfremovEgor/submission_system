@@ -15,15 +15,20 @@
 </div>
 
 <style>
+	textarea {
+		padding-right: 20px !important;
+	}
 	.word_counter {
 		position: relative;
 		text-align: right;
-		top: -60px;
-		left: 96%;
+		top: -50px;
+		height: 40px;
+		left: 98%;
 		width: fit-content;
 		font-size: small;
 	}
 	.text_area-wrapper {
 		width: 100%;
+		margin-bottom: -80px;
 	}
 </style>

@@ -1,4 +1,5 @@
 <script>
+	import Agreement from './components/agreement.svelte';
 	import RequiredStar from './../../formComponents/requiredStar.svelte';
 	import AuthorPanel from './components/authorPanel.svelte';
 	import AfterwordsInfo from './components/afterwordsInfo.svelte';
@@ -117,7 +118,7 @@
 			class="blue-button add_new_author-button"
 			type="button"
 			on:click={addAuthor}
-			value="Add new author"
+			value="Add more authors"
 		/>
 
 		<FormSection
@@ -191,13 +192,16 @@
 				<option value="on-sight">On-Sight</option>
 			</select>
 		</label>
-
+		<Agreement />
 		<AfterwordsInfo />
 		<input class="blue-button submit-button" type="submit" value="Submit" />
 	</form>
 </div>
 
 <style>
+	label > h4 {
+		font-weight: normal;
+	}
 	.presentation_format-container {
 		display: flex;
 		align-items: center;
@@ -217,7 +221,7 @@
 	}
 
 	.form_input-label {
-		min-width: 200px;
+		min-width: 100px;
 		white-space: nowrap;
 	}
 	.form_input-container {
@@ -225,17 +229,10 @@
 		min-width: fit-content;
 		flex-direction: row;
 		gap: 20px;
+		align-items: center;
 	}
-	.author-header {
-		display: flex;
-		justify-content: space-between;
-		flex-direction: row;
-	}
-	.author_heading-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		width: 100%;
+	.presentation_format-container > select {
+		width: 200px;
 	}
 	@media only screen and (max-width: 780px) {
 		.form_input-container {

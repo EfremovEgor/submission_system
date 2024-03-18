@@ -6,3 +6,12 @@
 		>
 	</p>
 </div>
+
+<style>
+	p {
+		margin-left: 20px;
+	}
+	h4 {
+		font-weight: normal;
+	}
+</style>

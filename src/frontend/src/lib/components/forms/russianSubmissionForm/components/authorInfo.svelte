@@ -28,6 +28,9 @@
 </div>
 
 <style>
+	h4 {
+		font-weight: normal;
+	}
 	.author-info {
 		margin-bottom: 40px;
 	}

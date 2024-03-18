@@ -129,6 +129,7 @@
 			Corresponding Author
 			<input
 				type="checkbox"
+				checked={author.id == 0}
 				on:input={(event) => {
 					author.is_corresponding = event.target.checked;
 				}}
@@ -138,7 +139,8 @@
 		</label>
 		<label class="is_presenter-label">
 			Presenter
-			<input type="radio" value={author.id} name="is_presenter" />
+
+			<input checked={author.id == 0} type="radio" value={author.id} name="is_presenter" />
 		</label>
 	</div>
 </article>
@@ -209,7 +211,7 @@
 			gap: 0px;
 		}
 		.author-item > label > * {
-			width: 90%;
+			width: 90% !important;
 		}
 		.author-item {
 			min-width: 300px;

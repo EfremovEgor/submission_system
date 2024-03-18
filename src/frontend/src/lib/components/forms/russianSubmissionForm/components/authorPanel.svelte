@@ -38,7 +38,7 @@
 			>
 		{/if}
 	</div>
-	<label>
+	<label class="prefix_field-container">
 		<span>Префикс:<RequiredStar /></span>
 		<select
 			required
@@ -161,6 +161,7 @@
 		<label class="is_corresponding-label">
 			Контактное лицо
 			<input
+				checked={author.id == 0}
 				type="checkbox"
 				on:input={(event) => {
 					author.is_corresponding = event.target.checked;
@@ -171,7 +172,7 @@
 		</label>
 		<label class="is_presenter-label">
 			Докладчик
-			<input type="radio" value={author.id} name="is_presenter" />
+			<input checked={author.id == 0} type="radio" value={author.id} name="is_presenter" />
 		</label>
 	</div>
 </article>
@@ -182,6 +183,7 @@
 	}
 	.author-item > label {
 		display: grid;
+		align-items: center;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 30px;
 	}
@@ -245,5 +247,9 @@
 		flex-direction: column;
 		justify-content: center;
 		width: 100%;
+	}
+	.prefix_field-container {
+		display: flex !important;
+		justify-content: space-between;
 	}
 </style>

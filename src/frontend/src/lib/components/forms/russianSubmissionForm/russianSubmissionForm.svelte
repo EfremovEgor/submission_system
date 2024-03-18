@@ -1,4 +1,5 @@
 <script>
+	import Agreement from './components/agreement.svelte';
 	import RequiredStar from './../../formComponents/requiredStar.svelte';
 	import AuthorPanel from './components/authorPanel.svelte';
 	import AfterwordsInfo from './components/afterwordsInfo.svelte';
@@ -155,7 +156,7 @@
 			class="blue-button add_new_author-button"
 			type="button"
 			on:click={addAuthor}
-			value="Добавить автора"
+			value="Добавить авторов"
 		/>
 		<FormSection
 			sectionHeading="Название и аннотация"
@@ -205,10 +206,19 @@
 		>
 			<svelte:fragment slot="inputs">
 				<label class="form_input-container" for="keywords">
-					<span class="form_input-label">Ключевые слова:<RequiredStar /></span>
+					<span class="form_input-label">Ключевые слова на рус.:<RequiredStar /></span>
 					<CounterKeywordsTextArea
 						bind:wordCount={keywordsCount}
 						name="keywords"
+						form="submission"
+						placeholder="Не менее трех ключевых слов. По одному в строке"
+					/>
+				</label>
+				<label class="form_input-container" for="keywords_ru">
+					<span class="form_input-label">Ключевые слова на англ.:<RequiredStar /></span>
+					<CounterKeywordsTextArea
+						bind:wordCount={keywordsCount}
+						name="keywords_ru"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>
@@ -244,17 +254,23 @@
 				<option value="on-sight">Очный</option>
 			</select>
 		</label>
-
+		<Agreement />
 		<AfterwordsInfo />
 		<input class="blue-button submit-button" type="submit" value="Submit" />
 	</form>
 </div>
 
 <style>
+	label > h4 {
+		font-weight: normal;
+	}
 	.presentation_format-container {
 		display: flex;
 		align-items: center;
 		gap: 20px;
+	}
+	.presentation_format-container > select {
+		width: 200px;
 	}
 	.presentation_format-container > h4 {
 		white-space: nowrap;
@@ -270,22 +286,22 @@
 	}
 
 	.form_input-label {
-		min-width: 200px;
-
+		min-width: 250px;
 		white-space: nowrap;
 	}
 	.form_input-container {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		gap: 20px;
 	}
+
 	@media only screen and (max-width: 780px) {
 		.form_input-container {
 			flex-direction: column;
 		}
-		.presentation_format-container {
-			gap: 0px;
-			flex-direction: column;
+		.form_input-label {
+			text-align: center;
 		}
 	}
 </style>

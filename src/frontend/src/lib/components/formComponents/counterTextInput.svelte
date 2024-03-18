@@ -13,15 +13,20 @@
 </div>
 
 <style>
+	input {
+		padding-right: 30px !important;
+	}
 	.word_counter {
 		position: relative;
 		text-align: right;
-		top: -60px;
-		left: 96%;
+		top: -50px;
+		height: 40px;
+		left: 98%;
 		width: fit-content;
 		font-size: small;
 	}
 	.input-wrapper {
 		width: 100%;
+		margin-bottom: -80px;
 	}
 </style>
