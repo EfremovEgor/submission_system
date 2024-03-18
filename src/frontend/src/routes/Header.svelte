@@ -16,7 +16,7 @@
 					</div>
 				</li>
 				<li aria-current={$page.url.pathname === '/conferences' ? 'page' : undefined}>
-					<a href="/conferences">Events</a>
+					<a href="/conferences">Call For Papers</a>
 				</li>
 				{#if isLoggedIn}
 					<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>

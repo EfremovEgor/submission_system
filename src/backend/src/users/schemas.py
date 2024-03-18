@@ -24,6 +24,7 @@ class UserBase(BaseModel):
     web_page: str | None = None
     address_line_1: str | None = None
     address_line_2: str | None = None
+    orcid_id: str | None = None
     city: str | None = None
     state: str | None = None
     country: str | None = None

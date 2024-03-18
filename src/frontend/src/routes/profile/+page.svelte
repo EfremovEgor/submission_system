@@ -7,6 +7,14 @@
 			categories[element.conference.name] = [element];
 		else categories[element.conference.name].push(element);
 	});
+	function joinAuthors(submission) {
+		let authors = [];
+		submission.authors.forEach((element) =>
+			authors.push(element.first_name + ' ' + element.last_name)
+		);
+		return authors.join();
+	}
+	import Icon from '@iconify/svelte';
 </script>
 
 <svelte:head>
@@ -15,8 +23,14 @@
 </svelte:head>
 
 <div class="container">
-	<h3>Author Profile</h3>
+	<h4>Author Profile</h4>
+	<a href="/profile/edit">Edit</a>
+
 	<table class="profile_info-container">
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Title</td>
+			<td class="profile_info-data">{data.profile.title != null ? data.profile.title : ''}</td>
+		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">First name</td>
 			<td class="profile_info-data"
@@ -39,20 +53,10 @@
 				>{data.profile.affilation != null ? data.profile.affilation : ''}</td
 			>
 		</tr>
+
 		<tr class="profile_info-row">
-			<td class="profile_info-name">Web page:</td>
-			<td class="profile_info-data">{data.profile.web_page != null ? data.profile.web_page : ''}</td
-			>
-		</tr>
-		<tr class="profile_info-row">
-			<td class="profile_info-name">Address line 1:</td>
-			<td class="profile_info-data"
-				>{data.profile.address_line_1 != null ? data.profile.address_line_1 : ''}</td
-			>
-		</tr>
-		<tr class="profile_info-row">
-			<td class="profile_info-name">Address line 2:</td>
-			<td class="profile_info-data">{data.profile.surname != null ? data.profile.surname : ''}</td>
+			<td class="profile_info-name">Country:</td>
+			<td class="profile_info-data">{data.profile.country != null ? data.profile.country : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
 			<td class="profile_info-name">City:</td>
@@ -63,33 +67,64 @@
 			<td class="profile_info-data">{data.profile.state != null ? data.profile.state : ''}</td>
 		</tr>
 		<tr class="profile_info-row">
-			<td class="profile_info-name">Country:</td>
-			<td class="profile_info-data">{data.profile.country != null ? data.profile.country : ''}</td>
+			<td class="profile_info-name">ORCID ID:</td>
+			<td class="profile_info-data">{data.profile.orcid_id != null ? data.profile.orcid_id : ''}</td
+			>
+		</tr>
+		<tr class="profile_info-row">
+			<td class="profile_info-name">Web page:</td>
+			<td class="profile_info-data">{data.profile.web_page != null ? data.profile.web_page : ''}</td
+			>
 		</tr>
 	</table>
-	<a role="button" class="blue-button outline edit_author-button" href="/profile/edit">Edit</a>
-	<h3>Submissions</h3>
-	<div class="submissions">
-		{#each Object.keys(categories) as category}
-			<details>
-				<summary>{category}</summary>
-				<ul>
-					{#each categories[category] as submission}
-						<li><a href="">{submission.title}</a></li>
-					{/each}
-				</ul>
-			</details>
-		{/each}
-	</div>
+	<h4>My Submissions</h4>
+	{#if submissions.length}
+		<div>
+			{#each Object.keys(categories) as category}
+				<details>
+					<summary>{category}</summary>
+					<table class="striped conferences-wrapper">
+						<thead>
+							<tr>
+								<th scope="col">Authors</th>
+								<th scope="col">Title</th>
+								<th scope="col">View</th>
+								<th scope="col">Review Result</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each categories[category] as submission}
+								<tr class="conference-container">
+									<td>
+										{#each submission.authors as author}
+											<span>{joinAuthors(submission)}</span>
+										{/each}</td
+									>
+									<td> {submission.title}</td>
+									<td
+										><a href="/submission/{submission.id}"
+											><Icon class="icon" icon="material-symbols-light:search" /></a
+										></td
+									>
+									<td> </td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</details>
+			{/each}
+		</div>
+	{:else}
+		<p>There are no submissions yet.</p>
+		<a href="/conferences">Make a new submission</a>
+	{/if}
 </div>
 
 <style>
-	.edit_author-button {
-		min-width: 150px;
-		margin: auto;
+	summary {
+		max-width: fit-content;
 	}
-	.profile_info-container,
-	.submissions {
+	.profile_info-container {
 		max-width: 450px;
 	}
 </style>

@@ -2,7 +2,8 @@ import verify_token from '../utils';
 
 export const load = async ({ fetch, cookies, request }) => {
 	const token = cookies.get('token');
-	if (!(await verify_token(token, fetch))) {
+	const isValid = await verify_token(token, fetch);
+	if (!isValid) {
 		cookies.delete('token', { path: '/' });
 		cookies.delete('token_type', { path: '/' });
 		cookies.delete('user_id', { path: '/' });

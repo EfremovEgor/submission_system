@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	let conferences = data.conferences;
+	import { convertToDate } from '../../utils';
 </script>
 
 <svelte:head>
@@ -9,27 +10,35 @@
 </svelte:head>
 
 <div class="container">
-	<h3>Events</h3>
+	<h3>Call For Papers</h3>
 	{#if conferences.length}
 		<table class="striped conferences-wrapper">
+			<thead>
+				<tr>
+					<th scope="col">Short Name</th>
+					<th scope="col">Name</th>
+					<th scope="col">Submission deadline</th>
+					<th scope="col">Start date</th>
+				</tr>
+			</thead>
 			<tbody>
 				{#each conferences as conference}
 					<tr class="conference-container">
 						<td
 							><a class="conference_page-button" href="/conferences/{conference.acronym}"
-								>{conference.name}</a
+								>{conference.short_name}</a
 							></td
 						>
+						<td> {conference.name}</td>
+						<td>
+							{conference.submission_deadline != null
+								? convertToDate(conference.submission_deadline)
+								: ''}
+						</td>
 						<td
-							><a class="submit-button" href="/conferences/{conference.acronym}/submission"
-								>Submit an abstract</a
-							></td
-						>
-						<td href=""
-							><a class="learn_more-button" target="_blank" href={conference.site_url}>Learn More</a
-							></td
-						>
-					</tr>
+							>{conference.start_date != null ? convertToDate(conference.start_date) : ''}
+						</td></tr
+					>
 				{/each}
 			</tbody>
 		</table>
@@ -39,16 +48,4 @@
 </div>
 
 <style>
-	.submit-button,
-	.learn_more-button,
-	.conference_page-button {
-	}
-	.submit-button {
-	}
-	.learn_more-button {
-	}
-	.conference_page-button {
-	}
-	.conference-container {
-	}
 </style>

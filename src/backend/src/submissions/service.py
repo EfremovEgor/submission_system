@@ -40,6 +40,11 @@ async def create_submission(
     return submission
 
 
+async def delete_submission(session: AsyncSession, submission: Submission) -> None:
+    await session.delete(submission)
+    await session.commit()
+
+
 # async def update_conference(
 #     session: AsyncSession,
 #     conference: Conference,
@@ -51,8 +56,3 @@ async def create_submission(
 #         setattr(conference, name, value)
 #     await session.commit()
 #     return conference
-
-
-# async def delete_conference(session: AsyncSession, conference: Conference) -> None:
-#     await session.delete(conference)
-#     await session.commit()

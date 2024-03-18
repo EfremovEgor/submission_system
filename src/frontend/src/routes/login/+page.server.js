@@ -57,5 +57,5 @@ export const actions = {
 	}
 };
 export const load = async ({ fetch, cookies, request }) => {
-	if (cookies.get('token') != null) redirect(302, '/conferences');
+	if (cookies.get('token') != null) redirect(302, '/profile');
 };

@@ -10,3 +10,7 @@ async function verify_token(token, fetch) {
 	return false;
 }
 export default verify_token;
+export function convertToDate(datetime) {
+	const dateObj = new Date(datetime);
+	return dateObj.toLocaleDateString();
+}

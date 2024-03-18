@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from submissions.schemas import SubmissionInDBBase
 from .topic import TopicForConference, TopicInDBBase
+import datetime
 
 
 class UserToConferenceBase(BaseModel):
@@ -17,9 +18,12 @@ class ConferenceBase(BaseModel):
     name_ru: str | None = None
     allow_ru: bool | None = None
     acronym: str | None = None
+    short_name: str | None = None
     description: str | None = None
     site_url: str | None = None
     topics: list[TopicInDBBase] = []
+    submission_deadline: datetime.datetime | None = None
+    start_date: datetime.datetime | None = None
     # submissions: list[SubmissionInDBBase] = []
     reviewers: list[UserToConference] = []
 

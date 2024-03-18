@@ -1,5 +1,11 @@
 <script>
+	import RequiredStar from './../../../lib/components/formComponents/requiredStar.svelte';
 	export let data;
+
+	import { countries } from 'countries-list';
+	const countryCodes = Object.keys(countries);
+	const countryNames = countryCodes.map((code) => countries[code].name);
+	let country;
 </script>
 
 <svelte:head>
@@ -10,8 +16,8 @@
 <div class="container">
 	<div class="form-wrapper">
 		<form method="POST">
-			<label>
-				First name*
+			<label class="input-label">
+				<span>First name <RequiredStar /></span>
 				<input
 					type="text"
 					placeholder="First name"
@@ -20,8 +26,8 @@
 					value={data.profile.first_name}
 				/>
 			</label>
-			<label>
-				Last name*
+			<label class="input-label">
+				<span>Last name <RequiredStar /></span>
 				<input
 					type="text"
 					placeholder="Last name"
@@ -30,68 +36,81 @@
 					value={data.profile.last_name}
 				/>
 			</label>
-			<label>
-				Surname
+			<label class="input-label">
+				<span>Surname</span>
 				<input type="text" placeholder="Surname" name="surname" value={data.profile.surname} />
 			</label>
-			<label>
-				Affiliation*
+			<label class="input-label">
+				<span>Affiliation<RequiredStar /></span>
 				<input
 					type="text"
 					placeholder="Affiliation"
-					required
 					name="affilation"
+					required
 					value={data.profile.affilation}
 				/>
 			</label>
-			<label>
-				Web page
-				<input type="text" placeholder="Web page" name="web_page" value={data.profile.web_page} />
+
+			<label class="input-label">
+				<span>Country<RequiredStar /></span>
+				<select required placeholder="Choose" name="country" on:change={(country = this.value)}>
+					{#each countryNames as country}
+						<option selected={country === data.profile.country} value={country}>{country}</option>
+					{/each}
+				</select>
 			</label>
-			<label>
-				Address line 1
-				<input
-					type="text"
-					placeholder="Address line 1"
-					name="address_line_1"
-					value={data.profile.address_line_1}
-				/>
+			<label class="input-label">
+				<span>City</span>
+				<input type="text" placeholder="City" name="city" value={data.profile.city} />
 			</label>
-			<label>
-				Address line 2
-				<input
-					type="text"
-					placeholder="Address line 2"
-					name="address_line_2"
-					value={data.profile.address_line_2}
-				/>
-			</label>
-			<label>
-				City*
-				<input type="text" placeholder="City" name="city" required value={data.profile.city} />
-			</label>
-			<label>
-				State
+			<label class="input-label">
+				<span>State</span>
 				<input type="text" placeholder="State" name="state" value={data.profile.state} />
 			</label>
-			<label>
-				Country*
-				<input
-					type="text"
-					placeholder="Country"
-					name="country"
-					required
-					value={data.profile.country}
-				/>
+
+			<label class="input-label">
+				<span>ORCID ID</span>
+				<input type="text" placeholder="ORCID ID" name="orcid_id" value={data.profile.orcid_id} />
 			</label>
-			<input class="blue-button floating-button" type="submit" value="Edit" />
+			<label class="input-label">
+				<span>Web page</span>
+				<input type="text" placeholder="Web page" name="web_page" value={data.profile.web_page} />
+			</label>
+			<input class="blue-button floating-button submit-button" type="submit" value="Edit" />
 		</form>
 	</div>
 </div>
 
 <style>
+	.submit-button {
+		max-width: 200px;
+	}
+	.input-label {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		margin-bottom: 20px;
+	}
+	.input-label > input {
+		max-width: 200px;
+	}
+	.input-label > span {
+		white-space: nowrap;
+		min-width: 120px;
+	}
+	.input-label > input,
+	select {
+		margin-bottom: 0px;
+		max-width: 200px;
+	}
 	.form-wrapper {
-		max-width: 400px;
 		margin: auto;
+		width: fit-content;
+	}
+	.form-wrapper > form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 500px;
 	}
 </style>

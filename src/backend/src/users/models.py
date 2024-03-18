@@ -25,6 +25,7 @@ class User(Base):
     web_page: Mapped[str | None] = mapped_column(String(255))
     address_line_1: Mapped[str | None] = mapped_column(String(255))
     address_line_2: Mapped[str | None] = mapped_column(String(255))
+    orcid_id: Mapped[str | None] = mapped_column(String(255))
     city: Mapped[str | None] = mapped_column(String(255))
     state: Mapped[str | None] = mapped_column(String(255))
     country: Mapped[str | None] = mapped_column(String(255))

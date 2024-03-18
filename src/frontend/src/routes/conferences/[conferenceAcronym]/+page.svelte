@@ -1,6 +1,8 @@
 <script>
 	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
+	import { convertToDate } from '../../../utils';
+
 	export let data;
 	const conferenceAcronym = $page.params.conferenceAcronym;
 	let conferenceData = data.conference;
@@ -24,6 +26,18 @@
 		<a class="link" href={conferenceData.site_url} target="_blank">Learn more</a>
 	</div>
 	<div class="options-container">
+		<div class="time_details">
+			<p>
+				Submission Deadline: {conferenceData.submission_deadline != null
+					? convertToDate(conferenceData.submission_deadline)
+					: ''}
+			</p>
+			<p>
+				Start Date: {conferenceData.start_date != null
+					? convertToDate(conferenceData.start_date)
+					: ''}
+			</p>
+		</div>
 		<div class="description">
 			{@html conferenceData.description}
 		</div>

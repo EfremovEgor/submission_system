@@ -29,7 +29,8 @@ class Submission(Base):
     presentation_format: Mapped[str | None] = mapped_column(Text)
     manuscript: Mapped[str | None] = mapped_column(Text)
     presentation: Mapped[str | None] = mapped_column(Text)
-    approved: Mapped[Boolean] = mapped_column(Boolean, default=False)
+    review_result: Mapped[str | None] = mapped_column(Text, default="in_review")
+
     authors: Mapped[List["Author"]] = relationship(
         back_populates="submission", lazy="selectin", cascade="all, delete-orphan"
     )

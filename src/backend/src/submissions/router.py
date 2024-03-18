@@ -112,6 +112,25 @@ async def create_submission(
         )
 
 
+@router.delete("/{submission_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_submission(
+    submission=Depends(submission_by_id),
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester: User = Depends(active_user_dependency),
+) -> None:
+    if (
+        (submission.user.id == requester.id)
+        or (requester.is_super_user)
+        or (
+            submission.conference.id
+            in [conference.id for conference in requester.reviewer_in]
+        )
+    ):
+        await service.delete_submission(session=session, submission=submission)
+        return
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+
 # @router.put("/{conference_id}/", response_model=SubmissionBase)
 # async def update_conference(
 #     conference_update: SubmissionUpdate,
@@ -138,11 +157,3 @@ async def create_submission(
 #         conference_update=conference_update,
 #         partial=True,
 #     )
-
-
-# @router.delete("/{conference_id}/", status_code=status.HTTP_204_NO_CONTENT)
-# async def delete_conference(
-#     conference=Depends(conference_by_id),
-#     session: AsyncSession = Depends(db.scoped_session_dependency),
-# ) -> None:
-#     await service.delete_conference(session=session, conference=conference)

@@ -88,3 +88,24 @@ input[type='checkbox'] {
 	background-color: var(--pico-primary);
 	border-radius: 50%;
 }
+.icon {
+	width: 30px;
+	height: 30px;
+}
+.bare_button {
+	background-color: unset;
+	color: var(--pico-primary);
+	border: none;
+}
+.bare_button:hover {
+	color: var(--pico-primary-hover);
+}
+
+.bare_button-error {
+	color: rgb(238, 64, 46);
+	transition: all 0.3s;
+}
+.bare_button-error:hover {
+	color: rgb(134, 29, 19);
+	transition: all 0.3s;
+}

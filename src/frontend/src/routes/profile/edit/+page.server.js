@@ -8,24 +8,40 @@ export const load = async ({ fetch, cookies, request }) => {
 			Authorization: 'Bearer ' + cookies.get('token')
 		}
 	});
+	if (res.status == 401) {
+		cookies.delete('token', { path: '/' });
+		cookies.delete('token_type', { path: '/' });
+		cookies.delete('user_id', { path: '/' });
+		cookies.delete('username', { path: '/' });
+		redirect(302, '/login');
+	}
+
 	const data = await res.json();
 	return { profile: data };
 };
 export const actions = {
 	default: async ({ fetch, cookies, request }) => {
 		const values = await request.formData();
-		let object = {};
-		for (const pair of values.entries()) {
-			if (pair[1] != null && pair[1].trim().length != 0) object[pair[0]] = pair[1];
-		}
-		const data = JSON.stringify(object);
+		let data = {
+			first_name: values.get('first_name'),
+			last_name: values.get('last_name'),
+			surname: values.get('surname'),
+			affilation: values.get('affilation'),
+			state: values.get('state'),
+			city: values.get('city'),
+			orcid_id: values.get('orcid_id'),
+			web_page: values.get('web_page')
+		};
+
+		const payload = JSON.stringify(data);
+		console.log(data);
 		const res = await fetch(backend_url + '/users/' + cookies.get('user_id') + '/', {
 			method: 'PATCH',
 			headers: {
 				Authorization: 'Bearer ' + cookies.get('token'),
 				'Content-Type': 'application/json'
 			},
-			body: data
+			body: payload
 		});
 		if (res.status == 401) {
 			cookies.delete('token', { path: '/' });

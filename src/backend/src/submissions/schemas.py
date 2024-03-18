@@ -7,6 +7,7 @@ class ConferenceSubmission(BaseModel):
     id: int | None = None
     name: str | None = None
     acronym: str | None = None
+    short_name: str | None = None
 
 
 class Author(BaseModel):
@@ -45,6 +46,7 @@ class SubmissionBase(BaseModel):
     approved: bool | None = None
     authors: list[Author] = []
     created_at: datetime | None = None
+    review_result: str | None = None
 
 
 class SubmissionCreateIn(BaseModel):
