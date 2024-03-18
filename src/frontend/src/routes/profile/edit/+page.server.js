@@ -23,6 +23,7 @@ export const actions = {
 	default: async ({ fetch, cookies, request }) => {
 		const values = await request.formData();
 		let data = {
+			title: values.get('title'),
 			first_name: values.get('first_name'),
 			last_name: values.get('last_name'),
 			surname: values.get('surname'),

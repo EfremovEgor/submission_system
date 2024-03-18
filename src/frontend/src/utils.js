@@ -14,3 +14,5 @@ export function convertToDate(datetime) {
 	const dateObj = new Date(datetime);
 	return dateObj.toLocaleDateString();
 }
+
+export const titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];

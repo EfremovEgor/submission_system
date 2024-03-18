@@ -1,4 +1,5 @@
 <script>
+	import { titles } from './../../../utils.js';
 	import RequiredStar from './../../../lib/components/formComponents/requiredStar.svelte';
 	export let data;
 
@@ -16,6 +17,14 @@
 <div class="container">
 	<div class="form-wrapper">
 		<form method="POST">
+			<label class="input-label">
+				<span>Title<RequiredStar /></span>
+				<select required placeholder="Choose" name="title">
+					{#each titles as title}
+						<option selected={title === data.profile.title} value={title}>{title}</option>
+					{/each}
+				</select>
+			</label>
 			<label class="input-label">
 				<span>First name <RequiredStar /></span>
 				<input
@@ -101,7 +110,7 @@
 	.input-label > input,
 	select {
 		margin-bottom: 0px;
-		max-width: 200px;
+		width: 200px;
 	}
 	.form-wrapper {
 		margin: auto;
