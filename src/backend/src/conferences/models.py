@@ -13,6 +13,7 @@ class Conference(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey(User.id))
     name: Mapped[str | None] = mapped_column(Text, unique=True)
     name_ru: Mapped[str | None] = mapped_column(Text, unique=True)
+    name_ru_dative: Mapped[str | None] = mapped_column(Text)
     submissions: Mapped[List["Submission"]] = relationship(
         back_populates="conference", lazy="selectin"
     )

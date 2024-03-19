@@ -4,7 +4,7 @@
 
 	<ul>
 		<li>
-			<b>Email</b> address will only be used for communication with the authors. It will not appear in
+			<b>Email address</b> will only be used for communication with the authors. It will not appear in
 			public Web pages of this conference.
 		</li>
 		<li>

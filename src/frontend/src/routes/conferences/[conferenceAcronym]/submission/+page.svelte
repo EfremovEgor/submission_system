@@ -73,7 +73,7 @@
 </script>
 
 <svelte:head>
-	<title>Submission {conferenceData.name}</title>
+	<title>Submission {conferenceData.short_name}</title>
 	<meta name="description" content="Home" />
 </svelte:head>
 <div class="container">
@@ -116,7 +116,6 @@
 									alert('Please choose language');
 									return;
 								}
-								console.log(languageChoose.value);
 								is_ru = languageChoose.value == 'Russian';
 								modal.open = false;
 							}}>Confirm</button
@@ -127,9 +126,9 @@
 		{/if}
 
 		{#if is_ru == true}
-			<h3>Новый доклад на {conferenceData.name_ru}</h3>
+			<h3>Новый доклад на {conferenceData.name_ru_dative}</h3>
 		{:else}
-			<h3>New Submission for {conferenceData.acronym}</h3>
+			<h3>New Submission for  {conferenceData.short_name}</h3>
 		{/if}
 		{#if is_ru == null}
 			<button

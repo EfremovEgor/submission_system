@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-	<title>Submission #{submission.id}</title>
-	<meta name="description" content="Submission #{submission.id}" />
+	<title>Submission {submission.id}</title>
+	<meta name="description" content="Submission {submission.id}" />
 </svelte:head>
 
 <div class="container">
@@ -15,7 +15,7 @@
 		<article class="modal">
 			<header>
 				<p>
-					<strong> Submission #{submission.id}</strong>
+					<strong> Submission {submission.id}</strong>
 				</p>
 			</header>
 			<div>
@@ -102,7 +102,6 @@
 					<th scope="col">Email</th>
 					<th scope="col">Country</th>
 					<th scope="col">Affiliation</th>
-					<th scope="col">Web page</th>
 					<th scope="col">Corresponding</th>
 					<th scope="col">Presenter</th>
 				</tr>
@@ -115,7 +114,6 @@
 						<td>{author.email}</td>
 						<td>{author.country}</td>
 						<td>{author.affilation}</td>
-						<td>{author.web_page == null ? '' : author.web_page}</td>
 						<td
 							>{#if author.is_corresponding}
 								<div><Icon icon="ion:checkmark" /></div>
