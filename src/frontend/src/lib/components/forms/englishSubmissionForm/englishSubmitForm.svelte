@@ -212,7 +212,8 @@
 	}
 	.add_new_author-button,
 	.submit-button {
-		width: 200px;
+		min-width: 200px;
+		width: fit-content;
 	}
 	.authors-container {
 		display: flex;
