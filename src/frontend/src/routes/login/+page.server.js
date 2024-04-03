@@ -30,24 +30,19 @@ export const actions = {
 		const data = await res.json();
 		cookies.set('token', data.access_token, {
 			path: '/',
-			secure: true,
-			sameSite: 'strict',
-			maxAge: 60 * 60 * 24 * 365
+			secure: true
 		});
 		cookies.set('token_type', data.token_type, {
 			path: '/',
-			secure: true,
-			sameSite: 'strict'
+			secure: true
 		});
 		cookies.set('user_id', data.user_id, {
 			path: '/',
-			secure: true,
-			sameSite: 'strict'
+			secure: true
 		});
 		cookies.set('username', data.username, {
 			path: '/',
-			secure: true,
-			sameSite: 'strict'
+			secure: true
 		});
 
 		redirect(302, '/profile');
