@@ -31,25 +31,22 @@ export const actions = {
 		cookies.set('token', data.access_token, {
 			path: '/',
 			secure: true,
-			httpOnly: true,
-			sameSite: 'strict'
+			sameSite: 'strict',
+			maxAge: 60 * 60 * 24 * 365
 		});
 		cookies.set('token_type', data.token_type, {
 			path: '/',
 			secure: true,
-			httpOnly: true,
 			sameSite: 'strict'
 		});
 		cookies.set('user_id', data.user_id, {
 			path: '/',
 			secure: true,
-			httpOnly: true,
 			sameSite: 'strict'
 		});
 		cookies.set('username', data.username, {
 			path: '/',
 			secure: true,
-			httpOnly: true,
 			sameSite: 'strict'
 		});
 
