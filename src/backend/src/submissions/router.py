@@ -4,22 +4,21 @@ from sqlalchemy.exc import IntegrityError
 from auth.dependencies import super_user_dependency
 from auth.dependencies import active_user_dependency
 from users.models import User
-from mailing.tasks import send_submission_email
+from mailing.tasks import send_submission_email, send_update_submission_email
 from users.schemas import UserBase
-
+from mailing.schemas import SubmissionEmailData
 from .models import Submission
 from .schemas import (
-    SubmissionBase,
     SubmissionCreate,
     SubmissionCreateIn,
     SubmissionInDBBase,
     SubmissionUpdate,
+    Author,
 )
 from .dependencies import submission_by_id
 from core.database import db
 from . import service
 from conferences.service import get_conference
-
 from auth.dependencies import super_user_dependency
 
 
@@ -93,23 +92,33 @@ async def create_submission(
 ):
     submission_in = SubmissionCreate(user_id=user.id, **submission_in.model_dump())
     try:
-        result = await service.create_submission(session, submission_in)
-        to_send = result.to_dict()
-        to_send["topic"] = result.topic.to_dict()
-
-        for author in submission_in.authors:
-            if author.is_corresponding:
-                send_submission_email.delay(
-                    email=author.email,
-                    submission_data=to_send,
-                    user=author.model_dump(),
-                )
-
-        return result
+        submission = await service.create_submission(session, submission_in)
     except IntegrityError:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Submission already exists"
         )
+    await session.refresh(submission, ["authors", "topic"])
+    authors = [Author(**author.to_dict()) for author in submission.authors]
+    for author in authors:
+        if author.is_corresponding:
+            send_submission_email.delay(
+                email=author.email,
+                data=SubmissionEmailData(
+                    submission_id=submission.id,
+                    conference_email=submission.conference.email,
+                    conference_name=submission.conference.name,
+                    conference_short_name=submission.conference.short_name,
+                    first_name=author.first_name,
+                    last_name=author.last_name,
+                    corresponding_title=author.title,
+                    title=submission.title,
+                    presentation_format=submission.presentation_format,
+                    topic=submission.topic.name,
+                    authors=authors,
+                ).model_dump(),
+            )
+
+    return submission
 
 
 @router.delete("/{submission_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -131,29 +140,46 @@ async def delete_submission(
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 
-# @router.put("/{conference_id}/", response_model=SubmissionBase)
-# async def update_conference(
-#     conference_update: SubmissionUpdate,
-#     conference=Depends(conference_by_id),
-#     session: AsyncSession = Depends(db.scoped_session_dependency),
-# ):
+@router.patch("/{submission_id}", response_model=SubmissionInDBBase)
+async def update_submission_partial(
+    submission_update: SubmissionUpdate,
+    submission=Depends(submission_by_id),
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester: User = Depends(active_user_dependency),
+):
+    access_granted = False
+    if requester.is_super_user:
+        access_granted = True
+    if requester.id == submission.user.id:
+        access_granted == True
+    if not access_granted:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    submission = await service.update_submission(
+        session=session,
+        submission=submission,
+        submission_update=submission_update,
+        partial=True,
+    )
 
-#     return await service.update_conference(
-#         session=session,
-#         conference=conference,
-#         conference_update=conference_update,
-#     )
+    await session.refresh(submission, ["authors", "topic"])
 
-
-# @router.patch("/{conference_id}/", response_model=SubmissionInDBBase)
-# async def update_conference_partial(
-#     conference_update: SubmissionUpdate,
-#     conference=Depends(conference_by_id),
-#     session: AsyncSession = Depends(db.scoped_session_dependency),
-# ):
-#     return await service.update_conference(
-#         session=session,
-#         conference=conference,
-#         conference_update=conference_update,
-#         partial=True,
-#     )
+    authors = [Author(**author.to_dict()) for author in submission.authors]
+    for author in submission.authors:
+        if author.is_corresponding:
+            send_update_submission_email.delay(
+                email=author.email,
+                data=SubmissionEmailData(
+                    submission_id=submission.id,
+                    conference_email=submission.conference.email,
+                    conference_name=submission.conference.name,
+                    conference_short_name=submission.conference.short_name,
+                    first_name=author.first_name,
+                    last_name=author.last_name,
+                    corresponding_title=author.title,
+                    title=submission.title,
+                    presentation_format=submission.presentation_format,
+                    topic=submission.topic.name,
+                    authors=authors,
+                ).model_dump(),
+            )
+    return submission

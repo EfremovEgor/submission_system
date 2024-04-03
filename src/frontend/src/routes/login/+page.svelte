@@ -17,6 +17,7 @@
 			<h3>Sign in</h3>
 			<div class="form-wrapper">
 				<form
+					autocomplete="on"
 					method="POST"
 					use:enhance={({ formElement, formData, action, cancel }) => {
 						isBusy = true;
@@ -47,10 +48,23 @@
 				>
 					<fieldset>
 						<label>
-							<input type="email" name="email" placeholder="Email" autocomplete="email" required />
+							<input
+								id="email"
+								type="email"
+								name="email"
+								placeholder="Email"
+								autocomplete="email"
+								required
+							/>
 						</label>
 						<label>
-							<input name="password" placeholder="Password" type="password" required />
+							<input
+								id="password"
+								name="password"
+								placeholder="Password"
+								type="password"
+								required
+							/>
 						</label>
 					</fieldset>
 					{#if error}

@@ -22,6 +22,7 @@ class ConferenceBase(BaseModel):
     short_name: str | None = None
     description: str | None = None
     site_url: str | None = None
+    email: str | None = None
     topics: list[TopicInDBBase] = []
     submission_deadline: datetime.datetime | None = None
     start_date: datetime.datetime | None = None

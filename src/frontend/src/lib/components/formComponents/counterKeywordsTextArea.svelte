@@ -2,15 +2,20 @@
 	export let maxLength;
 	export let form;
 	export let name;
+	export let data = '';
 	export let placeholder;
 	export let wordCount = 0;
+	wordCount = data?.trim().split(/\r\n|\r|\n/).length;
+
 	function handleChange(event) {
-		wordCount = event.target.value.split(/\r\n|\r|\n/).length;
+		wordCount = event.target.value.trim().split(/\r\n|\r|\n/).length;
 	}
 </script>
 
 <div class="text_area-wrapper">
-	<textarea on:keypress={handleChange} {name} {placeholder} {form} cols="30" rows="10" required />
+	<textarea on:keypress={handleChange} {name} {placeholder} {form} cols="30" rows="10" required
+		>{data}</textarea
+	>
 	<p class="word_counter">{wordCount}</p>
 </div>
 

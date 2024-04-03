@@ -19,6 +19,7 @@ class Conference(Base):
     )
     allow_ru: Mapped[bool | None] = mapped_column(Boolean, default=False)
     site_url: Mapped[str | None] = mapped_column(Text)
+    email: Mapped[str | None] = mapped_column(Text)
     description: Mapped[str | None] = mapped_column(Text)
     topics: Mapped[List["Topic"]] = relationship(
         back_populates="conference", lazy="selectin"

@@ -1,4 +1,6 @@
 import adapter from '@sveltejs/adapter-node';
+import path from 'path';
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
@@ -8,6 +10,9 @@ const config = {
 		adapter: adapter(),
 		csrf: {
 			checkOrigin: false
+		},
+		alias: {
+			$components: path.resolve('./src/lib/components')
 		}
 	}
 };

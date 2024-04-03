@@ -1,12 +1,12 @@
 <script>
 	import Agreement from './components/agreement.svelte';
-	import RequiredStar from './../../formComponents/requiredStar.svelte';
+	import RequiredStar from '../../formComponents/requiredStar.svelte';
 	import AuthorPanel from './components/authorPanel.svelte';
 	import AfterwordsInfo from './components/afterwordsInfo.svelte';
-	import CounterKeywordsTextArea from './../../formComponents/counterKeywordsTextArea.svelte';
-	import CounterTextArea from './../../formComponents/counterTextArea.svelte';
-	import CounterTextInput from './../../formComponents/counterTextInput.svelte';
-	import FormSection from './../../formComponents/formSection.svelte';
+	import CounterKeywordsTextArea from '../../formComponents/counterKeywordsTextArea.svelte';
+	import CounterTextArea from '../../formComponents/counterTextArea.svelte';
+	import CounterTextInput from '../../formComponents/counterTextInput.svelte';
+	import FormSection from '../../formComponents/formSection.svelte';
 	import AuthorInfo from './components/authorInfo.svelte';
 	import { enhance } from '$app/forms';
 	import { countries } from 'countries-list';
@@ -16,13 +16,15 @@
 	export let conferenceData;
 	export let isBusy;
 	export let sentEmail;
+	export let submissionData;
 
 	const countryCodes = Object.keys(countries);
 	const countryNames = countryCodes.map((code) => countries[code].name);
 
 	let authors = [];
 	let categories = {};
-	let presentationFormat = null;
+	let presentationFormat = submissionData.presentation_format;
+
 	let wordCountTitle = 0;
 	let wordCountTitleRU = 0;
 	let wordCountAbstract = 0;
@@ -65,8 +67,26 @@
 		authors = authors;
 	}
 	onMount(async () => {
-		addAuthor();
-		addAuthor();
+		submissionData.authors.forEach((author) => {
+			authors.push({
+				id: authors.length,
+				title: author.title,
+				first_name: author.first_name,
+				last_name: author.last_name,
+				first_name_ru: author.first_name_ru,
+				last_name_ru: author.last_name_ru,
+				surname: author.surname,
+				surname_ru: author.surname_ru,
+				email: author.email,
+				country: author.country,
+				affilation: author.affilation,
+				affilation_ru: author.affilation_ru,
+				web_page: author.web_page,
+				is_presenter: author.is_presenter,
+				is_corresponding: author.is_corresponding
+			});
+		});
+		authors = authors;
 	});
 </script>
 
@@ -140,6 +160,7 @@
 				<label class="form_input-container" for="title_ru">
 					<span class="form_input-label">Название на рус.:<RequiredStar /></span>
 					<CounterTextInput
+						data={submissionData.title_ru}
 						bind:wordCount={wordCountTitleRU}
 						placeholder="Не более 30 слов"
 						name="title_ru"
@@ -148,6 +169,7 @@
 				<label class="form_input-container" for="title">
 					<span class="form_input-label">Название на англ.:<RequiredStar /></span>
 					<CounterTextInput
+						data={submissionData.title}
 						bind:wordCount={wordCountTitle}
 						placeholder="Не более 30 слов"
 						name="title"
@@ -156,6 +178,7 @@
 				<label class="form_input-container" for="abstract_ru">
 					<span class="form_input-label">Аннотация на рус.:<RequiredStar /></span>
 					<CounterTextArea
+						data={submissionData.abstract_ru}
 						bind:wordCount={wordCountAbstractRU}
 						name="abstract_ru"
 						form="submission"
@@ -165,6 +188,7 @@
 				<label class="form_input-container" for="abstract">
 					<span class="form_input-label">Аннотация на англ.:<RequiredStar /></span>
 					<CounterTextArea
+						data={submissionData.abstract}
 						bind:wordCount={wordCountAbstract}
 						name="abstract"
 						form="submission"
@@ -182,6 +206,7 @@
 				<label class="form_input-container" for="keywords">
 					<span class="form_input-label">Ключевые слова на рус.:<RequiredStar /></span>
 					<CounterKeywordsTextArea
+						data={submissionData.keywords}
 						bind:wordCount={keywordsCount}
 						name="keywords"
 						form="submission"
@@ -191,7 +216,8 @@
 				<label class="form_input-container" for="keywords_ru">
 					<span class="form_input-label">Ключевые слова на англ.:<RequiredStar /></span>
 					<CounterKeywordsTextArea
-						bind:wordCount={keywordsCount}
+						data={submissionData.keywords_ru}
+						bind:wordCount={keywordsCountRU}
 						name="keywords_ru"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
@@ -211,7 +237,12 @@
 						<legend><b>{category}</b></legend>
 						{#each categories[category] as topic}
 							<label>
-								<input type="radio" value={topic.id} name="topic" />
+								<input
+									checked={topic.id == submissionData.topic.id}
+									type="radio"
+									value={topic.id}
+									name="topic"
+								/>
 								{topic.name}
 							</label>
 						{/each}
@@ -223,14 +254,20 @@
 			<h4>Формат доклада<RequiredStar /></h4>
 
 			<select on:change={handlePresentationFormatChange} name="presentation_format">
-				<option selected disabled>Выбрать</option>
-				<option value="online">Заочный(Онлайн)</option>
-				<option value="on-sight">Очный</option>
+				<option disabled>Выбрать</option>
+				<option selected={'online' == submissionData.presentation_format} value="online"
+					>Заочный(Онлайн)</option
+				>
+				<option selected={'on-sight' == submissionData.presentation_format} value="on-sight"
+					>Очный</option
+				>
 			</select>
 		</label>
-		<Agreement />
 		<AfterwordsInfo />
 		<input class="blue-button submit-button" type="submit" value="Submit" />
+		<button style="min-width:200px" class="red-button"
+			><a style="text-decoration: none;" href="/submission/{submissionData.id}"> Cancel </a></button
+		>
 	</form>
 </div>
 

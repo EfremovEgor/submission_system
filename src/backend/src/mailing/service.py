@@ -4,6 +4,7 @@ from submissions.models import Submission
 from users.models import User
 from config import settings
 from jinja2 import Environment, select_autoescape, PackageLoader, Template
+from .schemas import SubmissionEmailData
 
 env = Environment(
     loader=PackageLoader("mailing", "mailing_templates"),
@@ -30,14 +31,20 @@ class Email:
         subject: str,
         template: str,
         emails: list[EmailStr],
+        cc: list[str] = None,
         **content: dict,
     ):
 
         template = env.get_template(f"{template}.html")
         html = template.render(**content)
-
+        if cc is None:
+            cc = []
         message = MessageSchema(
-            subject=subject, recipients=emails, body=html, subtype="html"
+            cc=cc,
+            subject=subject,
+            recipients=emails,
+            body=html,
+            subtype="html",
         )
 
         fm = FastMail(cls.conf)
@@ -58,11 +65,27 @@ class Email:
         )
 
     @classmethod
-    async def send_submission_email(cls, email: EmailStr, submission_data, user):
+    async def send_update_submission_email(
+        cls, email: EmailStr, data: SubmissionEmailData
+    ):
+        data = SubmissionEmailData(**data)
         await cls.send_email(
-            "Submission has been created",
+            f"Submission #{data.submission_id} for {data.conference_short_name} has been created",
             "submission",
             [email],
-            submission_data=submission_data,
-            user=user,
+            cc=[data.conference_email],
+            data=data,
+        )
+
+    @classmethod
+    async def send_update_submission_email(
+        cls, email: EmailStr, data: SubmissionEmailData
+    ):
+        data = SubmissionEmailData(**data)
+        await cls.send_email(
+            f"Submission #{data.submission_id} for {data.conference_short_name} has been updated",
+            "submission_edit",
+            [email],
+            cc=[data.conference_email],
+            data=data,
         )

@@ -12,39 +12,52 @@
   ">
 
     <h3 style="color: #0056a6">Abstract Submission Confirmation</h3>
-    <p style="color: black">Dear {{user.title}} {{user.first_name}} {{user.last_name}}, </p>
-    <p style="color: black">Thank you for submitting your abstract to the SCO/CIS Conference on Information and
-      Technical Systems. Please find below your abstract details:</p>
+    <p style="color: black">Dear {{data.corresponding_title}} {{data.first_name}} {{data.last_name}}, </p>
+    <p style="color: black">Thank you for submitting your abstract to the {{data.conference_name}}. Please find below
+      your abstract details:</p>
     <h3 style="color: #0056a6">Abstract Details</h3>
     <table class="uk-table uk-table-striped">
       <tbody>
         <tr>
-          <td>Abstract Title</td>
-          <td>{{submission_data.title}}</td>
+          <td>Paper Title</td>
+          <td>{{data.title}}</td>
         </tr>
         <tr>
           <td>Paper Number</td>
-          <td>{{submission_data.id}}</td>
+          <td>{{data.submission_id}}</td>
         </tr>
 
         <tr>
           <td>Presentation Format</td>
-          <td>{{submission_data.presentation_format}}</td>
+          <td>{{data.presentation_format}}</td>
         </tr>
         <tr>
-          <td>Topic</td>
-          <td>{{submission_data.topic.name}}</td>
+          <td>Submission Topic</td>
+          <td>{{data.topic}}</td>
         </tr>
-
+        <tr>
+          <td>Authors</td>
+          <td> {% for author in data.authors %}
+            <p style="color: black">
+              {{author.title}} {{author.first_name}} {{author.last_name}} {% if author.is_presenter %}
+              presenter {% endif %}<br />
+              {{author.affilation}}, {{author.country}}
+            </p>
+            {% endfor %}
+          </td>
+        </tr>
       </tbody>
     </table>
     <p style="color: black">In case the above mentioned details are not correct, please access <a target="_blank"
-        href="http://confchair.org">Submission Page</a>.</p>
-    <p style="color: black">In case if you have any questions, please do not hesitate to contact CITS Program Committee
-      (<a href="committee@icits.ru">committee@icits.ru</a>).</p>
-    <p style="color: black">We look forward to see you at <b>SCO/CIS Conference on Information and Technical
-        Systems</b>.</p>
-    <p style="color: black">Best Regards,<br>ConfChair Team</p>
+        href="http://confchair.org/submission/{{data.submission_id}}">Submission Page</a>.</p>
+    <p style="color: black">Please note, that abstract details update available during three days after submission
+      before the review process starts.</p>
+
+    <p style="color: black">If you have any questions, please contact {{data.conference_short_name}} Program
+      Committee ({{data.conference_email}}).
+    </p>
+    <p style="color: black">We look forward to see you at {{data.conference_name}}.</p>
+    <p style="color: black">Best Regards,<br>ConfChair Team <br> support@confchair.org </p>
 
 
   </div>

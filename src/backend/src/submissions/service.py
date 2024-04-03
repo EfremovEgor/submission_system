@@ -45,14 +45,24 @@ async def delete_submission(session: AsyncSession, submission: Submission) -> No
     await session.commit()
 
 
-# async def update_conference(
-#     session: AsyncSession,
-#     conference: Conference,
-#     conference_update: ConferenceUpdate,
-#     partial: bool = False,
-# ) -> Conference:
+async def update_submission(
+    session: AsyncSession,
+    submission: Submission,
+    submission_update: SubmissionUpdate,
+    partial: bool = False,
+) -> Submission:
 
-#     for name, value in conference_update.model_dump(exclude_unset=partial).items():
-#         setattr(conference, name, value)
-#     await session.commit()
-#     return conference
+    for name, value in submission_update.model_dump(
+        exclude_unset=partial, exclude=("authors", "topic")
+    ).items():
+        setattr(submission, name, value)
+    to_add = list()
+    for author in submission.authors:
+        await session.delete(author)
+    if not submission_update.authors:
+        return submission
+    for author in submission_update.authors:
+        to_add.append(Author(submission_id=submission.id, **author.model_dump()))
+    submission.authors = to_add
+    await session.commit()
+    return submission

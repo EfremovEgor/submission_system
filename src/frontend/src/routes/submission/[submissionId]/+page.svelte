@@ -30,15 +30,16 @@
 				<button
 					on:click={(event) => {
 						deleteDialogOpen = false;
-					}}
-					class="button-success">Cancel</button
+					}}>Cancel</button
 				>
 			</footer>
 		</article>
 	</dialog>
 	<h4>{submission.conference.short_name} Submission #{submission.id}</h4>
 	<div class="actions">
-		<button class="bare_button">Edit</button>
+		<button class="bare_button"
+			><a style="text-decoration: none;" href="/submission/{submission.id}/edit">Edit</a></button
+		>
 		<button on:click={() => (deleteDialogOpen = true)} class="bare_button bare_button-error"
 			>Delete</button
 		>

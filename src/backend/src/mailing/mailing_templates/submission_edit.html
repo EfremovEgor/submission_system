@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.3/dist/css/uikit.min.css" />
+
+<body>
+    <div class="uk-container" style="
+    margin-top: 10px;
+    margin-bottom: 25px;
+    max-width: 980px;
+    min-height: 320px;
+  ">
+
+        <h3 style="color: #0056a6">Abstract Submission Confirmation</h3>
+        <p style="color: black">Dear {{data.corresponding_title}} {{data.first_name}} {{data.last_name}}, </p>
+        <p style="color: black">Your submission to the {{data.conference_name}} has been updated. Please find below your
+            updated abstract details:</p>
+        <h3 style="color: #0056a6">Abstract Details</h3>
+        <table class="uk-table uk-table-striped">
+            <tbody>
+                <tr>
+                    <td>Paper Title</td>
+                    <td>{{data.title}}</td>
+                </tr>
+                <tr>
+                    <td>Paper Number</td>
+                    <td>{{data.submission_id}}</td>
+                </tr>
+
+                <tr>
+                    <td>Presentation Format</td>
+                    <td>{{data.presentation_format}}</td>
+                </tr>
+                <tr>
+                    <td>Submission Topic</td>
+                    <td>{{data.topic}}</td>
+                </tr>
+                <tr>
+                    <td>Authors</td>
+                    <td> {% for author in data.authors %}
+                        <p style="color: black">
+                            {{author.title}} {{author.first_name}} {{author.last_name}} {% if author.is_presenter %}
+                            presenter {% endif %}<br />
+                            {{author.affilation}}, {{author.country}}
+                        </p>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="color: black">In case the above mentioned details are not correct, please access <a target="_blank"
+                href="http://confchair.org/submission/{{data.submission_id}}">Submission Page</a>.</p>
+        <p style="color: black">If you have any questions, please contact {{data.conference_short_name}} Program
+            Committee ({{data.conference_email}}).
+        </p>
+        <p style="color: black">We look forward to see you at {{data.conference_name}}.</p>
+        <p style="color: black">Best Regards,<br>ConfChair Team <br> support@confchair.org </p>
+
+
+    </div>
+</body>
+
+
+</html>

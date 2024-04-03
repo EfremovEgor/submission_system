@@ -2,9 +2,23 @@
 	background-color: transparent;
 	color: var(--pico-primary);
 }
-
+.red-button {
+	background-color: transparent;
+	color: rgb(238, 64, 46);
+	border-color: rgb(238, 64, 46);
+}
+.red-button > * {
+	color: rgb(238, 64, 46);
+}
+.red-button:hover > * {
+	color: white;
+}
+.red-button:hover {
+	background-color: rgb(238, 64, 46);
+	color: white;
+}
 .blue-button:hover {
-	background-color: var(--pico-primary-hover);
+	background-color: var(--pico-primary);
 	color: white;
 }
 .link {

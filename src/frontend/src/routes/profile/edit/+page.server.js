@@ -36,7 +36,6 @@ export const actions = {
 		};
 
 		const payload = JSON.stringify(data);
-		console.log(data);
 		const res = await fetch(backend_url + '/users/' + cookies.get('user_id') + '/', {
 			method: 'PATCH',
 			headers: {
