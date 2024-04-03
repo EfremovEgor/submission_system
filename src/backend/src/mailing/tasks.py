@@ -22,8 +22,8 @@ def send_confirmation_email(email: EmailStr, url: HttpUrl):
 
 
 @celery.task
-def send_submission_email(email: EmailStr, data: SubmissionEmailData):
-    loop.run_until_complete(Email.send_update_submission_email(email, data))
+def send_create_submission_email(email: EmailStr, data: SubmissionEmailData):
+    loop.run_until_complete(Email.send_create_submission_email(email, data))
 
 
 @celery.task

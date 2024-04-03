@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from auth.dependencies import super_user_dependency
 from auth.dependencies import active_user_dependency
 from users.models import User
-from mailing.tasks import send_submission_email, send_update_submission_email
+from mailing.tasks import send_create_submission_email, send_update_submission_email
 from users.schemas import UserBase
 from mailing.schemas import SubmissionEmailData
 from .models import Submission
@@ -101,7 +101,7 @@ async def create_submission(
     authors = [Author(**author.to_dict()) for author in submission.authors]
     for author in authors:
         if author.is_corresponding:
-            send_submission_email.delay(
+            send_create_submission_email.delay(
                 email=author.email,
                 data=SubmissionEmailData(
                     submission_id=submission.id,

@@ -65,7 +65,7 @@ class Email:
         )
 
     @classmethod
-    async def send_update_submission_email(
+    async def send_create_submission_email(
         cls, email: EmailStr, data: SubmissionEmailData
     ):
         data = SubmissionEmailData(**data)
