@@ -7,6 +7,7 @@ class TopicForConference(BaseModel):
 
 class TopicBase(BaseModel):
     name: str | None = None
+    name_ru: str | None = None
     conference_id: int | None = None
     category: str | None = None
 

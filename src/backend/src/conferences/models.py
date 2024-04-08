@@ -39,6 +39,7 @@ class Conference(Base):
 
 class Topic(Base):
     name: Mapped[str] = mapped_column(Text)
+    name_ru: Mapped[str | None] = mapped_column(Text)
     conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.id))
     category: Mapped[str | None] = mapped_column(Text)
     conference: Mapped["Conference"] = relationship(

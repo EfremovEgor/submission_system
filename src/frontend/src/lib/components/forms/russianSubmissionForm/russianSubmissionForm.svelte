@@ -212,7 +212,7 @@
 						{#each categories[category] as topic}
 							<label>
 								<input type="radio" value={topic.id} name="topic" />
-								{topic.name}
+								{topic.name_ru}
 							</label>
 						{/each}
 					{/each}

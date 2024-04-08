@@ -243,7 +243,7 @@
 									value={topic.id}
 									name="topic"
 								/>
-								{topic.name}
+								{topic.name_ru}
 							</label>
 						{/each}
 					{/each}
