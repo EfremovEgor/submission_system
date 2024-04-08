@@ -10,6 +10,7 @@ class TopicBase(BaseModel):
     name_ru: str | None = None
     conference_id: int | None = None
     category: str | None = None
+    category_ru: str | None = None
 
 
 class TopicCreate(TopicBase):

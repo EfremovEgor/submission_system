@@ -29,6 +29,10 @@
 	let wordCountAbstractRU = 0;
 	let keywordsCount = 0;
 	let keywordsCountRU = 0;
+	let categoriesEnToRu = {};
+	conferenceData.topics.forEach((element) => {
+		categoriesEnToRu[element.category] = element.category_ru;
+	});
 	conferenceData.topics.forEach((element) => {
 		if (categories[element.category] == undefined) categories[element.category] = [element];
 		else categories[element.category].push(element);
@@ -208,7 +212,7 @@
 			<svelte:fragment slot="inputs">
 				<fieldset>
 					{#each Object.keys(categories) as category}
-						<legend><b>{category}</b></legend>
+						<legend><b>{categoriesEnToRu[category]}</b></legend>
 						{#each categories[category] as topic}
 							<label>
 								<input type="radio" value={topic.id} name="topic" />

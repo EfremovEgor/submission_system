@@ -42,6 +42,7 @@ class Topic(Base):
     name_ru: Mapped[str | None] = mapped_column(Text)
     conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.id))
     category: Mapped[str | None] = mapped_column(Text)
+    category_ru: Mapped[str | None] = mapped_column(Text)
     conference: Mapped["Conference"] = relationship(
         back_populates="topics", lazy="selectin"
     )

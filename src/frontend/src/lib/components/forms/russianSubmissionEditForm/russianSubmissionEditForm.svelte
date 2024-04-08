@@ -24,7 +24,10 @@
 	let authors = [];
 	let categories = {};
 	let presentationFormat = submissionData.presentation_format;
-
+	let categoriesEnToRu = {};
+	conferenceData.topics.forEach((element) => {
+		categoriesEnToRu[element.category] = element.category_ru;
+	});
 	let wordCountTitle = 0;
 	let wordCountTitleRU = 0;
 	let wordCountAbstract = 0;
@@ -234,7 +237,7 @@
 			<svelte:fragment slot="inputs">
 				<fieldset>
 					{#each Object.keys(categories) as category}
-						<legend><b>{category}</b></legend>
+						<legend><b>{categoriesEnToRu[category]}</b></legend>
 						{#each categories[category] as topic}
 							<label>
 								<input
