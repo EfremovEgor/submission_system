@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import logo from '$lib/images/logo.png';
 	export let isLoggedIn;
+	export let user;
 </script>
 
 <header>
@@ -22,6 +23,16 @@
 					<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
 						<a href="/profile">Author</a>
 					</li>
+					{#if user.reviewer_in.length > 0}
+						<li aria-current={$page.url.pathname === '/reviewer' ? 'page' : undefined}>
+							<a href="/reviewer">Reviewer</a>
+						</li>
+					{/if}
+					{#if user.chair_in.length > 0}
+						<li aria-current={$page.url.pathname === '/chair' ? 'page' : undefined}>
+							<a href="/chair">Chair</a>
+						</li>
+					{/if}
 				{/if}
 			</ul>
 			{#if isLoggedIn}

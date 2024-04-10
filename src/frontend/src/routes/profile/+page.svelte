@@ -1,4 +1,5 @@
 <script>
+	import Icon from '@iconify/svelte';
 	export let data;
 	let submissions = data.profile.submissions;
 	let categories = {};
@@ -14,7 +15,6 @@
 		);
 		return authors.join();
 	}
-	import Icon from '@iconify/svelte';
 </script>
 
 <svelte:head>

@@ -2,12 +2,27 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from conferences.models import Conference, Topic
+from users.models import User
+from conferences.association_tables import reviewer_to_conference
 from .schemas import SubmissionUpdate, SubmissionCreate
 from .models import Submission, Author
 
 
+async def get_reviewer_topics(
+    session: AsyncSession, reviewer_id: int, conference_id: int
+) -> list[Topic]:
+    stmt = select(reviewer_to_conference).where(
+        reviewer_to_conference.columns.conference_id == conference_id,
+        reviewer_to_conference.columns.reviewer_id == reviewer_id,
+    )
+    result: Result = await session.execute(stmt)
+    topics = result.scalars().all()
+    return topics
+
+
 async def get_submissions(
-    session: AsyncSession, from_conference: int = None
+    session: AsyncSession, from_conference: int = None, topics: list[int] = None
 ) -> list[Submission]:
     stmt = select(Submission).order_by(Submission.id)
     if from_conference is not None:
@@ -16,8 +31,10 @@ async def get_submissions(
             .order_by(Submission.id)
             .where(Submission.conference_id == from_conference)
         )
+    if topics is not None:
+        stmt = stmt.join(Submission.topic).where(Topic.id.in_(topics))
     result: Result = await session.execute(stmt)
-    submissions = result.scalars().all()
+    submissions = result.scalars().unique().all()
     return list(submissions)
 
 

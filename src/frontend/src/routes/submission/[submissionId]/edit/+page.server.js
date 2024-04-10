@@ -1,10 +1,15 @@
 import { backend_url } from '../../../../utils';
+import { error } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 let submissionId;
+let submissionAuthorId;
 export const actions = {
 	default: async ({ fetch, cookies, request, params }) => {
 		const values = await request.formData();
 		let payload = {};
+		if (cookies.get('user_id') != submissionAuthorId) {
+			error(403, { message: 'You are not allowed to edit this submission' });
+		}
 		payload.title = values.get('title');
 		payload.title_ru = values.get('title_ru');
 		payload.abstract = values.get('abstract');
@@ -64,7 +69,7 @@ export const actions = {
 	}
 };
 
-export const load = async ({ fetch, cookies, request, params }) => {
+export const load = async ({ parent, fetch, cookies, request, params }) => {
 	const submission_res = await fetch(backend_url + '/submissions/' + params.submissionId, {
 		method: 'GET',
 		headers: {
@@ -74,6 +79,7 @@ export const load = async ({ fetch, cookies, request, params }) => {
 
 	const submission_data = await submission_res.json();
 	submissionId = submission_data.id;
+	submissionAuthorId = submission_data.user_id;
 	const conference_res = await fetch(
 		backend_url + '/conferences/' + submission_data.conference_id,
 		{
@@ -84,5 +90,12 @@ export const load = async ({ fetch, cookies, request, params }) => {
 		}
 	);
 	const conference_data = await conference_res.json();
+	const { user } = await parent();
+	let accessGranted = false;
+
+	if (user.id == submission_data.user_id) accessGranted = true;
+	if (!accessGranted) {
+		error(403, { message: 'You are not allowed to edit this submission' });
+	}
 	return { submission: submission_data, conference: conference_data };
 };

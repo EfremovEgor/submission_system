@@ -8,9 +8,11 @@ from submissions.schemas import SubmissionInDBBase
 class ConferenceUser(BaseModel):
     id: int
     name: str | None = None
+    acronym: str | None = None
 
 
 class UserBase(BaseModel):
+    id: int
     email: EmailStr | None = None
     last_login: datetime | None = None
     is_active: bool | None = None
@@ -30,6 +32,7 @@ class UserBase(BaseModel):
     country: str | None = None
     submissions: list[SubmissionInDBBase] = []
     reviewer_in: list[ConferenceUser] = []
+    chair_in: list[ConferenceUser] = []
 
 
 class UserCreate(BaseModel):

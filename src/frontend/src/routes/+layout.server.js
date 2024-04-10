@@ -1,5 +1,5 @@
 import verify_token from '../utils';
-
+import { backend_url } from '../utils';
 export const load = async ({ fetch, cookies, request }) => {
 	const token = cookies.get('token');
 	const isValid = await verify_token(token, fetch);
@@ -10,6 +10,15 @@ export const load = async ({ fetch, cookies, request }) => {
 		cookies.delete('username', { path: '/' });
 		return;
 	}
-	if (cookies.get('token') != null) return { user_id: parseInt(cookies.get('user_id')) };
-	return { user_id: null };
+	const res = await fetch(backend_url + '/users/' + cookies.get('user_id'), {
+		method: 'GET',
+		headers: {
+			Authorization: 'Bearer ' + cookies.get('token')
+		}
+	});
+	const data = await res.json();
+	if (cookies.get('token') != null) {
+		return { user: data, user_id: parseInt(cookies.get('user_id')) };
+	}
+	return { user: data, user_id: null };
 };

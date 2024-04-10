@@ -35,7 +35,7 @@ async def create_topic(session: AsyncSession, topic_in: TopicCreate) -> Topic:
 async def get_conferences(session: AsyncSession) -> list[Conference]:
     stmt = select(Conference).order_by(Conference.id)
     result: Result = await session.execute(stmt)
-    conferences = result.scalars().all()
+    conferences = result.unique().scalars().all()
     return list(conferences)
 
 

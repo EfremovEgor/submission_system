@@ -9,7 +9,7 @@ from alembic import context
 from users.models import *
 from conferences.models import *
 from submissions.models import *
-
+from conferences.association_tables import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -15,5 +15,5 @@ export const load = async ({ fetch, cookies, request, params }) => {
 	});
 	const data = await res.json();
 
-	return { conferece: conference, submissions: data };
+	return { conference: conference, submissions: data };
 };

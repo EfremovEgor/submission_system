@@ -27,6 +27,10 @@ class Author(BaseModel):
     is_corresponding: bool | None = False
 
 
+class SubmissionUpdateStatus(BaseModel):
+    review_result: str
+
+
 class SubmissionBase(BaseModel):
     user_id: int | None = None
     conference_id: int | None = None

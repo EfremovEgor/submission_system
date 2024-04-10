@@ -36,14 +36,17 @@
 		</article>
 	</dialog>
 	<h4>{submission.conference.short_name} Submission #{submission.id}</h4>
-	<div class="actions">
-		<button class="bare_button"
-			><a style="text-decoration: none;" href="/submission/{submission.id}/edit">Edit</a></button
-		>
-		<button on:click={() => (deleteDialogOpen = true)} class="bare_button bare_button-error"
-			>Delete</button
-		>
-	</div>
+	{#if data.user.id == data.submission.user_id}
+		<div class="actions">
+			<button class="bare_button"
+				><a style="text-decoration: none;" href="/submission/{submission.id}/edit">Edit</a></button
+			>
+			<button on:click={() => (deleteDialogOpen = true)} class="bare_button bare_button-error"
+				>Delete</button
+			>
+		</div>
+	{/if}
+
 	<table>
 		<tbody>
 			<tr>

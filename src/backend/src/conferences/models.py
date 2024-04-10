@@ -4,8 +4,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 from core.models import Base
 from users.models import User
-from .association_tables import reviewer_to_conference
-from sqlalchemy.sql import func
+from .association_tables import (
+    reviewer_to_conference,
+    reviewer_to_topic,
+    chair_to_conference,
+)
 import datetime
 
 
@@ -33,7 +36,14 @@ class Conference(Base):
     acronym: Mapped[str | None] = mapped_column(Text, unique=True)
     short_name: Mapped[str | None] = mapped_column(Text, unique=True)
     reviewers: Mapped[List["User"]] = relationship(
-        secondary=reviewer_to_conference, back_populates="reviewer_in", lazy="selectin"
+        secondary=reviewer_to_conference,
+        back_populates="reviewer_in",
+        lazy=False,
+    )
+    chairs: Mapped[List["User"]] = relationship(
+        secondary=chair_to_conference,
+        back_populates="chair_in",
+        lazy=False,
     )
 
 
@@ -43,6 +53,11 @@ class Topic(Base):
     conference_id: Mapped[int] = mapped_column(ForeignKey(Conference.id))
     category: Mapped[str | None] = mapped_column(Text)
     category_ru: Mapped[str | None] = mapped_column(Text)
+    reviewers: Mapped[List["User"]] = relationship(
+        secondary=reviewer_to_topic,
+        back_populates="reviewer_in_topics",
+        lazy=False,
+    )
     conference: Mapped["Conference"] = relationship(
-        back_populates="topics", lazy="selectin"
+        back_populates="topics", lazy="joined"
     )

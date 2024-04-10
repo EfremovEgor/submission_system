@@ -14,6 +14,7 @@ from .schemas import (
     SubmissionInDBBase,
     SubmissionUpdate,
     Author,
+    SubmissionUpdateStatus,
 )
 from .dependencies import submission_by_id
 from core.database import db
@@ -41,28 +42,45 @@ async def get_submissions(
 async def get_submissions_from_conference(
     conference_id: int,
     session: AsyncSession = Depends(db.scoped_session_dependency),
-    requester=Depends(active_user_dependency),
+    requester: User = Depends(active_user_dependency),
 ):
     access_granted = False
+    if conference_id in [conference.id for conference in requester.chair_in]:
 
+        return await service.get_submissions(
+            session,
+            from_conference=conference_id,
+        )
     if requester.is_super_user:
 
         access_granted = True
+    is_reviewer = False
     if not access_granted:
-
         conference = await get_conference(session, conference_id)
 
         for reviewer in conference.reviewers:
 
             if reviewer.id == requester.id:
+                is_reviewer = True
                 access_granted = True
-
                 break
+    topics = []
+    if is_reviewer:
+        topics = [
+            topic.id
+            for topic in requester.reviewer_in_topics
+            if topic.conference_id == conference_id
+        ]
+
     if not access_granted:
 
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    return await service.get_submissions(session, from_conference=conference_id)
+    return await service.get_submissions(
+        session,
+        from_conference=conference_id,
+        topics=topics,
+    )
 
 
 @router.get("/{submission_id}", response_model=SubmissionInDBBase)
@@ -71,17 +89,30 @@ async def get_submission(
     session: AsyncSession = Depends(db.scoped_session_dependency),
     requester: User = Depends(active_user_dependency),
 ):
-    if (
-        (submission.user.id == requester.id)
-        or (requester.is_super_user)
-        or (
-            submission.conference.id
-            in [conference.id for conference in requester.reviewer_in]
-        )
-    ):
-        return submission
+    access_granted = False
 
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    if requester.is_super_user:
+
+        access_granted = True
+
+    if submission.user_id == requester.id:
+        access_granted = True
+
+    is_reviewer = False
+
+    if not access_granted:
+
+        for reviewer in submission.conference.reviewers:
+
+            if reviewer.id == requester.id and reviewer in submission.topic.reviewers:
+                is_reviewer = True
+                access_granted = True
+                break
+    if not access_granted:
+
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    return submission
 
 
 @router.post("/", response_model=SubmissionInDBBase)
@@ -151,7 +182,7 @@ async def update_submission_partial(
     if requester.is_super_user:
         access_granted = True
     if requester.id == submission.user.id:
-        access_granted == True
+        access_granted = True
     if not access_granted:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
     submission = await service.update_submission(
@@ -182,4 +213,37 @@ async def update_submission_partial(
                     authors=authors,
                 ).model_dump(),
             )
+    return submission
+
+
+@router.patch("/{submission_id}/update_status", response_model=SubmissionInDBBase)
+async def update_submission_status(
+    submission_update: SubmissionUpdateStatus,
+    submission: Submission = Depends(submission_by_id),
+    session: AsyncSession = Depends(db.scoped_session_dependency),
+    requester: User = Depends(active_user_dependency),
+):
+    access_granted = False
+    access_granted = submission.conference.id in [
+        conference.id for conference in requester.chair_in
+    ]
+    if requester.is_super_user:
+
+        access_granted = True
+    is_reviewer = False
+    if not access_granted:
+
+        for reviewer in submission.conference.reviewers:
+
+            if reviewer.id == requester.id and reviewer in submission.topic.reviewers:
+                is_reviewer = True
+                access_granted = True
+                break
+
+    if not access_granted:
+
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    submission.review_result = submission_update.review_result
+    await session.commit()
     return submission

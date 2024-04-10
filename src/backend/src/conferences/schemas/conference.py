@@ -28,6 +28,7 @@ class ConferenceBase(BaseModel):
     start_date: datetime.datetime | None = None
     # submissions: list[SubmissionInDBBase] = []
     reviewers: list[UserToConference] = []
+    chairs: list[UserToConference] = []
 
 
 class ConferenceCreateIn(BaseModel):
