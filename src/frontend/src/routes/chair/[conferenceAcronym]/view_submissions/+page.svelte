@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	import { review_statuses } from '../../../../utils';
+	
 	import Icon from '@iconify/svelte';
 	let to_display = data.submissions;
 	let categories = {};
@@ -12,7 +13,6 @@
 		});
 		return counter;
 	}
-
 	data.submissions.forEach((element) => {
 		let topic = element.topic;
 		if (categories[topic.category] == null) categories[topic.category] = [];
@@ -23,7 +23,9 @@
 	function filterSubmissions() {
 		to_display = [];
 		data.submissions.forEach((element) => {
-			if (checked_topics[element.topic.name]) to_display.push(element);
+
+			if (checked_topics[element.topic.name]){
+				to_display.push(element);}
 		});
 	}
 	async function setStatus(id, status) {
@@ -36,8 +38,12 @@
 		});
 		const total = await response.json();
 	}
+	
 	Object.values(categories).forEach((element) => {
-		checked_topics[element] = true;
+		element.forEach(topic => {
+			checked_topics[topic] = true;
+		});
+		
 	});
 </script>
 
