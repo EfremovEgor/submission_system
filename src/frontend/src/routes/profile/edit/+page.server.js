@@ -44,6 +44,7 @@ export const actions = {
 			},
 			body: payload
 		});
+		console.log(await res.json());
 		if (res.status == 401) {
 			cookies.delete('token', { path: '/' });
 			cookies.delete('token_type', { path: '/' });

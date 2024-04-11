@@ -13,8 +13,8 @@
 		});
 		return counter;
 	}
-	data.submissions.forEach((element) => {
-		let topic = element.topic;
+	data.conference.topics.forEach((element) => {
+		let topic = element;
 		if (categories[topic.category] == null) categories[topic.category] = [];
 		if (!categories[topic.category].includes(topic.name))
 			categories[topic.category].push(topic.name);
@@ -67,150 +67,186 @@
 		if (order == -1) to_display.reverse();
 		to_display = to_display;
 	}
+	function convertAuthors(authors) {
+		let res = [];
+		authors.forEach((element) => {
+			res.push(`${element.first_name} ${element.last_name}`);
+		});
+		return res;
+	}
 </script>
 
 <svelte:head>
-	<title>Conference</title>
-	<meta name="description" content="Home" />
+	<title>Chair</title>
+	<meta name="description" content="Chair" />
 </svelte:head>
 <div class="container">
-	<h3>{data.conference.name}</h3>
+	<div class="heading-nav">
+		<label>
+			Eng
+			<input
+				style="background-color: var(--pico-primary); border-color: var(--pico-primary); margin: 0;"
+				name="terms"
+				type="checkbox"
+				role="switch"
+			/>
+			Rus
+		</label>
+		<h3>{data.conference.name}</h3>
+	</div>
 	<details open>
 		<summary style="width: fit-content;">Choose Topic</summary>
-		<table style="max-width: 700px;">
+		<div style="max-width: 700px;">
 			{#each Object.keys(categories) as category}
-				<tr><td colspan="3"><b>{category}</b></td></tr>
-
-				{#each categories[category] as topic}
-					<tr>
-						<td
-							><input
-								bind:checked={checked_topics[topic]}
-								on:change={filterSubmissions}
-								type="checkbox"
-								name={topic}
-							/></td
-						>
-						<td>{topic}</td>
-						<td>{count_submissions(topic)}</td>
-					</tr>
-				{/each}
+				<tr>
+					<details>
+						<summary style="width: fit-content;">{category}</summary>
+						<table class="striped">
+							<tbody>
+								{#each categories[category] as topic}
+									<tr>
+										<td
+											><input
+												bind:checked={checked_topics[topic]}
+												on:change={filterSubmissions}
+												type="checkbox"
+												name={topic}
+											/></td
+										>
+										<td>{topic}</td>
+										<td style="padding-left: 10px;">{count_submissions(topic)}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</details></tr
+				>
 			{/each}
-		</table>
+		</div>
 	</details>
 	<span>Displayed: {to_display.length}/{data.submissions.length} <br /></span>
 	<button style="padding:0" class="bare_button">Export to Excel</button>
-	<table class="striped">
-		<thead>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="id"
-					class="bare_button">#</button
-				>
-			</td>
-			<td>Authors</td>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="title"
-					class="bare_button">Title</button
-				>
-			</td>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="topic"
-					class="bare_button">Topic</button
-				>
-			</td>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="presentation_format"
-					class="bare_button">Report Format</button
-				>
-			</td>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="created_at"
-					class="bare_button">Created At</button
-				>
-			</td>
-			<td>View</td>
-			<td>
-				<button
-					on:click={(element) => {
-						let order = parseInt(element.target.order);
-						if (isNaN(order)) order = 1;
-						sortSubmissions(element.target.name, order);
-						element.target.order = -order;
-					}}
-					name="review_result"
-					class="bare_button">Review status</button
-				>
-			</td>
-		</thead>
-		{#each to_display as submission, i}
-			<tr>
-				<td>{submission.id}</td>
-				<td
-					>{#each submission.authors as author}
-						<span>{author.first_name} {author.last_name} <br /></span>
-					{/each}</td
-				>
-				<td>{submission.title}</td>
-				<td>{submission.topic.name}</td>
-				<td>{submission.presentation_format}</td>
-				<td>{new Date(submission.created_at).toLocaleString()}</td>
-				<td
-					><a href="/submission/{submission.id}"
-						><Icon class="icon" icon="material-symbols-light:search" /></a
-					></td
-				>
+	<div class="overflow-auto">
+		<table class="striped content">
+			<thead>
 				<td>
-					<div style="display: flex; align-items: center; justify-content: center;">
-						<select
-							on:change={(elem) => {
-								setStatus(submission.id, elem.target.value);
-							}}
-							style="width:150px; margin:0"
-						>
-							{#each Object.keys(review_statuses) as status}
-								<option selected={status == submission.review_result} value={status}>
-									{review_statuses[status]}
-								</option>
-							{/each}
-						</select>
-					</div>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="id"
+						class="bare_button">#</button
+					>
 				</td>
-			</tr>
-		{/each}
-	</table>
+				<td><button class="bare_button">Authors</button></td>
+				<td>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="title"
+						class="bare_button">Title</button
+					>
+				</td>
+				<td>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="topic"
+						class="bare_button">Topic</button
+					>
+				</td>
+				<td>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="presentation_format"
+						class="bare_button">Report Format</button
+					>
+				</td>
+				<td>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="created_at"
+						class="bare_button">Submitted At</button
+					>
+				</td>
+				<td><button class="bare_button">View</button></td>
+				<td>
+					<button
+						on:click={(element) => {
+							let order = parseInt(element.target.order);
+							if (isNaN(order)) order = 1;
+							sortSubmissions(element.target.name, order);
+							element.target.order = -order;
+						}}
+						name="review_result"
+						class="bare_button">Review status</button
+					>
+				</td>
+			</thead>
+			{#each to_display as submission, i}
+				<tr>
+					<td class="centered id-column">{submission.id}</td>
+					<td style="width: 100px">
+						{convertAuthors(submission.authors)}
+					</td>
+					<td style="width: 400px">{submission.title}</td>
+					<td class="centered">{submission.topic.name}</td>
+					<td class="centered">{submission.presentation_format}</td>
+					<td class="centered">{new Date(submission.created_at).toLocaleString()}</td>
+					<td class="centered">
+						<a href="/submission/{submission.id}"
+							><Icon class="icon" icon="material-symbols-light:search" /></a
+						></td
+					>
+					<td style="text-align: center;">
+						{review_statuses[submission.review_result]}
+					</td>
+				</tr>
+			{/each}
+		</table>
+	</div>
 </div>
+
+<style>
+	table *,
+	details > div * {
+		font-size: 16px;
+	}
+	.centered,
+	thead * {
+		text-align: center;
+	}
+	table > thead * {
+		padding: 0 !important;
+	}
+	details > div * {
+		padding: 0;
+	}
+	table * {
+		padding: 10px;
+	}
+	.id-column {
+		width: 20px;
+	}
+</style>

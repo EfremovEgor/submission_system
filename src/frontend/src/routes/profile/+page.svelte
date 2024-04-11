@@ -1,5 +1,6 @@
 <script>
 	import Icon from '@iconify/svelte';
+	import { review_statuses } from '../../utils';
 	export let data;
 	let submissions = data.profile.submissions;
 	let categories = {};
@@ -15,6 +16,13 @@
 		);
 		return authors.join();
 	}
+	function convertAuthors(authors) {
+		let res = [];
+		authors.forEach((element) => {
+			res.push(`${element.first_name} ${element.last_name}`);
+		});
+		return res;
+	}
 </script>
 
 <svelte:head>
@@ -24,6 +32,7 @@
 
 <div class="container">
 	<h4>Author Profile</h4>
+
 	<a href="/profile/edit">Edit</a>
 
 	<table class="profile_info-container">
@@ -83,30 +92,50 @@
 			{#each Object.keys(categories) as category}
 				<details>
 					<summary>{category}</summary>
-					<table class="striped conferences-wrapper">
+					<table class="striped conferences-table">
 						<thead>
-							<tr>
-								<th scope="col">Authors</th>
-								<th scope="col">Title</th>
-								<th scope="col">View</th>
-								<th scope="col">Review Result</th>
-							</tr>
+							<td>
+								<button class="bare_button">#</button>
+							</td>
+							<td><button class="bare_button">Authors</button></td>
+							<td>
+								<button class="bare_button">Title</button>
+							</td>
+							<td>
+								<button class="bare_button">Topic</button>
+							</td>
+							<td>
+								<button class="bare_button">Report Format</button>
+							</td>
+							<td>
+								<button class="bare_button">Submitted At</button>
+							</td>
+							<td><button class="bare_button">View</button></td>
+							<td>
+								<button class="bare_button">Review status</button>
+							</td>
 						</thead>
 						<tbody>
 							{#each categories[category] as submission}
-								<tr class="conference-container">
-									<td>
-										{#each submission.authors as author}
-											<span>{joinAuthors(submission)}</span>
-										{/each}</td
-									>
-									<td> {submission.title}</td>
-									<td
-										><a href="/submission/{submission.id}"
+								<tr>
+									<td class="centered id-column">{submission.id}</td>
+									<td style="width: 100px">
+										{convertAuthors(submission.authors)}
+									</td>
+									<td style="width: 400px">{submission.title}</td>
+									<td class="centered">{submission.topic.name}</td>
+									<td class="centered">{submission.presentation_format}</td>
+									<td class="centered">{new Date(submission.created_at).toLocaleString()}</td>
+									<td class="centered">
+										<a href="/submission/{submission.id}"
 											><Icon class="icon" icon="material-symbols-light:search" /></a
 										></td
 									>
-									<td> </td>
+									<td>
+										<div style="display: flex; align-items: center; justify-content: center;">
+											{review_statuses[submission.review_result]}
+										</div>
+									</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -126,5 +155,15 @@
 	}
 	.profile_info-container {
 		max-width: 450px;
+	}
+	.conferences-table * {
+		font-size: 16px;
+		padding: 10px;
+	}
+	.conferences-table > thead * {
+		text-align: center;
+	}
+	table > thead * {
+		padding: 0 !important;
 	}
 </style>

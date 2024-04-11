@@ -211,7 +211,7 @@
 					<CounterKeywordsTextArea
 						data={submissionData.keywords}
 						bind:wordCount={keywordsCount}
-						name="keywords"
+						name="keywords_ru"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>
@@ -221,7 +221,7 @@
 					<CounterKeywordsTextArea
 						data={submissionData.keywords_ru}
 						bind:wordCount={keywordsCountRU}
-						name="keywords_ru"
+						name="keywords"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>

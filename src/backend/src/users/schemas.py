@@ -36,13 +36,17 @@ class UserBase(BaseModel):
 
 
 class UserCreate(BaseModel):
+    id: int| None = None
     email: EmailStr
     password: str
 
 
 class UserUpdate(UserBase):
+    id: int| None = None
     password: str | None = None
-
+    submissions: list[SubmissionInDBBase] | None  = None
+    reviewer_in: list[ConferenceUser] | None  = None
+    chair_in: list[ConferenceUser] | None   = None
 
 class UserInDBBase(UserBase):
     id: int | None = None

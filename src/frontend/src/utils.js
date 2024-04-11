@@ -18,6 +18,6 @@ export function convertToDate(datetime) {
 export const titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];
 export const review_statuses = {
 	"in_review": "Under review",
-	"accepted": "Accepted",
-	'rejected': "Rejected"
+	"accepted": "Accept",
+	'rejected': "Reject"
 }

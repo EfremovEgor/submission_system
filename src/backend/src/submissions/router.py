@@ -94,7 +94,9 @@ async def get_submission(
     if requester.is_super_user:
 
         access_granted = True
+    if submission.conference.id in [conference.id for conference in requester.chair_in]:
 
+        return  submission
     if submission.user_id == requester.id:
         access_granted = True
 

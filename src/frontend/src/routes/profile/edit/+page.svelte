@@ -15,6 +15,7 @@
 </svelte:head>
 
 <div class="container">
+	<h4>Author Profile Update</h4>
 	<div class="form-wrapper">
 		<form method="POST">
 			<label class="input-label">
@@ -113,7 +114,6 @@
 		width: 200px;
 	}
 	.form-wrapper {
-		margin: auto;
 		width: fit-content;
 	}
 	.form-wrapper > form {

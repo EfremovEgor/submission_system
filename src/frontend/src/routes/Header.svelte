@@ -3,6 +3,7 @@
 	import logo from '$lib/images/logo.png';
 	export let isLoggedIn;
 	export let user;
+	console.log();
 </script>
 
 <header>
@@ -17,20 +18,38 @@
 					</div>
 				</li>
 				<li aria-current={$page.url.pathname === '/conferences' ? 'page' : undefined}>
-					<a href="/conferences">Call For Papers</a>
+					{#if $page.url.pathname.includes('conferences')}
+						<a style="text-decoration: underline;" href="/conferences">Call For Papers</a>
+					{:else}
+						<a href="/conferences">Call For Papers</a>
+					{/if}
+
+					<!-- else content here -->
 				</li>
 				{#if isLoggedIn}
 					<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
-						<a href="/profile">Author</a>
+						{#if $page.url.pathname.includes('profile')}
+							<a style="text-decoration: underline;" href="/profile">Author</a>
+						{:else}
+							<a href="/profile">Author</a>
+						{/if}
 					</li>
 					{#if user.reviewer_in.length > 0}
 						<li aria-current={$page.url.pathname === '/reviewer' ? 'page' : undefined}>
-							<a href="/reviewer">Reviewer</a>
+							{#if $page.url.pathname.includes('reviewer')}
+								<a style="text-decoration: underline;" href="/reviewer">Reviewer</a>
+							{:else}
+								<a href="/reviewer">Reviewer</a>
+							{/if}
 						</li>
 					{/if}
 					{#if user.chair_in.length > 0}
 						<li aria-current={$page.url.pathname === '/chair' ? 'page' : undefined}>
-							<a href="/chair">Chair</a>
+							{#if $page.url.pathname.includes('chair')}
+								<a style="text-decoration: underline;" href="/chair">Chair</a>
+							{:else}
+								<a href="/chair">Chair</a>
+							{/if}
 						</li>
 					{/if}
 				{/if}

@@ -35,7 +35,19 @@
 			</footer>
 		</article>
 	</dialog>
-	<h4>{submission.conference.short_name} Submission #{submission.id}</h4>
+	<div class="heading-nav">
+		<label>
+			Eng
+			<input
+				style="background-color: var(--pico-primary); border-color: var(--pico-primary); margin: 0;"
+				name="terms"
+				type="checkbox"
+				role="switch"
+			/>
+			Rus
+		</label>
+		<h4>{submission.conference.short_name} Submission #{submission.id}</h4>
+	</div>
 	{#if data.user.id == data.submission.user_id}
 		<div class="actions">
 			<button class="bare_button"

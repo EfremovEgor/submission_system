@@ -187,7 +187,7 @@
 					<span class="form_input-label">Ключевые слова на рус.:<RequiredStar /></span>
 					<CounterKeywordsTextArea
 						bind:wordCount={keywordsCount}
-						name="keywords"
+						name="keywords_ru"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>
@@ -196,7 +196,7 @@
 					<span class="form_input-label">Ключевые слова на англ.:<RequiredStar /></span>
 					<CounterKeywordsTextArea
 						bind:wordCount={keywordsCount}
-						name="keywords_ru"
+						name="keywords"
 						form="submission"
 						placeholder="Не менее трех ключевых слов. По одному в строке"
 					/>
