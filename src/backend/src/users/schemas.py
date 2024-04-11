@@ -33,6 +33,7 @@ class UserBase(BaseModel):
     submissions: list[SubmissionInDBBase] = []
     reviewer_in: list[ConferenceUser] = []
     chair_in: list[ConferenceUser] = []
+    reviewer_in_topics: list[TopicInDBBase] = []
 
 
 class UserCreate(BaseModel):

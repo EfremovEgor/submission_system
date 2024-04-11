@@ -12,11 +12,13 @@
 		});
 		return counter;
 	}
-	data.submissions.forEach((element) => {
-		let topic = element.topic;
-		if (categories[topic.category] == null) categories[topic.category] = [];
-		if (!categories[topic.category].includes(topic.name))
-			categories[topic.category].push(topic.name);
+	data.user.reviewer_in_topics.forEach((element) => {
+		if (element.conference_id == data.conference.id) {
+			let topic = element;
+			if (categories[topic.category] == null) categories[topic.category] = [];
+			if (!categories[topic.category].includes(topic.name))
+				categories[topic.category].push(topic.name);
+		}
 	});
 
 	function filterSubmissions() {
