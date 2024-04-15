@@ -3,6 +3,12 @@
 	export let data;
 	let submission = data.submission;
 	let deleteDialogOpen = false;
+	let canEdit = false;
+	if (data.user.id == submission.user_id) canEdit = true;
+	data.user.reviewer_in.forEach((element) => {
+		if (element.id == submission.conference.id) canEdit = true;
+	});
+	let isRu = false;
 </script>
 
 <svelte:head>
@@ -39,6 +45,7 @@
 		<label>
 			Eng
 			<input
+				bind:checked={isRu}
 				style="background-color: var(--pico-primary); border-color: var(--pico-primary); margin: 0;"
 				name="terms"
 				type="checkbox"
@@ -48,13 +55,15 @@
 		</label>
 		<h4>{submission.conference.short_name} Submission #{submission.id}</h4>
 	</div>
-	{#if data.user.id == data.submission.user_id}
+	{#if canEdit}
 		<div class="actions">
 			<button class="bare_button"
-				><a style="text-decoration: none;" href="/submission/{submission.id}/edit">Edit</a></button
+				><a style="text-decoration: none;" href="/submission/{submission.id}/edit"
+					>{isRu ? 'Изменить' : 'Edit'}</a
+				></button
 			>
 			<button on:click={() => (deleteDialogOpen = true)} class="bare_button bare_button-error"
-				>Delete</button
+				>{isRu ? 'Удалить' : 'Delete'}</button
 			>
 		</div>
 	{/if}
@@ -62,74 +71,118 @@
 	<table>
 		<tbody>
 			<tr>
-				<td> Title </td>
+				<td> {isRu ? 'Название' : 'Title'} </td>
 				<td>
-					{submission.title}
+					{#if isRu && submission.title_ru}
+						{submission.title_ru}
+					{:else}
+						{submission.title}
+					{/if}
 				</td>
 			</tr>
 			<tr>
-				<td> Keywords </td>
+				<td> {isRu ? 'Ключевые слова' : 'Keywords'} </td>
 				<td>
-					{#each submission.keywords.split('\n') as keyword}
-						<span>{keyword} <br /></span>
-					{/each}
+					{#if isRu && submission.keywords_ru}
+						{#each submission.keywords_ru.split('\n') as keyword}
+							<span>{keyword} <br /></span>
+						{/each}
+					{:else}
+						{#each submission.keywords.split('\n') as keyword}
+							<span>{keyword} <br /></span>
+						{/each}
+					{/if}
 				</td>
 			</tr>
 			<tr>
-				<td> Topic </td>
+				<td> {isRu ? 'Направление' : 'Topic'} </td>
 				<td>
-					{submission.topic.name}
+					{#if isRu && submission.topic.name_ru}
+						{submission.topic.name_ru}
+					{:else}
+						{submission.topic.name}
+					{/if}
 				</td>
 			</tr>
 			<tr>
-				<td> Abstract </td>
+				<td> {isRu ? 'Аннотация' : 'Abstract'} </td>
 				<td>
-					{submission.abstract}
+					{#if isRu && submission.abstract_ru}
+						{submission.abstract_ru}
+					{:else}
+						{submission.abstract}
+					{/if}
 				</td>
 			</tr>
 			<tr>
-				<td> Submitted </td>
+				<td> {isRu ? 'Подано' : 'Submitted'} </td>
 				<td>
 					{new Date(submission.created_at).toLocaleString()}
 				</td>
 			</tr>
 			<tr>
-				<td> Important Notice </td>
-				<td> I confirm that my manuscript can be published </td>
+				<td>{isRu ? 'Важное замечание' : 'Important Notice'} </td>
+				<td
+					>{isRu
+						? 'Подтверждаю, что моя статья может быть опубликована'
+						: 'I confirm that my manuscript can be published'}
+				</td>
 			</tr>
 			<tr>
-				<td> Presentation Format </td>
-				<td
-					>{submission.presentation_format.charAt(0).toUpperCase() +
-						submission.presentation_format.slice(1)}</td
-				>
+				<td>{isRu ? 'Формат доклада' : 'Presentation Format'} </td>
+				<td>{submission.presentation_format}</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<h4>Authors</h4>
+	<h4>{isRu ? 'Авторы' : 'Authors'}</h4>
 
 	<div class="overflow-auto">
 		<table class="striped authors-table">
 			<thead>
 				<tr>
-					<th scope="col">First name</th>
-					<th scope="col">Last name</th>
-					<th scope="col">Email</th>
-					<th scope="col">Country</th>
-					<th scope="col">Affiliation</th>
-					<th scope="col">Corresponding</th>
-					<th scope="col">Presenter</th>
+					<th scope="col">{isRu ? 'Имя' : 'First name'} </th>
+					<th scope="col">{isRu ? 'Фамилия' : 'Last name'} </th>
+					<th scope="col">{isRu ? 'Почта' : 'Email'} </th>
+					<th scope="col">{isRu ? 'Страна' : 'Country'} </th>
+					<th scope="col">{isRu ? 'Организация' : 'Affiliation'} </th>
+					<th scope="col">{isRu ? 'Контактное лицо' : 'Corresponding'} </th>
+					<th scope="col">{isRu ? 'Докладчик' : 'Presenter'} </th>
 				</tr>
 			</thead>
 			<tbody>
 				{#each submission.authors as author}
 					<tr>
-						<td>{author.first_name}</td>
+						<td>
+							{#if isRu && author.first_name_ru}
+								{author.first_name_ru}
+							{:else}
+								{author.first_name}
+							{/if}
+						</td>
+						<td>
+							{#if isRu && author.last_name_ru}
+								{author.last_name_ru}
+							{:else}
+								{author.last_name}
+							{/if}
+						</td>
 						<td>{author.last_name}</td>
 						<td>{author.email}</td>
-						<td>{author.country}</td>
-						<td>{author.affilation}</td>
+						<td>
+							{#if isRu && author.country}
+								{author.country}
+							{:else}
+								{author.country}
+							{/if}
+						</td>
+						<td>
+							{#if isRu && author.affilation_ru}
+								{author.affilation_ru}
+							{:else}
+								{author.affilation}
+							{/if}
+						</td>
 						<td
 							>{#if author.is_corresponding}
 								<div><Icon icon="ion:checkmark" /></div>

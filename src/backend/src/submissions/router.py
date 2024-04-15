@@ -186,6 +186,13 @@ async def update_submission_partial(
     if requester.id == submission.user.id:
         access_granted = True
     if not access_granted:
+
+        for reviewer in submission.conference.reviewers:
+
+            if reviewer.id == requester.id and reviewer in submission.topic.reviewers:
+                access_granted = True
+                break
+    if not access_granted:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
     submission = await service.update_submission(
         session=session,
@@ -197,6 +204,7 @@ async def update_submission_partial(
     await session.refresh(submission, ["authors", "topic"])
 
     authors = [Author(**author.to_dict()) for author in submission.authors]
+    
     for author in submission.authors:
         if author.is_corresponding:
             send_update_submission_email.delay(
@@ -232,13 +240,11 @@ async def update_submission_status(
     if requester.is_super_user:
 
         access_granted = True
-    is_reviewer = False
     if not access_granted:
 
         for reviewer in submission.conference.reviewers:
 
             if reviewer.id == requester.id and reviewer in submission.topic.reviewers:
-                is_reviewer = True
                 access_granted = True
                 break
 

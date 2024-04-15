@@ -21,3 +21,8 @@ export const review_statuses = {
 	"accepted": "Accept",
 	'rejected': "Reject"
 }
+export const review_statuses_ru = {
+	"in_review": "В процессе рассмотрения",
+	"accepted": "Принято",
+	'rejected': "Отказано"
+}

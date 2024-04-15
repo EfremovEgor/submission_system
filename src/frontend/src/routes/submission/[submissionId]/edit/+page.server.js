@@ -94,6 +94,9 @@ export const load = async ({ parent, fetch, cookies, request, params }) => {
 	let accessGranted = false;
 
 	if (user.id == submission_data.user_id) accessGranted = true;
+	user.reviewer_in.forEach(element => {
+		if (element.id == submission_data.conference.id) accessGranted = true;
+	});
 	if (!accessGranted) {
 		error(403, { message: 'You are not allowed to edit this submission' });
 	}

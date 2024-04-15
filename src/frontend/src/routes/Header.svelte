@@ -57,7 +57,10 @@
 			{#if isLoggedIn}
 				<ul>
 					<li aria-current={$page.url.pathname === '/logout' ? 'page' : undefined}>
-						<a href="/logout">Logout</a>
+						<div class="logout-container">
+							<a href="/logout">Logout</a>
+							<span>{user.email}</span>
+						</div>
 					</li>
 				</ul>
 			{:else}
@@ -95,5 +98,13 @@
 	}
 	.logo {
 		max-height: 70px;
+	}
+	.logout-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.logout-container > span {
+		font-size: 10px;
 	}
 </style>
